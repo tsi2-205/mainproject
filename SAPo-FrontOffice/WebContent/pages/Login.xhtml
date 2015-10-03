@@ -18,18 +18,6 @@
 			<h:outputLabel for="pass">Contraseña: </h:outputLabel>
 			<h:inputSecret id="pass" value="#{loginBB.pass}"></h:inputSecret>
 		</h:panelGrid>
-		
-		<p:breadCrumb>
-		    <p:menuitem value="Categories" url="#" />
-		    <p:menuitem value="Sports" url="#" />
-		    <p:menuitem value="Basketball" url="#" />
-		    <p:menuitem value="NBA" url="#" />
-		    <p:menuitem value="Teams" url="#" />
-		    <p:menuitem value="L.A. Lakers" url="#" />
-		    <p:menuitem value="Roster" url="#" />
-		    <p:menuitem value="Kobe Bryant" url="#" />
-		</p:breadCrumb>
-		
 		<h:outputText value="Usuario y/o contraseña incorrectos" rendered="#{loginBB.mostrarAdvertencia}"></h:outputText>
 		<h:commandButton value="Ingresar" action="#{loginBB.ingresar}"></h:commandButton>
 		<h:commandButton value="Registrarse" action="#{loginBB.registrarse}"></h:commandButton>

@@ -1,10 +1,14 @@
-package com.practico;
+package managedBeans;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
+
+import comunication.Comunicacion;
+import datatypes.DatosUsuario;
 
 
 @ManagedBean
@@ -16,6 +20,7 @@ public class LoginBB {
 	private String mail;
 	private String calle;
 	private int numPuerta;
+	private DatosUsuario usuario;
 	
 	
 	public LoginBB() {
@@ -30,14 +35,33 @@ public class LoginBB {
 	public String ingresar() {
 		String retorno = "loginOk";
 		this.mostrarAdvertencia = false;
-			
+		try {
+			this.usuario = Comunicacion.getInstance().getIUserController().login(this.nick, this.pass);
+			if (this.usuario == null) {
+				this.mostrarAdvertencia = true;
+				retorno = "loginError";
+			}
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 		return retorno;
 	}
 	
 	public String registrarse() {
-		return "Registrarse";
+		return "registrarse";
 	}
 	
+	
+	public String altaUsuario() {
+		this.mostrarAdvertencia = false;
+		try {
+			Comunicacion.getInstance().getIUserController().registerUser(this.nick, this.pass, this.mail, this.nombre, this.calle, this.numPuerta);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return "altaOk";
+	}
+
 	
 	
 	
@@ -109,5 +133,15 @@ public class LoginBB {
 	public void setNumPuerta(int numPuerta) {
 		this.numPuerta = numPuerta;
 	}
+
+	public DatosUsuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(DatosUsuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	
 	
 }
