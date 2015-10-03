@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core" 
+		xmlns:h="http://java.sun.com/jsf/html"
+		>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Index</title>
+</h:head>
+<h:body>	
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputText value="Nombre:"></h:outputText>
+			<h:inputText id="nombre" value="#{loginBB.nombre}" ></h:inputText>
+			<h:outputText value="Nick:"></h:outputText>
+			<h:inputText id="nick" value="#{loginBB.nick}" ></h:inputText>
+			<h:outputText value="Email:"></h:outputText>
+			<h:inputText id="mail" value="#{loginBB.mail}" ></h:inputText>
+			<h:outputText value="Direccion:"></h:outputText>
+			<h:panelGrid columns="2">
+				<h:outputText value="Calle:"></h:outputText>
+				<h:inputText id="calle" value="#{loginBB.calle}" ></h:inputText>
+				<h:outputText value="Número de puerta:"></h:outputText>
+				<h:inputText id="numPuerta" value="#{loginBB.numPuerta}" ></h:inputText>
+			</h:panelGrid>
+			<h:outputText value="Contraseña:"></h:outputText>
+			<h:inputSecret id="pas" value="#{loginBB.pass}" ></h:inputSecret>
+		</h:panelGrid>	
+		<h:commandButton value="Aceptar" action="#{loginBB.altaUsr}"></h:commandButton>
+	</h:form>
+</h:body>
+</html>

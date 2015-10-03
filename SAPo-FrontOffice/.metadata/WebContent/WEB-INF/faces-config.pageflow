@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14438271560320" configfile="/Prueba-web/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="paginas/index.xhtml" y="36" id="pf14438329603561" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14438329603562 pf14438329603563 pf14438329603564" inlinks="pf14438329603563" path="/paginas/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="paginas/welcome.xhtml" x="300" y="48" id="pf14438329603565" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14438329603562" path="/paginas/welcome.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="paginas/Registro" x="168" y="180" id="pf14438329603566" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14438329603564" path="/paginas/Registro.jsp"/>
+  <links id="pf14438329603562" target="pf14438329603565" source="pf14438329603561" outcome="loginOk" fromaction="#{loginBB.ingresar}"/>
+  <links id="pf14438329603563" target="pf14438329603561" source="pf14438329603561" outcome="loginError" fromaction="#{loginBB.ingresar}"/>
+  <links id="pf14438329603564" target="pf14438329603566" source="pf14438329603561" outcome="Registrarse" fromaction="#{loginBB.registrarse}"/>
+</pageflow:Pageflow>
