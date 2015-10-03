@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 @ManagedBean
 public class LoginBB {
-	private String dato;
 	private String nick;
 	private String pass;
 	private boolean mostrarAdvertencia;
