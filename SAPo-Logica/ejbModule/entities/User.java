@@ -3,14 +3,15 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-@SuppressWarnings("serial")
 @Entity
-@Table(name = "Usuarios")
-public class Usuario implements Serializable {
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class User implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id	
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int codigo;
+	private int id;
 	
     private String nick;
 	
@@ -18,29 +19,29 @@ public class Usuario implements Serializable {
 	
     private String mail;
 	
-    private String nombre;
+    private String name;
     
     @Version
     private int version;
     
-    public Usuario() {
+    public User() {
 		super();
 	}
 
-	public Usuario(String nick, String password, String mail, String nombre) {
+	public User(String nick, String password, String mail, String nombre) {
 		super();
 		this.nick = nick;
 		this.password = password;
 		this.mail = mail;
-		this.nombre = nombre;
+		this.name = nombre;
 	}
 
-	public int getCodigo() {
-		return codigo;
+	public int getId() {
+		return id;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNick() {
@@ -67,12 +68,12 @@ public class Usuario implements Serializable {
 		this.mail = mail;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getVersion() {

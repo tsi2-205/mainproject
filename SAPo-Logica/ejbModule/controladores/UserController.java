@@ -11,7 +11,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import datatypes.DatosUsuario;
-import entities.Usuario;
+import entities.Registered;
+import entities.User;
 
 @Stateless
 @WebService
@@ -23,14 +24,14 @@ public class UserController implements IUserController {
 	public DatosUsuario login(String user, String pas) {
 		String consulta = " SELECT u FROM Usuario u"
 				+ " WHERE u.nick = :user AND u.password = :pass";
-		Query query = em.createQuery(consulta, Usuario.class);
+		Query query = em.createQuery(consulta, User.class);
 		query.setParameter("user", user);
 		query.setParameter("pass", pas);
-		List<Usuario> result = query.getResultList();
+		List<User> result = query.getResultList();
 		DatosUsuario datosUsuario = null;
-		for (Usuario usr : result) {
-			datosUsuario = new DatosUsuario(usr.getCodigo(), usr.getNick(),
-					usr.getPassword(), usr.getMail(), usr.getNombre(), usr.getVersion());
+		for (User usr : result) {
+			datosUsuario = new DatosUsuario(usr.getId(), usr.getNick(),
+					usr.getPassword(), usr.getMail(), usr.getName(), usr.getVersion());
 		}
 
 		return datosUsuario;
@@ -38,7 +39,7 @@ public class UserController implements IUserController {
 	
 	public void registerUser(String nick, String pas, String mail,
 			String nombre, String calle, int numPuerta) {
-		Usuario usr = new Usuario(nick, pas, mail, nombre);
+		User usr = new Registered(nick, pas, mail, nombre);
 		em.persist(usr);
 		
 	}

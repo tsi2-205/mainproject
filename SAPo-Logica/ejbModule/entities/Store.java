@@ -6,14 +6,15 @@ import java.util.List;
 
 import javax.persistence.*;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "Stores")
 public class Store implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id	
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int identifier;	
+	private int id;	
 
     private String name;
 	
@@ -23,30 +24,52 @@ public class Store implements Serializable {
 	
     private String city;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="codigo")
-    private Usuario owner;
     
-    // LISTA DE LOS USUARIOS A LOS CUALES SE LES COMPATIO EL ALMACEN (EL DIENIO NO ESTA ACA)
-    @OneToMany
-    private List<Usuario> users;
+    @ManyToMany
+    @JoinTable (name = "Strore_Product", joinColumns = @JoinColumn(name = "idStore"), inverseJoinColumns = @JoinColumn(name = "idProduct"))
+    private List<Product> products;
+    
+    @ManyToOne
+    @JoinColumn(name="IdOwner")
+    private Registered owner;
+    
+    @ManyToMany
+    @JoinTable (name = "Strore_Registered", joinColumns = @JoinColumn(name = "idStore"), inverseJoinColumns = @JoinColumn(name = "idRegistered"))
+    private List<Registered> guests;
+    
+    
+    @OneToOne
+    @JoinColumn(name = "idCustomer")
+    private Customer customer;
+    
+    
+    @OneToMany(mappedBy="store")
+    private List<BuyList> buylists;
+    
+    @OneToMany(mappedBy="store")
+    private List<Comment> comments;
+    
+    @ManyToMany(mappedBy = "stores")
+    private List<Category> categories;
+    
+    @OneToOne(mappedBy = "store")
+    private Stock stock;
+    
     
    
     public Store() {
 		super();
 	}
-	public Store(String name, String addr, String tel, String city, Usuario user) {
+	public Store(String name, String addr, String tel, String city, User user) {
 		super();
 		this.name = name;
 		this.address = addr;
 		this.telephone = tel;
 		this.city = city;
-		this.owner = user;
-		this.users = new java.util.LinkedList<Usuario>();
 	}
 	
-	public int getIdentifier() {
-		return identifier;
+	public int getId() {
+		return id;
 	}
 	
 	public String getName() {
@@ -81,20 +104,9 @@ public class Store implements Serializable {
 		this.city = city;
 	}
 	
-	public Usuario getOwner() {
+	public User getOwner() {
 		return owner;
 	}
 	
-	public void setOwner(Usuario owner) {
-		this.owner = owner;
-	}
-	
-	public List<Usuario> getUsers() {
-		return users;
-	}
-	
-	public void setUsers(List<Usuario> users) {
-		this.users = users;
-	}
 	
 }
