@@ -20,6 +20,9 @@
 		<class>entities.Stock</class>
 		<class>entities.Store</class>
 		<class>entities.User</class>
+		<properties>
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+		</properties>
 		
 	</persistence-unit>
 </persistence>
