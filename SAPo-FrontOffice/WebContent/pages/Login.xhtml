@@ -13,14 +13,14 @@
 <h:body>	
 	<h:form>
 		<h:panelGrid columns="2">
-			<h:outputLabel for="usr" value="Usuario:"/>
-			<h:inputText id="usr" label="Usuario:" value="#{loginBB.nick}" ></h:inputText>
-			<h:outputLabel for="pass">Contraseña: </h:outputLabel>
-			<h:inputSecret id="pass" value="#{loginBB.pass}"></h:inputSecret>
+			<h:outputLabel for="email" value="Email:"/>
+			<h:inputText id="email" label="Email:" value="#{loginBB.email}" ></h:inputText>
+			<h:outputLabel for="password">Contraseña: </h:outputLabel>
+			<h:inputSecret id="password" value="#{loginBB.password}"></h:inputSecret>
 		</h:panelGrid>
-		<h:outputText value="Usuario y/o contraseña incorrectos" rendered="#{loginBB.mostrarAdvertencia}"></h:outputText>
-		<h:commandButton value="Ingresar" action="#{loginBB.ingresar}"></h:commandButton>
-		<h:commandButton value="Registrarse" action="#{loginBB.registrarse}"></h:commandButton>
+		<h:outputText value="Usuario y/o contraseña incorrectos" rendered="#{loginBB.showError}"></h:outputText>
+		<h:commandButton value="Ingresar" action="#{loginBB.loginWithEmail}"></h:commandButton>
+		<h:commandButton value="Registrarse" action="#{loginBB.goToRegister}"></h:commandButton>
 	</h:form>
 </h:body>
 </html>

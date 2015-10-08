@@ -13,22 +13,13 @@
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputText value="Nombre:"></h:outputText>
-			<h:inputText id="nombre" value="#{loginBB.nombre}" ></h:inputText>
-			<h:outputText value="Nick:"></h:outputText>
-			<h:inputText id="nick" value="#{loginBB.nick}" ></h:inputText>
+			<h:inputText id="nombre" value="#{loginBB.name}" ></h:inputText>
 			<h:outputText value="Email:"></h:outputText>
-			<h:inputText id="mail" value="#{loginBB.mail}" ></h:inputText>
-			<h:outputText value="Direccion:"></h:outputText>
-			<h:panelGrid columns="2">
-				<h:outputText value="Calle:"></h:outputText>
-				<h:inputText id="calle" value="#{loginBB.calle}" ></h:inputText>
-				<h:outputText value="Número de puerta:"></h:outputText>
-				<h:inputText id="numPuerta" value="#{loginBB.numPuerta}" ></h:inputText>
-			</h:panelGrid>
+			<h:inputText id="email" value="#{loginBB.email}" ></h:inputText>
 			<h:outputText value="Contraseña:"></h:outputText>
-			<h:inputSecret id="pas" value="#{loginBB.pass}" ></h:inputSecret>
+			<h:inputSecret id="password" value="#{loginBB.password}" ></h:inputSecret>
 		</h:panelGrid>	
-		<h:commandButton value="Aceptar" action="#{loginBB.altaUsuario}"></h:commandButton>
+		<h:commandButton value="Aceptar" action="#{loginBB.register}"></h:commandButton>
 	</h:form>
 </h:body>
 </html>

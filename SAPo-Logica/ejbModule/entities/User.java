@@ -13,12 +13,12 @@ public abstract class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-    private String nick;
+	private String email;
 	
     private String password;
 	
-    private String mail;
-	
+    private String fbId;
+    
     private String name;
     
     @Version
@@ -28,12 +28,12 @@ public abstract class User implements Serializable {
 		super();
 	}
 
-	public User(String nick, String password, String mail, String nombre) {
+	public User(String email, String password, String fbId, String name) {
 		super();
-		this.nick = nick;
+		this.email = email;
 		this.password = password;
-		this.mail = mail;
-		this.name = nombre;
+		this.fbId = fbId;
+		this.name = name;
 	}
 
 	public int getId() {
@@ -44,12 +44,12 @@ public abstract class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getNick() {
-		return nick;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setNick(String nick) {
-		this.nick = nick;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -60,12 +60,12 @@ public abstract class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getMail() {
-		return mail;
+	public String getFbId() {
+		return fbId;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setFbId(String fbId) {
+		this.fbId = fbId;
 	}
 
 	public String getName() {
@@ -83,5 +83,4 @@ public abstract class User implements Serializable {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-
 }

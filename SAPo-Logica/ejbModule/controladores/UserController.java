@@ -2,15 +2,12 @@ package controladores;
 
 import interfaces.IUserController;
 
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import datatypes.DatosUsuario;
 import entities.Registered;
 import entities.User;
 
@@ -20,28 +17,44 @@ public class UserController implements IUserController {
 
 	@PersistenceContext(unitName = "SAPo-Logica")
 	private EntityManager em;
-
-	public DatosUsuario login(String user, String pas) {
-		String consulta = " SELECT u FROM Usuario u"
-				+ " WHERE u.nick = :user AND u.password = :pass";
-		Query query = em.createQuery(consulta, User.class);
-		query.setParameter("user", user);
-		query.setParameter("pass", pas);
-		List<User> result = query.getResultList();
-		DatosUsuario datosUsuario = null;
-		for (User usr : result) {
-			datosUsuario = new DatosUsuario(usr.getId(), usr.getNick(),
-					usr.getPassword(), usr.getMail(), usr.getName(), usr.getVersion());
-		}
-
-		return datosUsuario;
+	
+	public boolean isUserLogged (String email, String password) {
+		String queryStr = " SELECT u FROM User u" + " WHERE u.email = :email AND u.password = :password";
+		Query query = em.createQuery(queryStr, User.class);
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
 	}
 	
-	public void registerUser(String nick, String pas, String mail,
-			String nombre, String calle, int numPuerta) {
-		User usr = new Registered(nick, pas, mail, nombre);
-		em.persist(usr);
-		
+	public boolean isFbUserLogged (String fbId) {
+		String queryStr = " SELECT u FROM User u" + " WHERE u.fbId = :fbId";
+		Query query = em.createQuery(queryStr, User.class);
+		query.setParameter("fbId", fbId);
+		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
+	}
+	
+	public boolean isRegisteredUser (String email) {
+		String queryStr = " SELECT u FROM User u" + " WHERE u.email = :email";
+		Query query = em.createQuery(queryStr, User.class);
+		query.setParameter("email", email);
+		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
+	}
+	
+	public boolean isRegisteredFbUser (String fbId) {
+		String queryStr = " SELECT u FROM User u" + " WHERE u.fbId = :fbId";
+		Query query = em.createQuery(queryStr, User.class);
+		query.setParameter("fbId", fbId);
+		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
+	}
+	
+	public void registerUser(String email, String password, String name) {
+		User u = new Registered(email, password, null, name);
+		em.persist(u);
+	}
+	
+	public void registerFbUser(String fbId, String name) {
+		User u = new Registered(null, null, fbId, name);
+		em.persist(u);
 	}
 	
 }

@@ -30,8 +30,8 @@ public class Registered extends User {
 		super();
 	}
 
-	public Registered(String nick, String password, String mail, String nombre) {
-		super(nick, password, mail, nombre);
+	public Registered(String email, String password, String fbId, String name) {
+		super(email, password, fbId, name);
 	}
 
 	public List<Comment> getComments() {

@@ -8,20 +8,15 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 
 import comunication.Comunicacion;
-import datatypes.DatosUsuario;
 
 
 @ManagedBean
 public class LoginBB {
-	private String nick;
-	private String pass;
-	private boolean mostrarAdvertencia;
-	private String nombre;
-	private String mail;
-	private String calle;
-	private int numPuerta;
-	private DatosUsuario usuario;
-	
+	private String name;
+	private String email;
+	private String password;
+	private String fbId;
+	private boolean showError;
 	
 	public LoginBB() {
 		super();
@@ -29,119 +24,107 @@ public class LoginBB {
 	
 	@PostConstruct
 	private void init() {
-		this.mostrarAdvertencia = false;
+		this.showError = false;
 	}
 	
-	public String ingresar() {
-		String retorno = "loginOk";
-		this.mostrarAdvertencia = false;
+	public String loginWithEmail() {
+		String ret = "loginOk";
+		this.showError = false;
 		try {
-			this.usuario = Comunicacion.getInstance().getIUserController().login(this.nick, this.pass);
-			if (this.usuario == null) {
-				this.mostrarAdvertencia = true;
-				retorno = "loginError";
+			boolean isUserLogged = Comunicacion.getInstance().getIUserController().isUserLogged(this.email, this.password);
+			if (!isUserLogged) {
+				this.showError = true;
+				ret = "loginError";
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		return retorno;
+		return ret;
 	}
 	
-	public String registrarse() {
-		return "registrarse";
-	}
-	
-	
-	public String altaUsuario() {
-		this.mostrarAdvertencia = false;
+	public String loginWithFacebook() {
+		String ret = "loginOk";
+		this.showError = false;
 		try {
-			Comunicacion.getInstance().getIUserController().registerUser(this.nick, this.pass, this.mail, this.nombre, this.calle, this.numPuerta);
+			boolean isUserLogged = Comunicacion.getInstance().getIUserController().isUserLogged(this.email, this.password);
+			if (!isUserLogged) {
+				this.showError = true;
+				ret = "loginError";
+			}
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		return "altaOk";
+		return ret;
 	}
-
 	
+	public String register() {
+		String ret = "registerOk";
+		this.showError = false;
+		try {
+			boolean isRegisteredUser = Comunicacion.getInstance().getIUserController().isRegisteredUser(this.email);
+			if (isRegisteredUser) {
+				this.showError = true;
+				ret = "registerError";
+			} else {
+				Comunicacion.getInstance().getIUserController().registerUser(this.email, this.password, this.name);;
+			}
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
 	
+	public String goToRegister() {
+		return "goToRegister";
+	}
 	
 	public String logout() {
-//		this.nick = null;
-//		this.pass = null;
-		
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 		Object session = externalContext.getSession(false);
 		HttpSession httpSession = (HttpSession) session;
 		httpSession.invalidate();
-		return "Salir";
+		return "logoutOk";
 	}
 
-	public String getNick() {
-		return nick;
-	}
-	
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
-	
-	public String getPass() {
-		return pass;
-	}
-	
-	public void setPass(String pass) {
-		this.pass = pass;
+	public String getName() {
+		return name;
 	}
 
-	
-	public boolean isMostrarAdvertencia() {
-		return mostrarAdvertencia;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setMostrarAdvertencia(boolean mostrarAdvertencia) {
-		this.mostrarAdvertencia = mostrarAdvertencia;
+	public String getEmail() {
+		return email;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public String getPassword() {
+		return password;
 	}
 
-	public String getMail() {
-		return mail;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public String getFbId() {
+		return fbId;
 	}
 
-	public String getCalle() {
-		return calle;
+	public void setFbId(String fbId) {
+		this.fbId = fbId;
 	}
 
-	public void setCalle(String calle) {
-		this.calle = calle;
+	public boolean isShowError() {
+		return showError;
 	}
 
-	public int getNumPuerta() {
-		return numPuerta;
+	public void setShowError(boolean showError) {
+		this.showError = showError;
 	}
-
-	public void setNumPuerta(int numPuerta) {
-		this.numPuerta = numPuerta;
-	}
-
-	public DatosUsuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(DatosUsuario usuario) {
-		this.usuario = usuario;
-	}
-	
-	
 	
 }

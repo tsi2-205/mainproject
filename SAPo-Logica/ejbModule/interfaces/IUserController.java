@@ -2,13 +2,19 @@ package interfaces;
 
 import javax.ejb.Local;
 
-import datatypes.DatosUsuario;
-
 @Local
 public interface IUserController {
 	
-	public DatosUsuario login(String user, String pas);
+	public boolean isUserLogged (String email, String password);
 	
-	public void registerUser(String nick, String pas, String mail, String nombre, String calle, int numPuerta);
+	public boolean isFbUserLogged (String fbId);
+	
+	public boolean isRegisteredUser (String email);
+	
+	public boolean isRegisteredFbUser (String fbId);
+	
+	public void registerUser(String email, String password, String name);
+	
+	public void registerFbUser(String fbId, String name);
 	
 }
