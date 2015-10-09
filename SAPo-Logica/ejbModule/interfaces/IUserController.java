@@ -2,6 +2,8 @@ package interfaces;
 
 import javax.ejb.Local;
 
+import datatypes.DataUser;
+
 @Local
 public interface IUserController {
 	
@@ -16,5 +18,9 @@ public interface IUserController {
 	public void registerUser(String email, String password, String name);
 	
 	public void registerFbUser(String fbId, String name);
+	
+	public DataUser getUserData(String email);
+	
+	public DataUser getFbUserData(String fbId);
 	
 }

@@ -4,13 +4,63 @@
 <html 	xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:f="http://java.sun.com/jsf/core" 
 		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:p="http://primefaces.org/ui"  
-		>
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:fb="http://www.facebook.com/2008/fbml">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Index</title>
 </h:head>
-<h:body>	
+<h:body>
+	<script>
+	
+	window.fbAsyncInit = function() {
+		  FB.init({
+		    appId      : '594059164067193',
+		    cookie     : true,  // enable cookies to allow the server to access 
+		                        // the session
+		    xfbml      : true,  // parse social plugins on this page
+		    version    : 'v2.4' // use version 2.4
+		  });
+
+/* 		  FB.getLoginStatus(function(response) {
+		    statusChangeCallback(response);
+		  }); */
+	  };
+
+	  // Load the SDK asynchronously
+	  (function(d, s, id) {
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) return;
+	    js = d.createElement(s); js.id = id;
+	    js.src = "//connect.facebook.net/en_US/sdk.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	  }(document, 'script', 'facebook-jssdk'));
+
+	  function checkLoginState() {
+		    FB.getLoginStatus(function(response) {
+		      statusChangeCallback(response);
+		    });
+	  }
+
+	  function statusChangeCallback(response) {
+		    if (response.status === 'connected') {
+		      // Logged into your app and Facebook.
+		      fetchUserInfo();
+		    } else if (response.status === 'not_authorized') {
+		      // The person is logged into Facebook, but not your app.
+		    } else {
+		      // The person is not logged into Facebook, so we're not sure if
+		      // they are logged into this app or not.
+		    }
+	  }
+
+	  function fetchUserInfo() {
+		    FB.api('/me', function(response) {
+		    	fbRemoteCommand([{name: 'fbId', value: response.id}, {name: 'name', value: response.name}]);
+		    });
+	  }
+	  
+	</script>	
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputLabel for="email" value="Email:"/>
@@ -18,9 +68,11 @@
 			<h:outputLabel for="password">Contraseña: </h:outputLabel>
 			<h:inputSecret id="password" value="#{loginBB.password}"></h:inputSecret>
 		</h:panelGrid>
-		<h:outputText value="Usuario y/o contraseña incorrectos" rendered="#{loginBB.showError}"></h:outputText>
 		<h:commandButton value="Ingresar" action="#{loginBB.loginWithEmail}"></h:commandButton>
 		<h:commandButton value="Registrarse" action="#{loginBB.goToRegister}"></h:commandButton>
+		<fb:login-button scope="public_profile,email" onlogin="checkLoginState();" />
+		<h:outputText value="Usuario y/o contraseña incorrectos" rendered="#{loginBB.showError}"></h:outputText>
+		<p:remoteCommand name="fbRemoteCommand" action="#{loginBB.loginWithFacebook}" />
 	</h:form>
 </h:body>
 </html>

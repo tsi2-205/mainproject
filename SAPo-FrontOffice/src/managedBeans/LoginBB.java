@@ -1,5 +1,7 @@
 package managedBeans;
 
+import java.util.Map;
+
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -35,6 +37,8 @@ public class LoginBB {
 			if (!isUserLogged) {
 				this.showError = true;
 				ret = "loginError";
+			} else {
+				this.name = Comunicacion.getInstance().getIUserController().getUserData(this.email).getName();
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -44,13 +48,15 @@ public class LoginBB {
 	
 	public String loginWithFacebook() {
 		String ret = "loginOk";
-		this.showError = false;
+		FacesContext context = FacesContext.getCurrentInstance();
+	    Map map = context.getExternalContext().getRequestParameterMap();
+	    this.fbId = (String) map.get("fbId");
+	    this.name = (String) map.get("name");
 		try {
-			boolean isUserLogged = Comunicacion.getInstance().getIUserController().isUserLogged(this.email, this.password);
-			if (!isUserLogged) {
-				this.showError = true;
-				ret = "loginError";
-			}
+			boolean isUserRegistered = Comunicacion.getInstance().getIUserController().isRegisteredFbUser(this.fbId);
+			if (!isUserRegistered) {
+				Comunicacion.getInstance().getIUserController().registerFbUser(this.fbId, this.name);
+			} 
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

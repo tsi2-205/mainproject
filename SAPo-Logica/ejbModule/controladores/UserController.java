@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import datatypes.DataUser;
 import entities.Registered;
 import entities.User;
 
@@ -55,6 +56,22 @@ public class UserController implements IUserController {
 	public void registerFbUser(String fbId, String name) {
 		User u = new Registered(null, null, fbId, name);
 		em.persist(u);
+	}
+	
+	public DataUser getUserData(String email) {
+		String queryStr = " SELECT u FROM User u" + " WHERE u.email = :email";
+		Query query = em.createQuery(queryStr, User.class);
+		query.setParameter("email", email);
+		User u = (User)query.getSingleResult();
+		return new DataUser(u.getId(),u.getEmail(),u.getPassword(),u.getFbId(),u.getName(),u.getVersion());
+	}
+	
+	public DataUser getFbUserData(String fbId) {
+		String queryStr = " SELECT u FROM User u" + " WHERE u.fbId = :fbId";
+		Query query = em.createQuery(queryStr, User.class);
+		query.setParameter("fbId", fbId);
+		User u = (User)query.getSingleResult();
+		return new DataUser(u.getId(),u.getEmail(),u.getPassword(),u.getFbId(),u.getName(),u.getVersion());
 	}
 	
 }
