@@ -10,6 +10,7 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 
 import comunication.Comunicacion;
+import datatypes.DataUser;
 
 
 @ManagedBean
@@ -18,6 +19,7 @@ public class LoginBB {
 	private String email;
 	private String password;
 	private String fbId;
+	private DataUser loggedUser;
 	private boolean showError;
 	
 	public LoginBB() {
@@ -38,7 +40,7 @@ public class LoginBB {
 				this.showError = true;
 				ret = "loginError";
 			} else {
-				this.name = Comunicacion.getInstance().getIUserController().getUserData(this.email).getName();
+				this.loggedUser = Comunicacion.getInstance().getIUserController().getUserData(this.email);
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -57,6 +59,7 @@ public class LoginBB {
 			if (!isUserRegistered) {
 				Comunicacion.getInstance().getIUserController().registerFbUser(this.fbId, this.name);
 			} 
+			this.loggedUser = Comunicacion.getInstance().getIUserController().getFbUserData(this.fbId);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +75,8 @@ public class LoginBB {
 				this.showError = true;
 				ret = "registerError";
 			} else {
-				Comunicacion.getInstance().getIUserController().registerUser(this.email, this.password, this.name);;
+				Comunicacion.getInstance().getIUserController().registerUser(this.email, this.password, this.name);
+				this.loggedUser = Comunicacion.getInstance().getIUserController().getUserData(this.email);
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -85,6 +89,7 @@ public class LoginBB {
 	}
 	
 	public String logout() {
+		this.loggedUser = null;
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 		Object session = externalContext.getSession(false);
@@ -123,6 +128,14 @@ public class LoginBB {
 
 	public void setFbId(String fbId) {
 		this.fbId = fbId;
+	}
+
+	public DataUser getLoggedUser() {
+		return loggedUser;
+	}
+
+	public void setLoggedUser(DataUser loggedUser) {
+		this.loggedUser = loggedUser;
 	}
 
 	public boolean isShowError() {
