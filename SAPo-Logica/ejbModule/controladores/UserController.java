@@ -10,7 +10,6 @@ import javax.persistence.Query;
 
 import datatypes.DataUser;
 import entities.Registered;
-import entities.User;
 
 @Stateless
 @WebService
@@ -20,58 +19,58 @@ public class UserController implements IUserController {
 	private EntityManager em;
 	
 	public boolean isUserLogged (String email, String password) {
-		String queryStr = " SELECT u FROM User u" + " WHERE u.email = :email AND u.password = :password";
-		Query query = em.createQuery(queryStr, User.class);
+		String queryStr = " SELECT r FROM Registered r" + " WHERE r.email = :email AND r.password = :password";
+		Query query = em.createQuery(queryStr, Registered.class);
 		query.setParameter("email", email);
 		query.setParameter("password", password);
 		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
 	}
 	
 	public boolean isFbUserLogged (String fbId) {
-		String queryStr = " SELECT u FROM User u" + " WHERE u.fbId = :fbId";
-		Query query = em.createQuery(queryStr, User.class);
+		String queryStr = " SELECT r FROM Registered r" + " WHERE r.fbId = :fbId";
+		Query query = em.createQuery(queryStr, Registered.class);
 		query.setParameter("fbId", fbId);
 		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
 	}
 	
 	public boolean isRegisteredUser (String email) {
-		String queryStr = " SELECT u FROM User u" + " WHERE u.email = :email";
-		Query query = em.createQuery(queryStr, User.class);
+		String queryStr = " SELECT r FROM Registered r" + " WHERE r.email = :email";
+		Query query = em.createQuery(queryStr, Registered.class);
 		query.setParameter("email", email);
 		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
 	}
 	
 	public boolean isRegisteredFbUser (String fbId) {
-		String queryStr = " SELECT u FROM User u" + " WHERE u.fbId = :fbId";
-		Query query = em.createQuery(queryStr, User.class);
+		String queryStr = " SELECT r FROM Registered r" + " WHERE r.fbId = :fbId";
+		Query query = em.createQuery(queryStr, Registered.class);
 		query.setParameter("fbId", fbId);
 		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
 	}
 	
 	public void registerUser(String email, String password, String name) {
-		User u = new Registered(email, password, null, name);
-		em.persist(u);
+		Registered r = new Registered(email, password, null, name);
+		em.persist(r);
 	}
 	
 	public void registerFbUser(String fbId, String name) {
-		User u = new Registered(null, null, fbId, name);
-		em.persist(u);
+		Registered r = new Registered(null, null, fbId, name);
+		em.persist(r);
 	}
 	
 	public DataUser getUserData(String email) {
-		String queryStr = " SELECT u FROM User u" + " WHERE u.email = :email";
-		Query query = em.createQuery(queryStr, User.class);
+		String queryStr = " SELECT r FROM Registered r" + " WHERE r.email = :email";
+		Query query = em.createQuery(queryStr, Registered.class);
 		query.setParameter("email", email);
-		User u = (User)query.getSingleResult();
-		return new DataUser(u.getId(),u.getEmail(),u.getPassword(),u.getFbId(),u.getName(),u.getVersion());
+		Registered r = (Registered)query.getSingleResult();
+		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getVersion());
 	}
 	
 	public DataUser getFbUserData(String fbId) {
-		String queryStr = " SELECT u FROM User u" + " WHERE u.fbId = :fbId";
-		Query query = em.createQuery(queryStr, User.class);
+		String queryStr = " SELECT r FROM Registered r" + " WHERE r.fbId = :fbId";
+		Query query = em.createQuery(queryStr, Registered.class);
 		query.setParameter("fbId", fbId);
-		User u = (User)query.getSingleResult();
-		return new DataUser(u.getId(),u.getEmail(),u.getPassword(),u.getFbId(),u.getName(),u.getVersion());
+		Registered r = (Registered)query.getSingleResult();
+		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getVersion());
 	}
 	
 }
