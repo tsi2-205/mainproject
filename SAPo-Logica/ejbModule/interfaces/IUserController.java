@@ -1,7 +1,10 @@
 package interfaces;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
+import datatypes.DataStore;
 import datatypes.DataUser;
 
 @Local
@@ -22,5 +25,9 @@ public interface IUserController {
 	public DataUser getUserData(String email);
 	
 	public DataUser getFbUserData(String fbId);
+	
+	public List<DataStore> getStoresGuest(int Id);
+	
+	public List<DataStore> getStoresOwner(int id);
 	
 }

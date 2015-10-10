@@ -10,7 +10,24 @@
 <title>Bienvenido</title>
 </h:head>
 <h:body>
-	<h:outputText value="Hola #{loginBB.loggedUser.name}"> </h:outputText>
+	<h:outputText value="Home #{loginBB.name}"> </h:outputText>
+	<p:separator></p:separator>
+	<h:outputText value="Mis almacenes"> </h:outputText>
+	<p:dataList value="#{homeBB.storesOwner}" var="store" type="ordered">
+        <f:facet name="header">
+            Mis almacenes
+        </f:facet>
+        <h:outputText value="#{store.name}"/>
+        <h:outputText value="#{homeBB.name}"/>
+    </p:dataList>
+	<br/>
+	<p:dataList value="#{homeBB.storesGuest}" var="store" type="ordered">
+        <f:facet name="header">
+            Almacenes compartidas
+        </f:facet>
+        <h:outputText value="#{store.name}"/>
+    </p:dataList>
+	<h:outputText value="Almacenes compartidas"> </h:outputText>
 	<h:form>
 		<h:commandButton value="Salir" action="#{loginBB.logout}"></h:commandButton>
 	</h:form>

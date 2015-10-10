@@ -1,9 +1,14 @@
 package managedBeans;
 
+import java.io.Serializable;
 import java.util.Map;
 
-import javax.annotation.ManagedBean;
+
+
+
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
@@ -14,7 +19,12 @@ import datatypes.DataUser;
 
 
 @ManagedBean
-public class LoginBB {
+@SessionScoped
+public class LoginBB implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String email;
 	private String password;
