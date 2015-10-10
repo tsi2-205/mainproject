@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<div class ="ui-menu2">
+		<div id="headerTitle">
+			<h:outputText value="Este es el header"/>
+		</div>
+		<div id="linksHeader">
+			<h:commandButton id="linkPerfil" value="#{loginBB.dataUser.name}" action="#{loginBB.logout}" />
+			<h:commandButton id="linkSalir" value="Salir"  action="#{loginBB.logout}"/>
+		</div>
+	</div>
+</ui:composition>
