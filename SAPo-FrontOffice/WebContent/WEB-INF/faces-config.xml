@@ -11,6 +11,11 @@
   <managed-bean-class>managedBeans.HomeBB</managed-bean-class>
   <managed-bean-scope>view</managed-bean-scope>
  </managed-bean>
+ <managed-bean>
+  <managed-bean-name>mongoBB</managed-bean-name>
+  <managed-bean-class>managedBeans.MongoBB</managed-bean-class>
+  <managed-bean-scope>view</managed-bean-scope>
+ </managed-bean>
  <navigation-rule>
   <from-view-id>/pages/Login.xhtml</from-view-id>
   <navigation-case>
