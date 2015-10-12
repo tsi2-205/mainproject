@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -25,11 +26,11 @@ public abstract class Category implements Serializable {
     
     @ManyToMany
     @JoinTable (name = "Category_Product", joinColumns = @JoinColumn(name = "idCategory"), inverseJoinColumns = @JoinColumn(name = "idProduct"))
-    private List<Product> products;
+    private List<Product> products = new LinkedList<Product>();
     
     @ManyToMany
     @JoinTable (name = "Category_Store", joinColumns = @JoinColumn(name = "idCategory"), inverseJoinColumns = @JoinColumn(name = "idStore"))
-    private List<Store> stores;
+    private List<Store> stores = new LinkedList<Store>();
     
 //  @ManyToOne(mappedBy="sons")
 //  private Category father;

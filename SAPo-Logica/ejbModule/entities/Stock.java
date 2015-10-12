@@ -36,13 +36,12 @@ public class Stock implements Serializable {
 		super();
 	}
 
-	public Stock(int cantidad, int precioVenta, int precioCompra, int version,
+	public Stock(int cantidad, int precioVenta, int precioCompra,
 			Store store, Product product) {
 		super();
 		this.cantidad = cantidad;
 		this.precioVenta = precioVenta;
 		this.precioCompra = precioCompra;
-		this.version = version;
 		this.store = store;
 		this.product = product;
 	}

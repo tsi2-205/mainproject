@@ -2,6 +2,7 @@ package entities;
 
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -23,11 +24,13 @@ public class Store implements Serializable {
     private String telephone;
 	
     private String city;
-
     
-    @ManyToMany
+    @Version
+    private int version;
+
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinTable (name = "Strore_Product", joinColumns = @JoinColumn(name = "idStore"), inverseJoinColumns = @JoinColumn(name = "idProduct"))
-    private List<Product> products;
+    private List<Product> products = new LinkedList<Product>();
     
     @ManyToOne
     @JoinColumn(name="IdOwner")
@@ -35,7 +38,7 @@ public class Store implements Serializable {
     
     @ManyToMany
     @JoinTable (name = "Strore_Registered", joinColumns = @JoinColumn(name = "idStore"), inverseJoinColumns = @JoinColumn(name = "idRegistered"))
-    private List<Registered> guests;
+    private List<Registered> guests = new LinkedList<Registered>();
     
     
     @OneToOne
@@ -44,13 +47,13 @@ public class Store implements Serializable {
     
     
     @OneToMany(mappedBy="store")
-    private List<BuyList> buylists;
+    private List<BuyList> buylists = new LinkedList<BuyList>();
     
     @OneToMany(mappedBy="store")
-    private List<Comment> comments;
+    private List<Comment> comments = new LinkedList<Comment>();
     
     @ManyToMany(mappedBy = "stores")
-    private List<Category> categories;
+    private List<Category> categories = new LinkedList<Category>();
     
     @OneToOne(mappedBy = "store")
     private Stock stock;
@@ -60,12 +63,13 @@ public class Store implements Serializable {
     public Store() {
 		super();
 	}
-	public Store(String name, String addr, String tel, String city, User user) {
+	public Store(String name, String addr, String tel, String city, Registered user) {
 		super();
 		this.name = name;
 		this.address = addr;
 		this.telephone = tel;
 		this.city = city;
+		this.owner = user;
 	}
 	
 	public int getId() {
@@ -108,5 +112,76 @@ public class Store implements Serializable {
 		return owner;
 	}
 	
+	public List<Product> getProducts() {
+		return products;
+	}
+	
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+	
+	public List<Registered> getGuests() {
+		return guests;
+	}
+	
+	public void setGuests(List<Registered> guests) {
+		this.guests = guests;
+	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+	
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+	public List<BuyList> getBuylists() {
+		return buylists;
+	}
+	
+	public void setBuylists(List<BuyList> buylists) {
+		this.buylists = buylists;
+	}
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+	
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
+	public List<Category> getCategories() {
+		return categories;
+	}
+	
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+	
+	public Stock getStock() {
+		return stock;
+	}
+	
+	public void setStock(Stock stock) {
+		this.stock = stock;
+	}
+	
+	public void setOwner(Registered owner) {
+		this.owner = owner;
+	}
+	
+	public int getVersion() {
+		return version;
+	}
+	
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 }

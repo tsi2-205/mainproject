@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="Login" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			<h:panelGrid columns="2">
+				<h:outputLabel for="name" value="Nombre:"/>
+				<h:inputText id="name" label="Nombre:" value="#{newProductBB.name}" ></h:inputText>
+				<h:outputLabel for="description" value="Descripción:"/>
+				<h:inputText id="description" label="Descripción:" value="#{newProductBB.description}" ></h:inputText>
+				<h:outputLabel for="stockIni" value="Stock inicial:"/>
+				<h:inputText id="stockIni" label="Stock inicial:" value="#{newProductBB.stockIni}" ></h:inputText>
+				<h:outputLabel for="precioCompra" value="Precio de compra:"/>
+				<h:inputText id="precioCompra" label="Precio de compra:" value="#{newProductBB.precioCompra}" ></h:inputText>
+				<h:outputLabel for="precioVenta" value="Precio de venta:"/>
+				<h:inputText id="precioVenta" label="Precio de venta:" value="#{newProductBB.precioVenta}" ></h:inputText>
+			</h:panelGrid>
+			<h:commandButton value="Crear" action="#{newProductBB.create}"></h:commandButton>
+		</h:form>
+	</ui:define>
+</ui:composition>

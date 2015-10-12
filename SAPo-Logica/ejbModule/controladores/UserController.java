@@ -88,7 +88,7 @@ public class UserController implements IUserController {
 		Registered u = (Registered)query.getSingleResult();
 		List<Store> stores=u.getStoresGuest();
 		for(Store str: stores) {
-			dataS= new DataStore(str.getId(),str.getName());
+			dataS= new DataStore(str);
 			ret.add(dataS);
 		}
 		return ret;
@@ -103,7 +103,7 @@ public class UserController implements IUserController {
 		Registered u = (Registered)query.getSingleResult();
 		List<Store> stores=u.getStoreOwner();
 		for(Store str: stores) {
-			dataS= new DataStore(str.getId(),str.getName());
+			dataS= new DataStore(str);
 			ret.add(dataS);
 		}
 		return ret;

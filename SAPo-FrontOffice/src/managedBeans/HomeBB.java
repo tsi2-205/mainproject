@@ -8,10 +8,13 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
+
+import org.primefaces.event.SelectEvent;
 
 import comunication.Comunicacion;
 import datatypes.DataStore;
@@ -26,8 +29,7 @@ public class HomeBB {
 	private String idFace;
 	private List<DataStore> storesOwner;
 	private List<DataStore> storesGuest;
-	
-
+	private DataStore storeSelected;
 	
 
 	@PostConstruct
@@ -36,9 +38,9 @@ public class HomeBB {
 		ELContext contextoEL = context.getELContext( );
 		Application apli  = context.getApplication( );	
 		ExpressionFactory ef = apli.getExpressionFactory( );
-		ValueExpression ve = ef.createValueExpression(contextoEL, "#{loginBB}",LoginBB.class);
-		LoginBB bean = (LoginBB) ve.getValue(contextoEL);
-		this.id=bean.getLoggedUser().getId();
+		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
+		SessionBB session = (SessionBB) ve.getValue(contextoEL);
+		this.id=session.getLoggedUser().getId();
 		try{
 			this.storesOwner = Comunicacion.getInstance().getIUserController().getStoresOwner(this.id);
 			this.storesGuest= Comunicacion.getInstance().getIUserController().getStoresGuest(this.id);
@@ -92,8 +94,37 @@ public class HomeBB {
 	public void setStoresGuest(List<DataStore> storesGuest) {
 		this.storesGuest = storesGuest;
 	}
-	
-	
 
+	public DataStore getStoreSelected() {
+		return storeSelected;
+	}
+
+	public void setStoreSelected(DataStore storeSelected) {
+		this.storeSelected = storeSelected;
+	}
+	
+	public String showStore(SelectEvent event) {
+		this.storeSelected = (DataStore) event.getObject();
+		FacesContext context = FacesContext.getCurrentInstance();
+		ELContext contextoEL = context.getELContext( );
+		Application apli  = context.getApplication( );	
+		ExpressionFactory ef = apli.getExpressionFactory( );
+		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
+		SessionBB session = (SessionBB) ve.getValue(contextoEL);
+		session.setStoreSelected(this.storeSelected);		
+		FacesContext faces = FacesContext.getCurrentInstance();
+		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");
+		return "/pages/StoreDetail.xhtml?faces-redirect=true";
+		
+	}
+	
+	public String createStore() {
+//		FacesContext faces = FacesContext.getCurrentInstance();
+//		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+//		configurableNavigationHandler.performNavigation("/pages/NewStore.xhtml?faces-redirect=true");
+		return "/pages/NewStore.xhtml?faces-redirect=true";
+		
+	}
 	
 }

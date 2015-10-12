@@ -4,6 +4,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import interfaces.IStoreController;
 import interfaces.IUserController;
 import interfaces.IMongoController;
 
@@ -26,6 +27,10 @@ public class Comunicacion {
 		
 	public IUserController getIUserController() throws NamingException {
 		return (IUserController)this.ctx.lookup("java:app/SAPo-Logica/UserController!interfaces.IUserController");
+	}
+	
+	public IStoreController getIStoreController() throws NamingException {
+		return (IStoreController)this.ctx.lookup("java:app/SAPo-Logica/StoreController!interfaces.IStoreController");
 	}
 	
 	public IMongoController getIMongoController() throws NamingException {

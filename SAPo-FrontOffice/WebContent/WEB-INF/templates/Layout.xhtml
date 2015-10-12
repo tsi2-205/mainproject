@@ -14,22 +14,26 @@
 	</title>
 </h:head>
 <h:body>
-	<div id="marco">
-		<div id="header">
-			<ui:insert name="Header">
-				<ui:include src="/WEB-INF/templates/Header.xhtml" />
+	<div id="header">
+		<ui:insert name="Header">
+			<ui:include src="/WEB-INF/templates/Header.xhtml" />
+		</ui:insert>
+	</div>
+	<div id="content">
+		<div id="center">
+			<ui:insert name="Principal"></ui:insert>
+		</div>
+		<div id="right">
+			<ui:insert name="rightMenu">
+				<ui:include src="/WEB-INF/templates/RightMenu.xhtml" />
 			</ui:insert>
 		</div>
-		<div id="content">
-			<div id="center">
-				<ui:insert name="Principal"></ui:insert>
-			</div>
-		</div>
-		<div id="footer">
-			<ui:insert name="footer">
-				<ui:include src="/WEB-INF/templates/Footer.xhtml" />
-			</ui:insert>
-		</div>
+		<div style="clear:both"></div>
+	</div>
+	<div id="footer">
+		<ui:insert name="footer">
+			<ui:include src="/WEB-INF/templates/Footer.xhtml" />
+		</ui:insert>
 	</div>
 </h:body>
 </html>

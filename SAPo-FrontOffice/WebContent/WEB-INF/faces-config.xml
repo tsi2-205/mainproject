@@ -2,8 +2,8 @@
 <faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
  <managed-bean>
-  <managed-bean-name>loginBB</managed-bean-name>
-  <managed-bean-class>managedBeans.LoginBB</managed-bean-class>
+  <managed-bean-name>sessionBB</managed-bean-name>
+  <managed-bean-class>managedBeans.SessionBB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <managed-bean>
@@ -12,48 +12,85 @@
   <managed-bean-scope>view</managed-bean-scope>
  </managed-bean>
  <managed-bean>
+  <managed-bean-name>newStoreBB</managed-bean-name>
+  <managed-bean-class>managedBeans.NewStoreBB</managed-bean-class>
+  <managed-bean-scope>view</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
   <managed-bean-name>mongoBB</managed-bean-name>
   <managed-bean-class>managedBeans.MongoBB</managed-bean-class>
   <managed-bean-scope>view</managed-bean-scope>
  </managed-bean>
+ 
  <navigation-rule>
   <from-view-id>/pages/Login.xhtml</from-view-id>
   <navigation-case>
-   <from-action>#{loginBB.loginWithEmail}</from-action>
+   <from-action>#{sessionBB.loginWithEmail}</from-action>
    <from-outcome>loginOk</from-outcome>
    <to-view-id>/pages/Home.xhtml</to-view-id>
   </navigation-case>
   <navigation-case>
-   <from-action>#{loginBB.loginWithEmail}</from-action>
+   <from-action>#{sessionBB.loginWithEmail}</from-action>
    <from-outcome>loginError</from-outcome>
    <to-view-id>/pages/Login.xhtml</to-view-id>
   </navigation-case>
   <navigation-case>
-   <from-action>#{loginBB.loginWithFacebook}</from-action>
+   <from-action>#{sessionBB.loginWithFacebook}</from-action>
    <from-outcome>loginOk</from-outcome>
    <to-view-id>/pages/Home.xhtml</to-view-id>
   </navigation-case>
   <navigation-case>
-   <from-action>#{loginBB.goToRegister}</from-action>
+   <from-action>#{sessionBB.goToRegister}</from-action>
    <from-outcome>goToRegister</from-outcome>
    <to-view-id>/pages/Register.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
+ 
  <navigation-rule>
   <from-view-id>/pages/Register.xhtml</from-view-id>
   <navigation-case>
-   <from-action>#{loginBB.register}</from-action>
+   <from-action>#{sessionBB.register}</from-action>
    <from-outcome>registerOk</from-outcome>
    <to-view-id>/pages/Home.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
+ 
  <navigation-rule>
   <from-view-id>/pages/Home.xhtml</from-view-id>
   <navigation-case>
-   <from-action>#{loginBB.logout}</from-action>
-   <from-outcome>logoutOk</from-outcome>
-   <to-view-id>/pages/Login.xhtml</to-view-id>
+   <from-action>#{homeBB.createStore}</from-action>
+   <from-outcome>NewStore</from-outcome>
+   <to-view-id>/pages/NewStore.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-action>#{homeBB.showStore}</from-action>
+   <from-outcome>showStore</from-outcome>
+   <to-view-id>/pages/StoreDetail.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
+ 
+ <navigation-rule>
+  <from-view-id>/pages/NewStore.xhtml</from-view-id>
+  <navigation-case>
+   <from-action>#{newStoreBB.create}</from-action>
+   <from-outcome>OkNewStore</from-outcome>
+   <to-view-id>/pages/Home.xhtml</to-view-id>
+  </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+  <from-view-id>/pages/NewProduct.xhtml</from-view-id>
+  <navigation-case>
+   <from-action>#{newProductBB.create}</from-action>
+   <from-outcome>OkNewProduct</from-outcome>
+   <to-view-id>/pages/StoreDetail.xhtml</to-view-id>
+  </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+  <from-view-id>/pages/StoreDetail.xhtml</from-view-id>
+  
+  </navigation-rule>
+ 
  <application/>
 </faces-config>

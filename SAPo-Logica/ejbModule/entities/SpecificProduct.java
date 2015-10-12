@@ -12,5 +12,11 @@ public class SpecificProduct extends Product {
 	public SpecificProduct() {
 		super();
 	}
+
+	public SpecificProduct(String name, String description) {
+		super(name, description);
+	}
+	
+	
 	
 }

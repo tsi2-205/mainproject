@@ -6,13 +6,14 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<div class ="ui-menu2">
-		<div id="headerTitle">
-			<h:outputText value="Este es el header"/>
-		</div>
-		<div id="linksHeader">
-			<h:commandButton id="linkPerfil" value="#{loginBB.dataUser.name}" action="#{loginBB.logout}" />
-			<h:commandButton id="linkSalir" value="Salir"  action="#{loginBB.logout}"/>
-		</div>
-	</div>
+	<h:outputStylesheet library="styles" name="header.css" />
+	<h:form prependId="false">
+		<h:panelGrid id="headerTitle">
+			<h:outputText value="Bienvenido a SAPo"/>
+		</h:panelGrid>
+		<h:panelGrid id="linksHeader">
+			<h:outputText value="#{sessionBB.loggedUser.name}"/>
+			<h:commandButton id="linkSalir" value="Salir" action="#{sessionBB.logoutUser}"/>
+		</h:panelGrid>	
+	</h:form>
 </ui:composition>

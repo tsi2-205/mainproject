@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14438271560320" configfile="/SAPo-FrontOffice/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="pages/Login.xhtml" id="pf14439003972465" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14439003972466 pf14439003972467 pf14439003972468" inlinks="pf14439003972467" path="/pages/Login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/Home.xhtml" id="pf14439003972469" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14439003972466" path="/pages/Home.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/Register.xhtml" id="pf144390039724610" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14439003972468" path="/pages/Register.xhtml"/>
-  <links id="pf14439003972466" target="pf14439003972469" source="pf14439003972465" outcome="loginOk" fromaction="#{loginBB.ingresar}"/>
-  <links id="pf14439003972467" target="pf14439003972465" source="pf14439003972465" outcome="loginError" fromaction="#{loginBB.ingresar}"/>
-  <links id="pf14439003972468" target="pf144390039724610" source="pf14439003972465" outcome="registrarse" fromaction="#{loginBB.registrarse}"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/Login.xhtml" x="122" y="764" id="pf14439003972465" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14439003972466 pf14439003972467 pf14439003972468 pf14445341457590" inlinks="pf14439003972467" path="/pages/Login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/Home.xhtml" x="554" y="764" id="pf14439003972469" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf14445711604850 pf14446054129000" inlinks="pf14439003972466 pf14445341457590 pf14445341457592 pf14445711604851" path="/pages/Home.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/Register.xhtml" x="338" y="562" id="pf144390039724610" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14445341457592" inlinks="pf14439003972468" path="/pages/Register.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/NewStore.xhtml" x="338" y="178" id="pf14445711604852" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf14445711604851" inlinks="pf14445711604850" path="/pages/NewStore.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/StoreDetail.xhtml" x="770" y="764" id="pf14446054129041" referenceLink="//@navigationRule.2/@navigationCase.1/@toViewId|" inlinks="pf14446054129000" path="/pages/StoreDetail.xhtml"/>
+  <links id="pf14439003972466" target="pf14439003972469" source="pf14439003972465" outcome="loginOk" fromaction="#{sessionBB.loginWithEmail}"/>
+  <links id="pf14439003972468" target="pf144390039724610" source="pf14439003972465" outcome="goToRegister" fromaction="#{sessionBB.goToRegister}"/>
+  <links id="pf14445341457590" target="pf14439003972469" source="pf14439003972465" outcome="loginOk" fromaction="#{sessionBB.loginWithFacebook}"/>
+  <links id="pf14445341457592" target="pf14439003972469" source="pf144390039724610" outcome="registerOk" fromaction="#{sessionBB.register}"/>
+  <links id="pf14445711604850" target="pf14445711604852" source="pf14439003972469" outcome="NewStore" fromaction="#{homeBB.createStore}"/>
+  <links id="pf14445711604851" target="pf14439003972469" source="pf14445711604852" outcome="OkNewStore" fromaction="#{newStoreBB.create}"/>
+  <links id="pf14446054129000" target="pf14446054129041" source="pf14439003972469" outcome="showStore" fromaction="#{homeBB.showStore}"/>
+  <links id="pf14439003972467" target="pf14439003972465" source="pf14439003972465" outcome="loginError" fromaction="#{sessionBB.loginWithEmail}">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
 </pageflow:Pageflow>

@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class BuyList implements Serializable {
     
     @ManyToMany
     @JoinTable (name = "BuyList_Product", joinColumns = @JoinColumn(name = "idBuyList"), inverseJoinColumns = @JoinColumn(name = "idProduct"))
-    private List<Product> products;
+    private List<Product> products = new LinkedList<Product>();
 
     
     public BuyList() {

@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html 	xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:f="http://java.sun.com/jsf/core" 
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:p="http://primefaces.org/ui" >
-<h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Bienvenido</title>
-</h:head>
-<h:body>
-	<h:outputText value="Home #{loginBB.name}"> </h:outputText>
-	<p:separator></p:separator>
-	<h:outputText value="Mis almacenes"> </h:outputText>
-	<p:dataList value="#{homeBB.storesOwner}" var="store" type="ordered">
-        <f:facet name="header">
-            Mis almacenes
-        </f:facet>
-        <h:outputText value="#{store.name}"/>
-        <h:outputText value="#{homeBB.name}"/>
-    </p:dataList>
-	<br/>
-	<p:dataList value="#{homeBB.storesGuest}" var="store" type="ordered">
-        <f:facet name="header">
-            Almacenes compartidas
-        </f:facet>
-        <h:outputText value="#{store.name}"/>
-    </p:dataList>
-	<h:outputText value="Almacenes compartidas"> </h:outputText>
-	<h:form>
-		<h:commandButton value="Salir" action="#{loginBB.logout}"></h:commandButton>
-	</h:form>
-</h:body>
-</html>
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="SAPo" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			<h:commandButton id="createStore" value="Nueva almacen" action="#{homeBB.createStore}"/>
+			<p:separator></p:separator>
+			<p:dataTable value="#{homeBB.storesOwner}" var="store" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated" paginatorPosition="bottom"
+		    	selectionMode="single" selection="#{homeBB.storeSelected}" rowKey="#{store.id}" emptyMessage="No es dueño de ningún almacen" >
+		        <p:ajax event="rowSelect" listener="#{homeBB.showStore}" />
+		        <p:column headerText="Mis almacenes">
+					<h:outputText value="#{store.name}"/>
+				</p:column>
+		    </p:dataTable>
+			<br/>
+			<p:dataTable value="#{homeBB.storesGuest}" var="store" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated" paginatorPosition="bottom"
+		    	selectionMode="single" selection="#{homeBB.storeSelected}" rowKey="#{store.id}" emptyMessage="No está invitado a ningún almacen" >
+		        <p:ajax event="rowSelect" listener="#{homeBB.showStore}" />
+		        <p:column headerText="Almacenes compartidas">
+					<h:outputText value="#{store.name}"/>
+				</p:column>
+		    </p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

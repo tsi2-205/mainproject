@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -20,11 +21,11 @@ public class Chat implements Serializable {
     
     @OneToMany
     @JoinColumn(name="idChat", referencedColumnName="id")
-    private List<Message> messages;
+    private List<Message> messages = new LinkedList<Message>();
     
     @ManyToMany
     @JoinTable (name = "Chat_Registered", joinColumns = @JoinColumn(name = "idChat"), inverseJoinColumns = @JoinColumn(name = "idRegistered"))
-    private List<Registered> participants;
+    private List<Registered> participants = new LinkedList<Registered>();
 
 	public Chat() {
 		super();

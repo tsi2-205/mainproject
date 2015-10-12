@@ -1,5 +1,6 @@
 package entities;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -11,10 +12,10 @@ public class Administrator extends User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@OneToMany(mappedBy="administrator")
-    private List<GenericCategory> GenericCategories;
+    private List<GenericCategory> GenericCategories = new LinkedList<GenericCategory>();
     
     @OneToMany(mappedBy="administrator")
-    private List<GenericProduct> genericProducts;
+    private List<GenericProduct> genericProducts = new LinkedList<GenericProduct>();
 
 	public Administrator() {
 		super();

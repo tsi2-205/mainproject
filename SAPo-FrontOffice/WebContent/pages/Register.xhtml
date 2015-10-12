@@ -13,13 +13,13 @@
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputText value="Nombre:"></h:outputText>
-			<h:inputText id="nombre" value="#{loginBB.name}" ></h:inputText>
+			<h:inputText id="nombre" value="#{sessionBB.name}" ></h:inputText>
 			<h:outputText value="Email:"></h:outputText>
-			<h:inputText id="email" value="#{loginBB.email}" ></h:inputText>
+			<h:inputText id="email" value="#{sessionBB.email}" ></h:inputText>
 			<h:outputText value="Contraseña:"></h:outputText>
-			<h:inputSecret id="password" value="#{loginBB.password}" ></h:inputSecret>
+			<h:inputSecret id="password" value="#{sessionBB.password}" ></h:inputSecret>
 		</h:panelGrid>	
-		<h:commandButton value="Aceptar" action="#{loginBB.register}"></h:commandButton>
+		<h:commandButton value="Aceptar" action="#{sessionBB.register}"></h:commandButton>
 	</h:form>
 </h:body>
 </html>

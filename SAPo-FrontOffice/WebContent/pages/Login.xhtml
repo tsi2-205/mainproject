@@ -64,15 +64,15 @@
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputLabel for="email" value="Email:"/>
-			<h:inputText id="email" label="Email:" value="#{loginBB.email}" ></h:inputText>
+			<h:inputText id="email" label="Email:" value="#{sessionBB.email}" ></h:inputText>
 			<h:outputLabel for="password">Contraseña: </h:outputLabel>
-			<h:inputSecret id="password" value="#{loginBB.password}"></h:inputSecret>
+			<h:inputSecret id="password" value="#{sessionBB.password}"></h:inputSecret>
 		</h:panelGrid>
-		<h:commandButton value="Ingresar" action="#{loginBB.loginWithEmail}"></h:commandButton>
-		<h:commandButton value="Registrarse" action="#{loginBB.goToRegister}"></h:commandButton>
+		<h:commandButton value="Ingresar" action="#{sessionBB.loginWithEmail}"></h:commandButton>
+		<h:commandButton value="Registrarse" action="#{sessionBB.goToRegister}"></h:commandButton>
 		<fb:login-button scope="public_profile,email" onlogin="checkLoginState();" />
-		<h:outputText value="Usuario y/o contraseña incorrectos" rendered="#{loginBB.showError}"></h:outputText>
-		<p:remoteCommand name="fbRemoteCommand" action="#{loginBB.loginWithFacebook}" />
+		<h:outputText value="Usuario y/o contraseña incorrectos" rendered="#{sessionBB.showError}"></h:outputText>
+		<p:remoteCommand name="fbRemoteCommand" action="#{sessionBB.loginWithFacebook}" />
 	</h:form>
 </h:body>
 </html>

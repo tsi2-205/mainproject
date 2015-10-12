@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -11,20 +12,20 @@ public class Registered extends User {
 	private static final long serialVersionUID = 1L;
 
 	@OneToMany(mappedBy="registered")
-    private List<Comment> comments;
+    private List<Comment> comments = new LinkedList<Comment>();
     
     @OneToMany(mappedBy="owner")
-    private List<Store> storeOwner;
+    private List<Store> storeOwner = new LinkedList<Store>();
 	
     @ManyToMany(mappedBy = "guests")
-    private List<Store> storesGuest;
+    private List<Store> storesGuest = new LinkedList<Store>();
     
     @OneToMany
     @JoinColumn(name="idRegistered", referencedColumnName="id")
-    private List<Message> messages;
+    private List<Message> messages = new LinkedList<Message>();
     
     @ManyToMany(mappedBy = "participants")
-    private List<Chat> chats;
+    private List<Chat> chats = new LinkedList<Chat>();
     
 	public Registered() {
 		super();

@@ -1,0 +1,9 @@
+@CHARSET "ISO-8859-1";
+
+#headerTitle {
+	float: left;
+}
+
+#linksHeader {
+	float: right;
+}
