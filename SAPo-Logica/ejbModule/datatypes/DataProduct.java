@@ -17,6 +17,8 @@ public class DataProduct implements Serializable {
     
     private boolean isGeneric;
     
+    private DataStock stock;
+    
 	public DataProduct() {
 		super();
 	}
@@ -35,6 +37,7 @@ public class DataProduct implements Serializable {
 		this.name = prod.getName();
 		this.description = prod.getDescription();
 		this.isGeneric = (prod instanceof GenericProduct) ? true : false;
+		this.stock = new DataStock(prod.getStock());
 	}
 
 	public int getId() {
@@ -68,5 +71,13 @@ public class DataProduct implements Serializable {
 	public void setGeneric(boolean isGeneric) {
 		this.isGeneric = isGeneric;
 	}
-    
+
+	public DataStock getStock() {
+		return stock;
+	}
+
+	public void setStock(DataStock stock) {
+		this.stock = stock;
+	}
+	
 }

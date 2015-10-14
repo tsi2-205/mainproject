@@ -27,19 +27,15 @@ public abstract class Product implements Serializable {
     @ManyToMany(mappedBy = "products")
     private List<Store> stores = new LinkedList<Store>();
     
-    
-    @ManyToMany(mappedBy = "products")
-    private List<BuyList> buyLists = new LinkedList<BuyList>();
-    
     @ManyToMany(mappedBy = "products")
     private List<Category> categories = new LinkedList<Category>();
     
     @OneToOne(mappedBy = "product")
     private Stock stock;
 
+    
 	public Product() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Product(String name, String description) {
@@ -47,8 +43,6 @@ public abstract class Product implements Serializable {
 		this.name = name;
 		this.description = description;
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -72,14 +66,6 @@ public abstract class Product implements Serializable {
 
 	public void setStores(List<Store> stores) {
 		this.stores = stores;
-	}
-
-	public List<BuyList> getBuyLists() {
-		return buyLists;
-	}
-
-	public void setBuyLists(List<BuyList> buyLists) {
-		this.buyLists = buyLists;
 	}
 
 	public List<Category> getCategories() {

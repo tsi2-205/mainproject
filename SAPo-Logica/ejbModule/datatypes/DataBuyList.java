@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import entities.BuyList;
-import entities.Product;
+import entities.ElementBuyList;
 
 public class DataBuyList implements Serializable {
 	
@@ -16,19 +16,19 @@ public class DataBuyList implements Serializable {
 	
     private String description;
     
-    private List<DataProduct> products;
+    private List<DataElementBuyList> elements;
 
 	public DataBuyList() {
 		super();
 	}
 
 	public DataBuyList(int id, String name, String description,
-			List<DataProduct> products) {
+			List<DataElementBuyList> elements) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.products = products;
+		this.elements = elements;
 	}
 	
 	public DataBuyList(BuyList buyList) {
@@ -36,8 +36,8 @@ public class DataBuyList implements Serializable {
 		this.id = buyList.getId();
 		this.name = buyList.getName();
 		this.description = buyList.getDescription();
-		for (Product p: buyList.getProducts()) {
-			this.products.add(new DataProduct(p));
+		for (ElementBuyList elem: buyList.getElements()) {
+			this.elements.add(new DataElementBuyList(elem));
 		}
 	}
 
@@ -65,12 +65,12 @@ public class DataBuyList implements Serializable {
 		this.description = description;
 	}
 
-	public List<DataProduct> getProducts() {
-		return products;
+	public List<DataElementBuyList> getElements() {
+		return elements;
 	}
 
-	public void setProducts(List<DataProduct> products) {
-		this.products = products;
+	public void setElements(List<DataElementBuyList> elements) {
+		this.elements = elements;
 	}
-    
+
 }

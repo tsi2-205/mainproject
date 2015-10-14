@@ -27,22 +27,22 @@ public class BuyList implements Serializable {
     @JoinColumn(name="IdStore")
     private Store store;
     
-    @ManyToMany
-    @JoinTable (name = "BuyList_Product", joinColumns = @JoinColumn(name = "idBuyList"), inverseJoinColumns = @JoinColumn(name = "idProduct"))
-    private List<Product> products = new LinkedList<Product>();
-
+    @OneToMany
+    @JoinColumn (name = "idBuyList", referencedColumnName="id")
+    private List<ElementBuyList> elements = new LinkedList<ElementBuyList>();
+    
     
     public BuyList() {
 		super();
 	}
 
 	public BuyList(String name, String description, Store store,
-			List<Product> products) {
+			List<ElementBuyList> elements) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.store = store;
-		this.products = products;
+		this.elements = elements;
 	}
 
 	
@@ -86,12 +86,12 @@ public class BuyList implements Serializable {
 		this.store = store;
 	}
 
-	public List<Product> getProducts() {
-		return products;
+	public List<ElementBuyList> getElements() {
+		return elements;
 	}
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public void setElements(List<ElementBuyList> elements) {
+		this.elements = elements;
 	}
-    
+
 }

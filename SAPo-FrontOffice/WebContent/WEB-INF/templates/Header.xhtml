@@ -12,7 +12,7 @@
 			<h:outputText value="Bienvenido a SAPo"/>
 		</h:panelGrid>
 		<h:panelGrid id="linksHeader">
-			<h:outputText value="#{sessionBB.loggedUser.name}"/>
+			<h:outputText id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
 			<h:commandButton id="linkSalir" value="Salir" action="#{sessionBB.logoutUser}"/>
 		</h:panelGrid>	
 	</h:form>

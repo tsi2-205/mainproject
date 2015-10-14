@@ -1,0 +1,12 @@
+@CHARSET "ISO-8859-1";
+
+.ui-datatable table {
+	text-align: center;
+	background-color: transparent;
+}
+
+.ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield {
+	padding-left: 0px;
+	padding-right: 0px;
+	text-align: center;
+}
