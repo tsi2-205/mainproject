@@ -12,12 +12,14 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			<p:growl id="msgs" showDetail="true"/>
-			<h:outputText value="#{storeDetailBB.store.name}"> </h:outputText>
-			<h:commandButton id="buttonCreateBuyList" value="Nueva lista de compras" action="#{storeDetailBB.createBuyList}"/>
-			<h:commandButton id="buttonCreateCategory" value="Nuevo Categoria" action="#{storeDetailBB.createCategory}"/>
-			<h:commandButton id="buttonCreateProduct" value="Nueva Producto" action="#{storeDetailBB.createProduct}"/>
+			<h:outputText id="nameStoreId" value="#{storeDetailBB.store.name}"> </h:outputText>
+			<div id="panelButtons">
+				<h:commandButton id="buttonCreateBuyList" value="Nueva lista de compras" action="#{storeDetailBB.createBuyList}"/>
+				<h:commandButton id="buttonCreateCategory" value="Nuevo Categoria" action="#{storeDetailBB.createCategory}"/>
+				<h:commandButton id="buttonCreateProduct" value="Nueva Producto" action="#{storeDetailBB.createProduct}"/>
+			</div>
 			
-			<p:tabView>
+			<p:tabView id="idTablaProductos">
 		        <p:tab title="Productos">
 		            <p:dataTable id="listProducts" var="product" value="#{storeDetailBB.products}"
 						editable="true" style="margin-bottom:20px" emptyMessage="No existen productos">

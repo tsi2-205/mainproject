@@ -10,3 +10,33 @@
 	padding-right: 0px;
 	text-align: center;
 }
+
+#nameStoreId {
+	font-size: 40px;
+	color: white;
+	font-family: sans-serif;
+}
+
+#panelButtons{
+	float: right;
+}
+
+#buttonCreateBuyList {
+	float: right;
+	position: relative;
+}
+
+#buttonCreateCategory {
+	float: right;
+	position: relative;
+}
+
+#buttonCreateProduct {
+	float: right;
+	position: relative;
+}
+
+#idTablaProductos{
+	clear: both;
+	margin-top: 4%;
+}

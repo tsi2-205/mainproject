@@ -9,11 +9,18 @@
 	<h:outputStylesheet library="styles" name="header.css" />
 	<h:form prependId="false">
 		<h:panelGrid id="headerTitle">
-			<h:outputText value="Bienvenido a SAPo"/>
+			<h:commandLink action="Home" value="Bienvenido a SAPo" style="font-family: sans-serif;
+	font-size: 30px;
+	color: white;
+	font-weight: 1.5em;
+	font: bold; text-decoration: unset;"/>
 		</h:panelGrid>
-		<h:panelGrid id="linksHeader">
-			<h:outputText id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
-			<h:commandButton id="linkSalir" value="Salir" action="#{sessionBB.logoutUser}"/>
-		</h:panelGrid>	
+		<div id="linksHeader">
+			<h:outputText style="width: 70%; float: left;" id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
+			<div class="buttons">
+				<h:commandButton id="linkSalir" value="Salir" action="#{sessionBB.logoutUser}"/>
+			</div>
+			
+		</div>	
 	</h:form>
 </ui:composition>
