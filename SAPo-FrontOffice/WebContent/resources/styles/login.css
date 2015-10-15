@@ -1,0 +1,70 @@
+@CHARSET "ISO-8859-1";
+
+body, html {
+	background-color: #969696;
+	width: 100%;
+	height: 100%;
+}
+
+#container {
+	margin: auto;
+	position: relative;
+	width:400px;
+	height:400px;
+	top: 50px;
+}
+
+#header-container {
+	position: relative;
+	height: 10%;
+	text-align: center;
+}
+
+#login-container {
+	background-color: #e1e1e1;
+	position: relative;
+	height: 50%;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	text-align: center;
+}
+
+#email-container {
+	position: relative;
+	height: 30%;
+}
+
+#password-container {
+	position: relative;
+	height: 30%;
+}
+
+#message-container {
+	position: relative;
+	height: 10%;
+}
+
+#sign-in-container {
+	position: relative;
+	height: 30%;
+}
+
+#facebook-container {
+	background-color: #D6D6D6;
+	position: relative;
+	height: 20%;
+	text-align: center;	
+}
+
+#login-facebook-button {
+	top: 20px;
+}
+
+#register-container {
+	background-color: #D6D6D6;
+	position: relative;
+	height: 20%;
+	text-align: center;	
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
