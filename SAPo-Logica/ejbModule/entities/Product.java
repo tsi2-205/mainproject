@@ -24,14 +24,21 @@ public abstract class Product implements Serializable {
 	@Version
     private int version;
 	
-    @ManyToMany(mappedBy = "products")
-    private List<Store> stores = new LinkedList<Store>();
-    
-    @ManyToMany(mappedBy = "products")
+	@ManyToMany(mappedBy = "products")
     private List<Category> categories = new LinkedList<Category>();
     
-    @OneToOne(mappedBy = "product")
-    private Stock stock;
+    @OneToMany(mappedBy = "product")
+    private List<Stock> stocks = new LinkedList<Stock>();
+    
+    @OneToMany(mappedBy = "product")
+    private List<HistoricPrecioCompra> historicsPrecios = new LinkedList<HistoricPrecioCompra>();
+    
+    @OneToMany(mappedBy = "product")
+    private List<HistoricStock> historicStock = new LinkedList<HistoricStock>();
+    
+    @OneToMany
+    @JoinColumn (name = "idProduct", referencedColumnName="id")
+    private List<ProductAdditionalAttribute> additionalAttributes = new LinkedList<ProductAdditionalAttribute>();
 
     
 	public Product() {
@@ -60,14 +67,6 @@ public abstract class Product implements Serializable {
 		this.version = version;
 	}
 
-	public List<Store> getStores() {
-		return stores;
-	}
-
-	public void setStores(List<Store> stores) {
-		this.stores = stores;
-	}
-
 	public List<Category> getCategories() {
 		return categories;
 	}
@@ -76,12 +75,28 @@ public abstract class Product implements Serializable {
 		this.categories = categories;
 	}
 
-	public Stock getStock() {
-		return stock;
+	public List<Stock> getStocks() {
+		return stocks;
 	}
 
-	public void setStock(Stock stock) {
-		this.stock = stock;
+	public void setStocks(List<Stock> stocks) {
+		this.stocks = stocks;
+	}
+
+	public List<HistoricPrecioCompra> getHistoricsPrecios() {
+		return historicsPrecios;
+	}
+
+	public void setHistoricsPrecios(List<HistoricPrecioCompra> historicsPrecios) {
+		this.historicsPrecios = historicsPrecios;
+	}
+
+	public List<HistoricStock> getHistoricStock() {
+		return historicStock;
+	}
+
+	public void setHistoricStock(List<HistoricStock> historicStock) {
+		this.historicStock = historicStock;
 	}
 
 	public String getName() {
@@ -98,6 +113,15 @@ public abstract class Product implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<ProductAdditionalAttribute> getAdditionalAttributes() {
+		return additionalAttributes;
+	}
+
+	public void setAdditionalAttributes(
+			List<ProductAdditionalAttribute> additionalAttributes) {
+		this.additionalAttributes = additionalAttributes;
 	}
 	
 }

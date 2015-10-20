@@ -41,6 +41,7 @@ public class HomeBB {
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.id=session.getLoggedUser().getId();
+//		session.setStoreSelected(null);
 		try{
 			this.storesOwner = Comunicacion.getInstance().getIUserController().getStoresOwner(this.id);
 			this.storesGuest= Comunicacion.getInstance().getIUserController().getStoresGuest(this.id);
@@ -103,7 +104,7 @@ public class HomeBB {
 		this.storeSelected = storeSelected;
 	}
 	
-	public String showStore(SelectEvent event) {
+	public void showStore(SelectEvent event) {
 		this.storeSelected = (DataStore) event.getObject();
 		FacesContext context = FacesContext.getCurrentInstance();
 		ELContext contextoEL = context.getELContext( );
@@ -115,8 +116,6 @@ public class HomeBB {
 		FacesContext faces = FacesContext.getCurrentInstance();
 		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
 		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");
-		return "/pages/StoreDetail.xhtml?faces-redirect=true";
-		
 	}
 	
 	public String createStore() {

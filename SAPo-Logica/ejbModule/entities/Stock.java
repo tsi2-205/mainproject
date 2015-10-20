@@ -23,12 +23,12 @@ public class Stock implements Serializable {
 	@Version
     private int version;
 	
-    @OneToOne
-    @JoinColumn(name = "idStore", nullable = false)
+	@ManyToOne
+    @JoinColumn(name = "idStore", referencedColumnName = "id", nullable = false)
     private Store store;
     
-    @OneToOne
-    @JoinColumn(name = "idProduct", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "idProduct", referencedColumnName = "id", nullable = false)
     private Product product;
     
     

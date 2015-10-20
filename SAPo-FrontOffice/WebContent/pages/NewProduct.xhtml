@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+<ui:composition template="/WEB-INF/templates/Layout2.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core" 
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -10,7 +10,8 @@
 	</ui:define>
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
-			<h:panelGrid columns="2">
+			
+			<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
 				<h:outputLabel for="name" value="Nombre:"/>
 				<h:inputText id="name" label="Nombre:" value="#{newProductBB.name}" ></h:inputText>
 				<h:outputLabel for="description" value="Descripción:"/>
@@ -21,8 +22,33 @@
 				<h:inputText id="precioCompra" label="Precio de compra:" value="#{newProductBB.precioCompra}" ></h:inputText>
 				<h:outputLabel for="precioVenta" value="Precio de venta:"/>
 				<h:inputText id="precioVenta" label="Precio de venta:" value="#{newProductBB.precioVenta}" ></h:inputText>
-			</h:panelGrid>
-			<h:commandButton value="Crear" action="#{newProductBB.create}"></h:commandButton>
+			</p:panelGrid> 
+			<p:dataGrid columns="1" id="AdditionalAttribute" value="#{newProductBB.additionalAttributes}" var="attribute" emptyMessage="">
+				<p:panelGrid columns="2" layout="grid">
+					<h:outputLabel value="#{attribute.nameAttribute}:"/>
+					<h:inputText label="#{attribute.nameAttribute}:" value="#{attribute.valueAttribute}" ></h:inputText>
+				</p:panelGrid>
+			</p:dataGrid>
+			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes"
+				oncomplete="PF('newAttributeDialog').show()" title="Nuevo atributo">
+			</p:commandButton>
+
+			<p:dialog header="Nuevo atributo" widgetVar="newAttributeDialog" resizable="false">
+				<p:outputPanel id="newAttributePanel" style="text-align:center;">
+					<p:panelGrid id="AdditionalAttributes" columns="2">
+						<h:outputLabel for="nameAdditional" value="Nombre:"/>
+						<h:inputText id="nameAdditional" label="Nombre:" value="#{newProductBB.additionalAttributeName}" ></h:inputText>
+						<h:outputLabel for="valueAdditional" value="Valor:"/>
+						<h:inputText id="valueAdditional" label="Valor:" value="#{newProductBB.additionalAttributeValue}" ></h:inputText>
+						<f:facet name="footer">
+							<p:commandButton style="float: right;" id="addAdditionalButton" value="Agregar"
+								update=":form"
+								action="#{newProductBB.addAttribute}"></p:commandButton>
+						</f:facet>
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			<p:commandButton value="Crear" action="#{newProductBB.create}"></p:commandButton>
 		</h:form>
 	</ui:define>
 </ui:composition>

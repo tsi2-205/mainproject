@@ -1,9 +1,12 @@
 package datatypes;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import entities.GenericProduct;
 import entities.Product;
+import entities.ProductAdditionalAttribute;
 
 public class DataProduct implements Serializable {
 	
@@ -17,18 +20,20 @@ public class DataProduct implements Serializable {
     
     private boolean isGeneric;
     
-    private DataStock stock;
+    
+    private List<DataProductAdditionalAttribute> additionalAttributes = new LinkedList<DataProductAdditionalAttribute>();
     
 	public DataProduct() {
 		super();
 	}
 	
-	public DataProduct(int id, String name, String description, boolean isGeneric) {
+	public DataProduct(int id, String name, String description, boolean isGeneric, List<DataProductAdditionalAttribute> additionalAttributes) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.isGeneric = isGeneric;
+		this.additionalAttributes = additionalAttributes;
 	}
 
 	public DataProduct(Product prod) {
@@ -37,7 +42,9 @@ public class DataProduct implements Serializable {
 		this.name = prod.getName();
 		this.description = prod.getDescription();
 		this.isGeneric = (prod instanceof GenericProduct) ? true : false;
-		this.stock = new DataStock(prod.getStock());
+		for (ProductAdditionalAttribute ad: prod.getAdditionalAttributes()) {
+			this.additionalAttributes.add(new DataProductAdditionalAttribute(ad));
+		}
 	}
 
 	public int getId() {
@@ -72,12 +79,13 @@ public class DataProduct implements Serializable {
 		this.isGeneric = isGeneric;
 	}
 
-	public DataStock getStock() {
-		return stock;
+	public List<DataProductAdditionalAttribute> getAdditionalAttributes() {
+		return additionalAttributes;
 	}
 
-	public void setStock(DataStock stock) {
-		this.stock = stock;
+	public void setAdditionalAttributes(
+			List<DataProductAdditionalAttribute> additionalAttributes) {
+		this.additionalAttributes = additionalAttributes;
 	}
 	
 }

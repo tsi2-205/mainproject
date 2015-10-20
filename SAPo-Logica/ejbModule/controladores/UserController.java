@@ -1,10 +1,9 @@
 package controladores;
 
-import java.util.Iterator;
+import interfaces.IUserController;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import interfaces.IUserController;
 
 import javax.ejb.Stateless;
 import javax.jws.WebService;
@@ -12,10 +11,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import datatypes.DataStore;
 import datatypes.DataUser;
 import entities.Registered;
 import entities.Store;
-import datatypes.DataStore;;
 
 @Stateless
 @WebService

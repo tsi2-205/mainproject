@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/Layout2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="Login" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+
+			<h:commandButton id="buttonCreateBuyList"
+				value="Nueva lista de compras"
+				action="#{storeBuyListsBB.createBuyList}" />
+			<h:outputText value="#{list.description}">
+			</h:outputText>
+			<p:dataTable id="listBuyLists" var="elem" value="#{list.elements}"
+				editable="true" style="margin-bottom:20px"
+				emptyMessage="La lista esta vacia">
+				<p:ajax event="rowEdit" listener="#{storeDetailBB.onRowBuyListEdit}"
+					update=":form:msgs" />
+				<p:ajax event="rowEditCancel"
+					listener="#{storeDetailBB.onRowBuyListCancel}" update=":form:msgs" />
+				<p:column headerText="Producto">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{elem.product.name}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput" value="#{elem.product.name}"
+								style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Cantidad">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{elem.quantity}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:spinner value="#{elem.quantity}" label="Cantidad" min="0" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column style="width:32px">
+					<p:rowEditor />
+				</p:column>
+			</p:dataTable>
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -10,7 +10,7 @@
 		<class>entities.Customer</class>
 		<class>entities.GenericCategory</class>
 		<class>entities.GenericProduct</class>
-		<class>entities.Historic</class>
+		<class>entities.HistoricStock</class>
 		<class>entities.Message</class>
 		<class>entities.Notification</class>
 		<class>entities.Product</class>
@@ -20,9 +20,9 @@
 		<class>entities.Stock</class>
 		<class>entities.Store</class>
 		<class>entities.User</class>
-		<properties>
-			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
-		</properties>
-		
+		<class>entities.ElementBuyList</class>
+		<class>entities.ProductAdditionalAttribute</class>
+		<class>entities.HistoricPrecioCompra</class>
+		<class>entities.HistoricPrecioVenta</class>
 	</persistence-unit>
 </persistence>

@@ -1,5 +1,7 @@
 package managedBeans;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
@@ -12,7 +14,8 @@ import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
 import comunication.Comunicacion;
-import datatypes.DataProduct;
+
+import datatypes.DataProductAdditionalAttribute;
 import datatypes.DataStore;
 import datatypes.DataUser;
 
@@ -30,6 +33,11 @@ public class NewProductBB implements Serializable {
 	private int precioCompra;
 	private int precioVenta;
 	
+	private List<DataProductAdditionalAttribute> additionalAttributes = new LinkedList<DataProductAdditionalAttribute>();
+	
+	private String additionalAttributeName = null;
+	private String additionalAttributeValue = null;
+	
 	public NewProductBB() {
 		super();
 	}
@@ -45,15 +53,22 @@ public class NewProductBB implements Serializable {
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.user = session.getLoggedUser();
 		this.store = session.getStoreSelected();
-		
-		
+	}
+	
+	public String addAttribute() {
+		String ret = "OkAddAttribute";
+		DataProductAdditionalAttribute dpaa = new DataProductAdditionalAttribute(this.additionalAttributeName, this.additionalAttributeValue);
+		this.additionalAttributeName = null;
+		this.additionalAttributeValue = null;
+		this.additionalAttributes.add(dpaa);
+		return ret;
 	}
 	
 	public String create() {
 		String ret = "OkNewProduct";
 		
 		try {
-			Comunicacion.getInstance().getIStoreController().createProduct(this.name, this.description, this.stockIni, this.precioCompra, this.precioVenta, store);
+			Comunicacion.getInstance().getIStoreController().createSpecificProduct(this.name, this.description, this.stockIni, this.precioCompra, this.precioVenta, this.store, this.additionalAttributes);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -117,4 +132,31 @@ public class NewProductBB implements Serializable {
 		this.precioVenta = precioVenta;
 	}
 
+	public String getAdditionalAttributeName() {
+		return additionalAttributeName;
+	}
+
+	public void setAdditionalAttributeName(String additionalAttributeName) {
+		this.additionalAttributeName = additionalAttributeName;
+	}
+
+	public String getAdditionalAttributeValue() {
+		return additionalAttributeValue;
+	}
+
+	public void setAdditionalAttributeValue(String additionalAttributeValue) {
+		this.additionalAttributeValue = additionalAttributeValue;
+	}
+
+	public List<DataProductAdditionalAttribute> getAdditionalAttributes() {
+		return additionalAttributes;
+	}
+
+	public void setAdditionalAttributes(
+			List<DataProductAdditionalAttribute> additionalAttributes) {
+		this.additionalAttributes = additionalAttributes;
+	}
+	
+	
+	
 }

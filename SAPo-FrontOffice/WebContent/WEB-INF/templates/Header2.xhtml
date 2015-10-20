@@ -9,7 +9,7 @@
 	<h:outputStylesheet library="styles" name="header.css" />
 	<h:form prependId="false">
 		<h:panelGrid id="headerTitle">
-			<h:commandLink action="Home" value="Bienvenido a SAPo" style="font-family: sans-serif;
+			<h:commandLink rendered="#{sessionBB.storeSelected != null}" action="StoreDetail" value="#{sessionBB.storeSelected.name}" style="font-family: sans-serif;
 				font-size: 30px;
 				color: white;
 				font-weight: 1.5em;

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:outputStylesheet library="styles" name="menuBar.css" />
+	<h:form prependId="false">
+		<h:commandLink id="linkStoreDetail" action="StoreDetail"
+			value="Productos"
+			style="font-family: sans-serif;
+				font-size: 30px;
+				color: white;
+				font-weight: 1.5em;
+				font: bold; text-decoration: unset;" />
+		<h:commandLink id="linkStoreMoves" action="StoreMoves"
+			value="Movimientos"
+			style="font-family: sans-serif;
+				font-size: 30px;
+				color: white;
+				font-weight: 1.5em;
+				font: bold; text-decoration: unset;" />
+		<h:commandLink id="linkStoreBuyLists" action="StoreBuyLists"
+			value="Listas de compras"
+			style="font-family: sans-serif;
+				font-size: 30px;
+				color: white;
+				font-weight: 1.5em;
+				font: bold; text-decoration: unset;" />
+	</h:form>
+</ui:composition>

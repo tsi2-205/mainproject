@@ -28,9 +28,11 @@ public class Store implements Serializable {
     @Version
     private int version;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinTable (name = "Strore_Product", joinColumns = @JoinColumn(name = "idStore"), inverseJoinColumns = @JoinColumn(name = "idProduct"))
-    private List<Product> products = new LinkedList<Product>();
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy="stores")
+    private List<GenericProduct> genericsProducts = new LinkedList<GenericProduct>();
+    
+    @OneToMany(mappedBy="store", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<SpecificProduct> specificsProducts = new LinkedList<SpecificProduct>();
     
     @ManyToOne
     @JoinColumn(name="IdOwner")
@@ -40,11 +42,9 @@ public class Store implements Serializable {
     @JoinTable (name = "Strore_Registered", joinColumns = @JoinColumn(name = "idStore"), inverseJoinColumns = @JoinColumn(name = "idRegistered"))
     private List<Registered> guests = new LinkedList<Registered>();
     
-    
     @OneToOne
     @JoinColumn(name = "idCustomer")
     private Customer customer;
-    
     
     @OneToMany(mappedBy="store")
     private List<BuyList> buylists = new LinkedList<BuyList>();
@@ -55,10 +55,14 @@ public class Store implements Serializable {
     @ManyToMany(mappedBy = "stores")
     private List<Category> categories = new LinkedList<Category>();
     
-    @OneToOne(mappedBy = "store")
-    private Stock stock;
+    @OneToMany(mappedBy = "store")
+    private List<Stock> stocks = new LinkedList<Stock>();
     
+    @OneToMany(mappedBy = "store")
+    private List<HistoricPrecioCompra> historicsPrecios = new LinkedList<HistoricPrecioCompra>();
     
+    @OneToMany(mappedBy = "store")
+    private List<HistoricStock> historicStock = new LinkedList<HistoricStock>();
    
     public Store() {
 		super();
@@ -112,12 +116,20 @@ public class Store implements Serializable {
 		return owner;
 	}
 	
-	public List<Product> getProducts() {
-		return products;
+	public List<GenericProduct> getGenericsProducts() {
+		return genericsProducts;
 	}
 	
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public void setGenericsProducts(List<GenericProduct> genericsProducts) {
+		this.genericsProducts = genericsProducts;
+	}
+	
+	public List<SpecificProduct> getSpecificsProducts() {
+		return specificsProducts;
+	}
+	
+	public void setSpecificsProducts(List<SpecificProduct> specificsProducts) {
+		this.specificsProducts = specificsProducts;
 	}
 	
 	public List<Registered> getGuests() {
@@ -160,14 +172,24 @@ public class Store implements Serializable {
 		this.categories = categories;
 	}
 	
-	public Stock getStock() {
-		return stock;
+	public List<Stock> getStocks() {
+		return stocks;
 	}
-	
-	public void setStock(Stock stock) {
-		this.stock = stock;
+	public void setStocks(List<Stock> stocks) {
+		this.stocks = stocks;
 	}
-	
+	public List<HistoricPrecioCompra> getHistoricsPrecios() {
+		return historicsPrecios;
+	}
+	public void setHistoricsPrecios(List<HistoricPrecioCompra> historicsPrecios) {
+		this.historicsPrecios = historicsPrecios;
+	}
+	public List<HistoricStock> getHistoricStock() {
+		return historicStock;
+	}
+	public void setHistoricStock(List<HistoricStock> historicStock) {
+		this.historicStock = historicStock;
+	}
 	public void setOwner(Registered owner) {
 		this.owner = owner;
 	}

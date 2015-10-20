@@ -16,6 +16,10 @@ public class DataStock implements Serializable {
     
     private int precioCompra;
     
+    private DataProduct product;
+    
+    private DataStore store;
+    
     public DataStock() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -35,6 +39,8 @@ public class DataStock implements Serializable {
 		this.cantidad = st.getCantidad();
 		this.precioVenta = st.getPrecioVenta();
 		this.precioCompra = st.getPrecioCompra();
+		this.product = new DataProduct(st.getProduct());
+		this.store = new DataStore(st.getStore());
 	}
 
 	public int getId() {
@@ -69,4 +75,20 @@ public class DataStock implements Serializable {
 		this.precioCompra = precioCompra;
 	}
 
+	public DataProduct getProduct() {
+		return product;
+	}
+
+	public void setProduct(DataProduct product) {
+		this.product = product;
+	}
+
+	public DataStore getStore() {
+		return store;
+	}
+
+	public void setStore(DataStore store) {
+		this.store = store;
+	}
+	
 }
