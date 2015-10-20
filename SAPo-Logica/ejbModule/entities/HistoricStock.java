@@ -8,35 +8,35 @@ import javax.persistence.*;
 @Entity
 @Table(name = "HistoricStock")
 public class HistoricStock implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
-	@Id	
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Version
-    private int version;
-	
+	private int version;
+
 	private Calendar fecha;
-	
+
 	private int stock;
-	
-	//cambiar por enum - 0: Baja; 1: Sube;
+
+	// cambiar por enum - 0: Baja; 1: Sube;
 	private int tipo;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "idProducto", referencedColumnName = "id", nullable = false)
-    private Product product;
-	
+	@JoinColumn(name = "idProducto", referencedColumnName = "id", nullable = false)
+	private Product product;
+
 	@ManyToOne
-    @JoinColumn(name = "idStore", referencedColumnName = "id", nullable = false)
-    private Store store;
-	
+	@JoinColumn(name = "idStore", referencedColumnName = "id", nullable = false)
+	private Store store;
+
 	public HistoricStock() {
 		super();
 	}
-	
+
 	public HistoricStock(Calendar fecha, int stock, int tipo, Product product,
 			Store store) {
 		super();
@@ -102,5 +102,5 @@ public class HistoricStock implements Serializable {
 	public void setStore(Store store) {
 		this.store = store;
 	}
-	
+
 }
