@@ -27,6 +27,9 @@ public class Registered extends User {
     @ManyToMany(mappedBy = "participants")
     private List<Chat> chats = new LinkedList<Chat>();
     
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications = new LinkedList<Notification>();
+    
 	public Registered() {
 		super();
 	}

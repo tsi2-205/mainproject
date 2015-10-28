@@ -63,6 +63,9 @@ public class Store implements Serializable {
     
     @OneToMany(mappedBy = "store")
     private List<HistoricStock> historicStock = new LinkedList<HistoricStock>();
+    
+    @OneToMany(mappedBy = "store")
+    private List<Notification> notifications = new LinkedList<Notification>();
    
     public Store() {
 		super();
