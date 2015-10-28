@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Registered")
+@Table(name = "registered")
 public class Registered extends User {
     
 	private static final long serialVersionUID = 1L;

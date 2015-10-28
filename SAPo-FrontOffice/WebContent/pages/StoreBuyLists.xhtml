@@ -11,45 +11,22 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 
-			<h:commandButton id="buttonCreateBuyList"
-				value="Nueva lista de compras"
+			<p:commandButton style="float: right;" id="buttonCreateBuyList"
+				value="Nueva lista"
 				action="#{storeBuyListsBB.createBuyList}" />
-			<h:outputText value="#{list.description}">
-			</h:outputText>
-			<p:dataTable id="listBuyLists" var="elem" value="#{list.elements}"
-				editable="true" style="margin-bottom:20px"
-				emptyMessage="La lista esta vacia">
-				<p:ajax event="rowEdit" listener="#{storeDetailBB.onRowBuyListEdit}"
-					update=":form:msgs" />
-				<p:ajax event="rowEditCancel"
-					listener="#{storeDetailBB.onRowBuyListCancel}" update=":form:msgs" />
-				<p:column headerText="Producto">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="#{elem.product.name}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText id="modelInput" value="#{elem.product.name}"
-								style="width:100%" />
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column headerText="Cantidad">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="#{elem.quantity}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:spinner value="#{elem.quantity}" label="Cantidad" min="0" />
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-				<p:column style="width:32px">
-					<p:rowEditor />
-				</p:column>
-			</p:dataTable>
-
-
+			<h:outputText value="Tus listas de compras" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
+			<p:dataList value="#{storeBuyListsBB.buyLists}" var="list" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+		        <p:panel>
+			        <h:outputText styleClass="title1" value="#{list.name}"></h:outputText>
+			        <p:commandButton action="#{storeBuyListsBB.deleteBuyList}" update=":form" icon="ui-icon-close" style="float:right;margin-right:10px">
+			            <f:setPropertyActionListener value="#{list}" target="#{storeBuyListsBB.buyListSelected}" />
+			        </p:commandButton>
+			        <p:commandButton action="#{storeBuyListsBB.seeBuyList}" icon="ui-icon-search" style="float:right;margin-right:10px">
+			            <f:setPropertyActionListener value="#{list}" target="#{storeBuyListsBB.buyListSelected}" />
+			        </p:commandButton>
+		        </p:panel>
+		    </p:dataList>
 		</h:form>
 	</ui:define>
 </ui:composition>

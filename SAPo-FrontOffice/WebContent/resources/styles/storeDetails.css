@@ -41,3 +41,17 @@
 	clear: both;
 }
 
+#panelCategories{
+	float: left;
+	margin-bottom: 2%;
+	position: relative;
+	width: 25%;
+}
+
+#panelProducts{
+	float: right;
+	margin-bottom: 2%;
+	position: relative;
+	width: 70%;
+}
+

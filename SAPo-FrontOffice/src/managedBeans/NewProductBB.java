@@ -13,8 +13,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
-import comunication.Comunicacion;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
+import comunication.Comunicacion;
+import datatypes.DataCategory;
 import datatypes.DataProductAdditionalAttribute;
 import datatypes.DataStore;
 import datatypes.DataUser;
@@ -32,6 +35,9 @@ public class NewProductBB implements Serializable {
 	private int stockIni;
 	private int precioCompra;
 	private int precioVenta;
+	
+	private TreeNode root;
+	private TreeNode selectedNode;
 	
 	private List<DataProductAdditionalAttribute> additionalAttributes = new LinkedList<DataProductAdditionalAttribute>();
 	
@@ -53,6 +59,7 @@ public class NewProductBB implements Serializable {
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.user = session.getLoggedUser();
 		this.store = session.getStoreSelected();
+		this.constructCategoryTree();
 	}
 	
 	public String addAttribute() {
@@ -68,13 +75,36 @@ public class NewProductBB implements Serializable {
 		String ret = "OkNewProduct";
 		
 		try {
-			Comunicacion.getInstance().getIStoreController().createSpecificProduct(this.name, this.description, this.stockIni, this.precioCompra, this.precioVenta, this.store, this.additionalAttributes);
+			Comunicacion.getInstance().getIStoreController().createSpecificProduct(this.name, this.description, this.stockIni, this.precioCompra, this.precioVenta, this.store, this.additionalAttributes, ((DataCategory)selectedNode.getData()).getId());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		
 		return ret;
 	}
+	
+	public void constructCategoryTree() {
+		List<DataCategory> categories = new LinkedList<DataCategory>();
+		try {
+    		categories = Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
+//			this.gemericCategories = Comunicacion.getInstance().getIStoreController().findGenericCategoriesStore(store.getId());
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "", false), null);
+    	for (DataCategory dCat: categories) {
+    		constructNodeTree(dCat, this.root);
+    	}
+    	
+    }
+    
+    public void constructNodeTree(DataCategory dCat, TreeNode nodoPadre) {
+    	TreeNode nodo = new DefaultTreeNode(dCat, nodoPadre);
+    	for (DataCategory dCatSon: dCat.getSonsCategories()) {
+    		constructNodeTree(dCatSon, nodo);
+    	}
+    }
 
 	public String getName() {
 		return name;
@@ -156,7 +186,21 @@ public class NewProductBB implements Serializable {
 			List<DataProductAdditionalAttribute> additionalAttributes) {
 		this.additionalAttributes = additionalAttributes;
 	}
-	
-	
+
+	public TreeNode getRoot() {
+		return root;
+	}
+
+	public void setRoot(TreeNode root) {
+		this.root = root;
+	}
+
+	public TreeNode getSelectedNode() {
+		return selectedNode;
+	}
+
+	public void setSelectedNode(TreeNode selectedNode) {
+		this.selectedNode = selectedNode;
+	}
 	
 }

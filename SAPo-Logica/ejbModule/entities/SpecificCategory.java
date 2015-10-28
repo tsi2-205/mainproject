@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SpecificCategory")
+@Table(name = "specificcategory")
 public class SpecificCategory extends Category {
 
 	private static final long serialVersionUID = 1L;
@@ -13,8 +13,8 @@ public class SpecificCategory extends Category {
 		super();
 	}
 
-	public SpecificCategory(String name, String description, int version) {
-		super(name, description, version);
+	public SpecificCategory(String name, String description, Category father, Store store) {
+		super(name, description, father, store);
 	}
 	
 }

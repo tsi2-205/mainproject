@@ -1,2 +1,16 @@
 @CHARSET "ISO-8859-1";
 
+.ui-tree {
+	width: 100% !important;
+	border: none !important;
+}
+
+.ui-spinner {
+	width: 100% !important;
+}
+
+.ui-widget-content .ui-inputfield {
+	width: 100% !important;
+}
+
+

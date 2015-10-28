@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "GenericProduct")
+@Table(name = "genericproduct")
 public class GenericProduct extends Product {
 	
 	private static final long serialVersionUID = 1L;
@@ -20,7 +20,7 @@ public class GenericProduct extends Product {
     private Administrator administrator;
 	
 	@ManyToMany
-	@JoinTable (name = "Strore_GenericProduct", joinColumns = @JoinColumn(name = "idGenericProduct"), inverseJoinColumns = @JoinColumn(name = "idStore"))
+	@JoinTable (name = "strore_genericproduct", joinColumns = @JoinColumn(name = "idGenericProduct"), inverseJoinColumns = @JoinColumn(name = "idStore"))
     private List<Store> stores = new LinkedList<Store>();
 
 	public GenericProduct() {

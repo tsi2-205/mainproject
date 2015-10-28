@@ -1,6 +1,8 @@
 package datatypes;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import entities.BuyList;
@@ -16,7 +18,10 @@ public class DataBuyList implements Serializable {
 	
     private String description;
     
-    private List<DataElementBuyList> elements;
+    private Calendar fecha;
+    
+    
+    private List<DataElementBuyList> elements = new LinkedList<DataElementBuyList>();
 
 	public DataBuyList() {
 		super();
@@ -36,6 +41,7 @@ public class DataBuyList implements Serializable {
 		this.id = buyList.getId();
 		this.name = buyList.getName();
 		this.description = buyList.getDescription();
+		this.fecha = buyList.getFecha();
 		for (ElementBuyList elem: buyList.getElements()) {
 			this.elements.add(new DataElementBuyList(elem));
 		}
@@ -71,6 +77,14 @@ public class DataBuyList implements Serializable {
 
 	public void setElements(List<DataElementBuyList> elements) {
 		this.elements = elements;
+	}
+	
+	public Calendar getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Calendar fecha) {
+		this.fecha = fecha;
 	}
 
 }

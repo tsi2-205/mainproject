@@ -1,13 +1,14 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "BuyList")
+@Table(name = "buylist")
 public class BuyList implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -19,6 +20,8 @@ public class BuyList implements Serializable {
     private String name;
 	
     private String description;
+    
+    private Calendar fecha;
 	
 	@Version
     private int version;
@@ -27,7 +30,7 @@ public class BuyList implements Serializable {
     @JoinColumn(name="IdStore")
     private Store store;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn (name = "idBuyList", referencedColumnName="id")
     private List<ElementBuyList> elements = new LinkedList<ElementBuyList>();
     
@@ -36,12 +39,13 @@ public class BuyList implements Serializable {
 		super();
 	}
 
-	public BuyList(String name, String description, Store store,
+	public BuyList(String name, String description, Calendar fecha, Store store,
 			List<ElementBuyList> elements) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.store = store;
+		this.fecha = fecha;
 		this.elements = elements;
 	}
 
@@ -94,4 +98,12 @@ public class BuyList implements Serializable {
 		this.elements = elements;
 	}
 
+	public Calendar getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Calendar fecha) {
+		this.fecha = fecha;
+	}
+	
 }

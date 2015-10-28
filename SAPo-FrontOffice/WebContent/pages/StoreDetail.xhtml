@@ -12,80 +12,94 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			<p:growl id="msgs" showDetail="true" />
-			<div id="panelButtons">
-				<h:commandButton id="buttonCreateCategory" value="Nuevo Categoria"
-					action="#{storeDetailBB.createCategory}" />
-				<h:commandButton id="buttonCreateProduct" value="Nuevo Producto"
-					action="#{storeDetailBB.createProduct}" />
-			</div>
-
-			<p:dataTable id="listProducts" var="stock"
-				value="#{storeDetailBB.stocks}" editable="true"
-				style="margin-bottom:20px" emptyMessage="No existen productos"
-				sortMode="multiple">
-
-				<p:ajax event="rowEdit" listener="#{storeDetailBB.onRowProductEdit}"
-					update=":form:msgs" />
-				<p:ajax event="rowEditCancel"
-					listener="#{storeDetailBB.onRowProductCancel}" update=":form:msgs" />
-
-				<p:column headerText="Nombre" sortBy="#{stock.product.name}">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="#{stock.product.name}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:inputText id="modelInput" value="#{stock.product.name}"
-								style="width:100%" />
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-
-				<p:column headerText="Stock" sortBy="#{stock.cantidad}">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="#{stock.cantidad}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:spinner value="#{stock.cantidad}" label="Stock" min="0" />
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-
-				<p:column headerText="Precio de compra"
-					sortBy="#{stock.precioCompra}">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="$#{stock.precioCompra}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:spinner value="#{stock.precioCompra}" prefix="$" min="0"
-								label="Precio de compra" />
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-
-				<p:column headerText="Precio de venta" sortBy="#{stock.precioVenta}">
-					<p:cellEditor>
-						<f:facet name="output">
-							<h:outputText value="$#{stock.precioVenta}" />
-						</f:facet>
-						<f:facet name="input">
-							<p:spinner value="#{stock.precioVenta}" prefix="$" min="0"
-								label="Precio de venta" />
-						</f:facet>
-					</p:cellEditor>
-				</p:column>
-
-				<p:column style="width:32px">
-					<p:rowEditor />
-				</p:column>
-
-				<p:column style="width:32px">
-					<h:commandLink id="ShowProductDetail" value="Info"
-						action="#{storeDetailBB.showProduct}" />
-				</p:column>
-			</p:dataTable>
+			
+			<h:outputText value="Tus productos" styleClass="title1"></h:outputText>
+			<p:commandButton style="clear: both; float: right" id="buttonCreateProduct" value="Nuevo Producto"
+						action="#{storeDetailBB.createProduct}" />
+			<p:separator style="clear: both;"></p:separator>
+			
+			<p:panel id="panelCategories">
+				<h:outputText rendered="#{!storeDetailBB.hayCategorias}" value="No hay categorías" styleClass="title2"></h:outputText>
+				<p:tree value="#{storeDetailBB.root}" var="node" selectionMode="single" selection="#{storeDetailBB.selectedNode}">
+			        <p:ajax event="select" update="listProducts" listener="#{storeDetailBB.onCategorySelect}" />
+			        <p:treeNode>
+			            <h:outputText value="#{node.name}" />
+			        </p:treeNode>
+			    </p:tree>
+			    <p:commandButton value="Editar" actionListener="#{storeDetailBB.editCategory}"/>
+			</p:panel>
+			
+			<p:panel id="panelProducts">
+				<p:dataTable id="listProducts" var="stock"
+					value="#{storeDetailBB.stocks}" editable="true"
+					style="margin-bottom:20px" emptyMessage="No existen productos"
+					sortMode="multiple">
+	
+					<p:ajax event="rowEdit" listener="#{storeDetailBB.onRowProductEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{storeDetailBB.onRowProductCancel}" update=":form:msgs" />
+	
+					<p:column headerText="Nombre" sortBy="#{stock.product.name}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{stock.product.name}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="modelInput" value="#{stock.product.name}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+	
+					<p:column headerText="Stock" sortBy="#{stock.cantidad}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{stock.cantidad}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:spinner value="#{stock.cantidad}" label="Stock" min="0" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+	
+					<p:column headerText="Precio de compra"
+						sortBy="#{stock.precioCompra}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="$#{stock.precioCompra}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:spinner value="#{stock.precioCompra}" prefix="$" min="0"
+									label="Precio de compra" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+	
+					<p:column headerText="Precio de venta" sortBy="#{stock.precioVenta}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="$#{stock.precioVenta}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:spinner value="#{stock.precioVenta}" prefix="$" min="0"
+									label="Precio de venta" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+	
+					<p:column style="width:32px">
+						<p:rowEditor />
+					</p:column>
+	
+					<p:column style="width:32px">
+						<h:commandLink id="ShowProductDetail" value="Info"
+							action="#{storeDetailBB.showProduct}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			
+			
 
 		</h:form>
 	</ui:define>

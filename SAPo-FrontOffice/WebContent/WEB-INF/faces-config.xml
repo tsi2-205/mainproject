@@ -24,6 +24,7 @@
 	</managed-bean>
 
 	<navigation-rule>
+		<display-name>/login</display-name>
 		<from-view-id>/pages/Login.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{sessionBB.loginWithEmail}</from-action>
@@ -48,6 +49,7 @@
 	</navigation-rule>
 
 	<navigation-rule>
+		<display-name>/registro</display-name>
 		<from-view-id>/pages/Register.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{sessionBB.register}</from-action>
@@ -57,12 +59,14 @@
 	</navigation-rule>
 
 	<navigation-rule>
+		<display-name>/home</display-name>
 		<from-view-id>/pages/Home.xhtml</from-view-id>
 
 
 	</navigation-rule>
 
 	<navigation-rule>
+		<display-name>/crearAlmacen</display-name>
 		<from-view-id>/pages/NewStore.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{newStoreBB.create}</from-action>
@@ -72,6 +76,7 @@
 	</navigation-rule>
 
 	<navigation-rule>
+		<display-name>/crearProducto</display-name>
 		<from-view-id>/pages/NewProduct.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{newProductBB.create}</from-action>
@@ -81,8 +86,54 @@
 	</navigation-rule>
 
 	<navigation-rule>
+		<display-name>/almacen</display-name>
 		<from-view-id>/pages/StoreDetail.xhtml</from-view-id>
 
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>/crearCategoria</display-name>
+		<from-view-id>/pages/NewCategory.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{newCategoryBB.create}</from-action>
+			<from-outcome>OkNewCategory</from-outcome>
+			<to-view-id>/pages/StoreDetail.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{newCategoryBB.create}</from-action>
+			<from-outcome>FailNewCategory</from-outcome>
+			<to-view-id>/pages/NewCategory.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>/crearListaDeCompras</display-name>
+		<from-view-id>/pages/NewBuyList.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{newBuyListBB.createBuyList}</from-action>
+			<from-outcome>okNewBuyList</from-outcome>
+			<to-view-id>/pages/StoreBuyLists.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{newBuyListBB.createBuyList}</from-action>
+			<from-outcome>failNewBuyList</from-outcome>
+			<to-view-id>/pages/NewBuyList.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>/editarListaDeCompras</display-name>
+		<from-view-id>/pages/EditBuyList.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{editBuyListBB.saveBuyList}</from-action>
+			<from-outcome>okEditBuyList</from-outcome>
+			<to-view-id>/pages/StoreBuyLists.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{editBuyListBB.saveBuyList}</from-action>
+			<from-outcome>failEditBuyList</from-outcome>
+			<to-view-id>/pages/EditBuyList.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 	<converter>

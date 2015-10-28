@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Chat")
+@Table(name = "chat")
 public class Chat implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -24,7 +24,7 @@ public class Chat implements Serializable {
     private List<Message> messages = new LinkedList<Message>();
     
     @ManyToMany
-    @JoinTable (name = "Chat_Registered", joinColumns = @JoinColumn(name = "idChat"), inverseJoinColumns = @JoinColumn(name = "idRegistered"))
+    @JoinTable (name = "chat_registered", joinColumns = @JoinColumn(name = "idChat"), inverseJoinColumns = @JoinColumn(name = "idRegistered"))
     private List<Registered> participants = new LinkedList<Registered>();
 
 	public Chat() {

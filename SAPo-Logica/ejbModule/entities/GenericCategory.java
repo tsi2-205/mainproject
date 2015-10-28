@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "GenericCategory")
+@Table(name = "genericcategory")
 public class GenericCategory extends Category {
 	
 	private static final long serialVersionUID = 1L;
@@ -18,8 +18,8 @@ public class GenericCategory extends Category {
 		super();
 	}
 
-	public GenericCategory(String name, String description, int version) {
-		super(name, description, version);
+	public GenericCategory(String name, String description, Category father) {
+		super(name, description, father, null);
 	}
 
 	public Administrator getAdministrator() {

@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Category")
+@Table(name = "category")
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Category implements Serializable {
 	
@@ -24,31 +24,31 @@ public abstract class Category implements Serializable {
     @Version
     private int version;
     
-    @ManyToMany
-    @JoinTable (name = "Category_Product", joinColumns = @JoinColumn(name = "idCategory"), inverseJoinColumns = @JoinColumn(name = "idProduct"))
+    @OneToMany(mappedBy = "category")
     private List<Product> products = new LinkedList<Product>();
     
     @ManyToMany
-    @JoinTable (name = "Category_Store", joinColumns = @JoinColumn(name = "idCategory"), inverseJoinColumns = @JoinColumn(name = "idStore"))
+    @JoinTable (name = "category_store", joinColumns = @JoinColumn(name = "idCategory"), inverseJoinColumns = @JoinColumn(name = "idStore"))
     private List<Store> stores = new LinkedList<Store>();
     
-//  @ManyToOne(mappedBy="sons")
-//  private Category father;
-//  
-//  @OneToMany
-//  @JoinTable (name = "Categories_Tree", joinColumns = @JoinColumn(name = "idCategory_Father"), inverseJoinColumns = @JoinColumn(name = "idCategory_Son"), uniqueConstraints=true)
-//  private List<Category> sons;
+	@ManyToOne
+	@JoinTable(name = "categories_tree", joinColumns = @JoinColumn(name = "idCategory_Father"), inverseJoinColumns = @JoinColumn(name = "idCategory_Son"))
+	private Category fatherCategory;
+
+	@OneToMany(mappedBy = "fatherCategory")
+	private List<Category> sonsCategories = new LinkedList<Category>();
 
 
 	public Category() {
 		super();
 	}
 
-	public Category(String name, String description, int version) {
+	public Category(String name, String description, Category fatherCategory, Store store) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.version = version;
+		this.fatherCategory = fatherCategory;
+		this.stores.add(store);
 	}
 
 	public int getId() {
@@ -98,6 +98,21 @@ public abstract class Category implements Serializable {
 	public void setStores(List<Store> stores) {
 		this.stores = stores;
 	}
-	
 
+	public Category getFatherCategory() {
+		return fatherCategory;
+	}
+
+	public void setFatherCategory(Category fatherCategory) {
+		this.fatherCategory = fatherCategory;
+	}
+
+	public List<Category> getSonsCategories() {
+		return sonsCategories;
+	}
+
+	public void setSonsCategories(List<Category> sonsCategories) {
+		this.sonsCategories = sonsCategories;
+	}
+	
 }

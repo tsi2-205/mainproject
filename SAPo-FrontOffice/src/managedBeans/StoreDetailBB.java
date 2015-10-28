@@ -1,6 +1,7 @@
 package managedBeans;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,16 +9,19 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
+import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
-
 import datatypes.DataBuyList;
 import datatypes.DataCategory;
 import datatypes.DataElementBuyList;
@@ -36,11 +40,14 @@ public class StoreDetailBB implements Serializable {
 	private DataUser user;
 	private int categorySelected = -1;
 	private int productSelected = -1;
-	private List<DataStock> stocks = null;
-	private List<DataCategory> categories = null;
+	private List<DataStock> stocks = new LinkedList<DataStock>();
+	private List<DataCategory> categories = new LinkedList<DataCategory>();
 //	private List<DataProduct> gemericProducts = null;
-	private List<DataCategory> gemericCategories = null;
-	private List<DataBuyList> buyLists = null;
+	private List<DataCategory> gemericCategories = new LinkedList<DataCategory>();
+	private List<DataBuyList> buyLists = new LinkedList<DataBuyList>();
+	private TreeNode root;
+	private TreeNode selectedNode;
+	private boolean hayCategorias;
 	
 	public StoreDetailBB() {
 		super();
@@ -57,17 +64,47 @@ public class StoreDetailBB implements Serializable {
 		this.user = session.getLoggedUser();
 		this.store = session.getStoreSelected();
 		try{
-			this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId());
-			this.categories= Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
+			
+			this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), null);
 //			this.gemericProducts = Comunicacion.getInstance().getIStoreController().findGenericProductsStore(store.getId());
-			this.gemericCategories = Comunicacion.getInstance().getIStoreController().findGenericCategoriesStore(store.getId());
-			this.buyLists = Comunicacion.getInstance().getIStoreController().findBuyListsStore(store.getId());
+			
+			this.constructCategoryTree();
 				
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		
 	}
+	
+	
+    
+    public void constructCategoryTree() {
+    	try {
+			this.categories= Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
+//			this.gemericCategories = Comunicacion.getInstance().getIStoreController().findGenericCategoriesStore(store.getId());
+			if (this.categories.isEmpty()) {
+				this.hayCategorias = false;
+			} else {
+				this.hayCategorias = true;
+			}
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "ADFAdf", false), null);
+    	for (DataCategory dCat: this.categories) {
+    		constructNodeTree(dCat, this.root);
+    	}
+    	
+    }
+    
+    public void constructNodeTree(DataCategory dCat, TreeNode nodoPadre) {
+    	TreeNode nodo = new DefaultTreeNode(dCat, nodoPadre);
+    	for (DataCategory dCatSon: dCat.getSonsCategories()) {
+    		constructNodeTree(dCatSon, nodo);
+    	}
+    }
+    
 	
 	public void onRowProductEdit(RowEditEvent event) {
 		DataStock stock = (DataStock) event.getObject();
@@ -120,6 +157,28 @@ public class StoreDetailBB implements Serializable {
 //            FacesContext.getCurrentInstance().addMessage(null, msg);
 //        }
 //    }
+    
+    public void editCategory() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ELContext contextoEL = context.getELContext( );
+		Application apli  = context.getApplication( );	
+		ExpressionFactory ef = apli.getExpressionFactory( );
+		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
+		SessionBB session = (SessionBB) ve.getValue(contextoEL);
+//		session.setCategorySelected((DataCategory) this.selectedNode.getData());		
+		FacesContext faces = FacesContext.getCurrentInstance();
+		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+		configurableNavigationHandler.performNavigation("/pages/CategoryDetail.xhtml?faces-redirect=true");
+    }
+    
+    public void onCategorySelect(NodeSelectEvent event) {
+    	try {
+			this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), ((DataCategory)selectedNode.getData()).getId());
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
     public String showProduct() {
 		return "/pages/ProductDetail.xhtml?faces-redirect=true";
@@ -203,6 +262,30 @@ public class StoreDetailBB implements Serializable {
 
 	public void setBuyLists(List<DataBuyList> buyLists) {
 		this.buyLists = buyLists;
+	}
+
+	public boolean isHayCategorias() {
+		return hayCategorias;
+	}
+
+	public void setHayCategorias(boolean hayCategorias) {
+		this.hayCategorias = hayCategorias;
+	}
+
+	public TreeNode getRoot() {
+		return root;
+	}
+
+	public void setRoot(TreeNode root) {
+		this.root = root;
+	}
+
+	public TreeNode getSelectedNode() {
+		return selectedNode;
+	}
+
+	public void setSelectedNode(TreeNode selectedNode) {
+		this.selectedNode = selectedNode;
 	}
 	
 }

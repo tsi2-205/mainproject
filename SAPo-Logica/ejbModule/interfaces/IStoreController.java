@@ -10,19 +10,31 @@ import datatypes.DataElementBuyList;
 import datatypes.DataHistoricPrecioCompra;
 import datatypes.DataHistoricPrecioVenta;
 import datatypes.DataHistoricStock;
+import datatypes.DataProduct;
 import datatypes.DataProductAdditionalAttribute;
 import datatypes.DataStock;
 import datatypes.DataStore;
 import datatypes.DataUser;
+import exceptions.ExistStoreException;
+import exceptions.NoDeleteCategoryException;
+import exceptions.ProductNotExistException;
 
 @Local
 public interface IStoreController {
 	
-	public void createStore(String name, String addr, String tel, String city, DataUser dUser);
+	public void createStore(String name, String addr, String tel, String city, DataUser dUser) throws ExistStoreException;
 	
-	public void createSpecificProduct(String name, String description, int stockIni, int precioCompra, int precioVenta, DataStore store, List<DataProductAdditionalAttribute> additionalAttributes);
+	public void createSpecificProduct(String name, String description, int stockIni, int precioCompra, int precioVenta, DataStore store, List<DataProductAdditionalAttribute> additionalAttributes, int idCategory);
 	
-	public List<DataStock> findStockProductsStore(int idStore);
+	public void createSpecificCategory(String name, String description, DataStore store, DataCategory fatherCat) throws ExistStoreException;
+	
+	public void editSpecificCategory(String name, String description, DataCategory category) throws ExistStoreException;
+	
+	public void deleteSpecificCategory(DataCategory category) throws NoDeleteCategoryException;
+	
+	public List<DataStock> findStockProductsStore(int idStore, Integer idCategory);
+	
+	public List<DataProduct> findProductsStore(int idStore, Integer idCategory);
 	
 	public List<DataCategory> findSpecificCategoriesStore(int idStore);
 	
@@ -47,5 +59,11 @@ public interface IStoreController {
 	public List<DataBuyList> findBuyListsStore(int idStore);
 	
 	public void editElementBuyList(DataElementBuyList element);
+	
+	public void createBuyListStore(int idStore, List<DataStock> listProducts, String name, String description) throws ProductNotExistException;
+	
+	public void deleteBuyListsStore(int idBuyList, int idStore);
+	
+	public void editBuyListStore(int idStore, List<DataElementBuyList> listProducts, String name, String description, DataBuyList dataBuyList) throws ProductNotExistException;
 	
 }

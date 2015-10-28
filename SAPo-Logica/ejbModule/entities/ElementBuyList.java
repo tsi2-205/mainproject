@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "ElementBuyList")
+@Table(name = "elementbuylist")
 public class ElementBuyList implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

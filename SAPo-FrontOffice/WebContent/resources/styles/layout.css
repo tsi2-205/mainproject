@@ -3,6 +3,7 @@
 body,html {
 	height:100%;
 	font-size: 12px;
+	font-family: Arial,sans-serif;
 	background: no-repeat center center fixed;
 /* 	background-image: url('http://editwallpaper.com/wp-content/uploads/2015/04/Unique-Green-Wallpaper-Picture-High-Quality.jpg'); */
 }
@@ -89,3 +90,6 @@ body {
 /*     height: 20px; */
 /* } */
 
+.title2 {
+	font-size: 24px;	
+}

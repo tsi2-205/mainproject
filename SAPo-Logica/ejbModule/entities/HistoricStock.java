@@ -6,7 +6,7 @@ import java.util.Calendar;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "HistoricStock")
+@Table(name = "historicstock")
 public class HistoricStock implements Serializable {
 
 	private static final long serialVersionUID = 1L;

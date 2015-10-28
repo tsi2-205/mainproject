@@ -19,6 +19,7 @@ import datatypes.DataElementBuyList;
 import datatypes.DataHistoricPrecioCompra;
 import datatypes.DataHistoricPrecioVenta;
 import datatypes.DataHistoricStock;
+import datatypes.DataProduct;
 import datatypes.DataProductAdditionalAttribute;
 import datatypes.DataStock;
 import datatypes.DataStore;
@@ -37,6 +38,9 @@ import entities.SpecificCategory;
 import entities.SpecificProduct;
 import entities.Stock;
 import entities.Store;
+import exceptions.ExistStoreException;
+import exceptions.NoDeleteCategoryException;
+import exceptions.ProductNotExistException;
 
 @Stateless
 @WebService
@@ -45,15 +49,24 @@ public class StoreController implements IStoreController {
 	@PersistenceContext(unitName = "SAPo-Logica")
 	private EntityManager em;
 	
-	public void createStore (String name, String addr, String tel, String city, DataUser dUser) {
+	public void createStore (String name, String addr, String tel, String city, DataUser dUser) throws ExistStoreException {
+		String queryStr = "SELECT s FROM Store s WHERE s.name = :name AND (s.owner.id = :idUser OR EXISTS (SELECT usr FROM s.guests usr WHERE usr.id = :idUser))";
+		Query query = em.createQuery(queryStr, Store.class);
+		query.setParameter("name", name);
+		query.setParameter("idUser", dUser.getId());
+		if (!query.getResultList().isEmpty()) {
+			throw new ExistStoreException("Ya tiene un almacen asociado con nombre " + name);
+		}
 		Registered u = em.find(Registered.class, dUser.getId());
 		Store s = new Store(name, addr, tel, city, u);
 		em.persist(s);
 	}
 	
-	public void createSpecificProduct(String name, String description, int stockIni, int precioCompra, int precioVenta, DataStore store, List<DataProductAdditionalAttribute> additionalAttributes) {
+	public void createSpecificProduct(String name, String description, int stockIni, int precioCompra, int precioVenta, DataStore store, List<DataProductAdditionalAttribute> additionalAttributes, int idCategory) {
 		Store s = em.find(Store.class, store.getId());
+		Category cat = em.find(Category.class, idCategory);
 		SpecificProduct p = new SpecificProduct(name, description, s);
+		p.setCategory(cat);
 		for (DataProductAdditionalAttribute dAdAt: additionalAttributes) {
 			ProductAdditionalAttribute newAttribute = new ProductAdditionalAttribute(dAdAt.getNameAttribute(), dAdAt.getValueAttribute());
 			em.persist(newAttribute);
@@ -72,11 +85,109 @@ public class StoreController implements IStoreController {
 		em.persist(hpv);
 	}
 	
-	public List<DataStock> findStockProductsStore(int idStore) {
+	public void createSpecificCategory(String name, String description, DataStore store, DataCategory fatherCat) throws ExistStoreException {
+		String queryStr = "SELECT cat FROM Store s JOIN s.categories cat WHERE s.id = :idStore AND cat.name = :name";
+		Query query = em.createQuery(queryStr, Category.class);
+		query.setParameter("name", name);
+		query.setParameter("idStore", store.getId());
+		if (!query.getResultList().isEmpty()) {
+			throw new ExistStoreException("Ya tiene una categoría asociada con nombre " + name);
+		}
+		Store s = em.find(Store.class, store.getId());
+		if (fatherCat != null) {
+			SpecificCategory father = em.find(SpecificCategory.class, fatherCat.getId());
+			SpecificCategory cat = new SpecificCategory(name, description, father, null);
+			em.persist(cat);
+		} else {
+			SpecificCategory cat = new SpecificCategory(name, description, null, s);
+			em.persist(cat);
+		}
+	}
+	
+	public void editSpecificCategory(String name, String description, DataCategory category) throws ExistStoreException {
+		String queryStr = "SELECT cat FROM Category cat WHERE cat.id <> :idCat AND cat.name = :name";
+		Query query = em.createQuery(queryStr, Category.class);
+		query.setParameter("name", name);
+		query.setParameter("idCat", category.getId());
+		if (!query.getResultList().isEmpty()) {
+			throw new ExistStoreException("Ya tiene una categoría asociada con nombre " + name);
+		}
+		Category c = em.find(Category.class, category.getId());
+		if (c != null) {
+			c.setName(name);
+			c.setDescription(description);
+			em.merge(c);
+		}
+	}
+	
+	public void deleteSpecificCategory(DataCategory category) throws NoDeleteCategoryException {
+		Category c = em.find(Category.class, category.getId());
+		if (c != null) {
+			if (!c.getSonsCategories().isEmpty()) {
+				throw new NoDeleteCategoryException("Esta categoría posee subcategorías");
+			}
+			if (!c.getProducts().isEmpty()) {
+				throw new NoDeleteCategoryException("Esta categoría posee productos");
+			}
+			c.setFatherCategory(null);
+			em.remove(c);
+		}
+	}
+	
+	private List<Category> obtenerAncestros(Category cat) {
+		List<Category> result = new LinkedList<Category>();
+		result.add(cat);
+		Category aux = cat;
+		while (aux.getFatherCategory() != null) {
+			aux = aux.getFatherCategory();
+			result.add(aux);
+		}
+		return result;
+	}
+	
+	public List<DataStock> findStockProductsStore(int idStore, Integer idCategory) {
 		Store store = em.find(Store.class, idStore);
 		List<DataStock> result = new LinkedList<DataStock>();
-		for (Stock s: store.getStocks()) {
-			result.add(new DataStock(s));
+		if (idCategory == null) {
+			for (Stock s: store.getStocks()) {
+				result.add(new DataStock(s));
+			}
+		} else {
+			Category cat = em.find(Category.class, idCategory);
+			for (Stock s: store.getStocks()) {
+				List<Category> cats = obtenerAncestros(s.getProduct().getCategory());
+				if (cats.contains(cat)) {
+					result.add(new DataStock(s));
+				}
+			}
+		}
+		return result;
+	}
+	
+	public List<DataProduct> findProductsStore(int idStore, Integer idCategory) {
+		Store store = em.find(Store.class, idStore);
+		List<DataProduct> result = new LinkedList<DataProduct>();
+		if (idCategory == null) {
+			for (Product p: store.getSpecificsProducts()) {
+				result.add(new DataProduct(p));
+			}
+			for (Product p: store.getGenericsProducts()) {
+				result.add(new DataProduct(p));
+			}
+		} else {
+			Category cat = em.find(Category.class, idCategory);
+			for (Product p: store.getSpecificsProducts()) {
+				List<Category> cats = obtenerAncestros(p.getCategory());
+				if (cats.contains(cat)) {
+					result.add(new DataProduct(p));
+				}
+			}
+			for (Product p: store.getGenericsProducts()) {
+				List<Category> cats = obtenerAncestros(p.getCategory());
+				if (cats.contains(cat)) {
+					result.add(new DataProduct(p));
+				}
+			}
 		}
 		return result;
 	}
@@ -249,6 +360,84 @@ public class StoreController implements IStoreController {
 			Product p = em.find(Product.class, element.getProduct().getId());
 			e.setProduct(p);
 		}
+	}
+	
+	public void createBuyListStore(int idStore, List<DataStock> listProducts, String name, String description) throws ProductNotExistException {
+		
+		Store store = em.find(Store.class, idStore);
+		List<ElementBuyList> elements = new LinkedList<ElementBuyList>();
+		for (DataStock ds: listProducts) {
+			Product p = em.find(Product.class, ds.getProduct().getId());
+			if (p == null) {
+				throw new ProductNotExistException("No existe el producto " + ds.getProduct().getName());
+			}
+			ElementBuyList elem = new ElementBuyList(ds.getCantidad(), p);
+			elements.add(elem);
+//			em.persist(elem);
+		}
+		Calendar fechaActual = new GregorianCalendar();
+		BuyList buyList = new BuyList(name, description, fechaActual, store, elements);
+		em.persist(buyList);
+	}
+	
+	public void deleteBuyListsStore(int idBuyList, int idStore) {
+		BuyList buyList = em.find(BuyList.class, idBuyList);
+		if (buyList == null) {
+//			Excepcion
+		}
+		em.remove(buyList);
+	}
+	
+	public void editBuyListStore(int idStore, List<DataElementBuyList> listProducts, String name, String description, DataBuyList dataBuyList) throws ProductNotExistException {
+		BuyList buyList = em.find(BuyList.class, dataBuyList.getId());
+		if (buyList == null) {
+//			No existe buy list
+		}
+		if (!buyList.getName().equals(name)) {
+			//Chequeo que no exista otra lista con igual nombre
+			buyList.setName(name);
+		}
+		if (!buyList.getDescription().equals(description)) {
+			buyList.setDescription(description);
+		}
+		
+		for (DataElementBuyList elemNew: listProducts) {
+			boolean add = true;
+			for (ElementBuyList elemList: buyList.getElements()) {
+				if (elemList.getProduct().getId() == elemNew.getProduct().getId()) {
+					add = false;
+					if (elemList.getQuantity() != elemNew.getQuantity()) {
+						elemList.setQuantity(elemNew.getQuantity());
+					}
+					break;
+				}
+			}
+			if (add) {
+				Product prodAdd = em.find(Product.class, elemNew.getProduct().getId());
+				if (prodAdd == null) {
+					throw new ProductNotExistException("No existe el producto " + elemNew.getProduct().getName());
+				}
+				buyList.getElements().add(new ElementBuyList(elemNew.getQuantity(), prodAdd));
+			}
+		}
+		List<ElementBuyList> listRemove = new LinkedList<ElementBuyList>();
+		for (ElementBuyList elemList: buyList.getElements()) {
+			boolean remove = true;
+			for (DataElementBuyList elemNew: listProducts) {
+				if (elemList.getProduct().getId() == elemNew.getProduct().getId()) {
+					remove = false;
+					break;
+				}
+			}
+			if (remove) {
+				listRemove.add(elemList);
+			}
+		}
+		buyList.getElements().removeAll(listRemove);
+		while (!listRemove.isEmpty()) {
+			em.remove(listRemove.remove(0));
+		}
+		em.merge(buyList);
 	}
 
 }

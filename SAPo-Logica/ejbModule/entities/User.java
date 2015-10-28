@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "user")
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class User implements Serializable {
 	

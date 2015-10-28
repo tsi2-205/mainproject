@@ -1,0 +1,14 @@
+@CHARSET "ISO-8859-1";
+
+#AdditionalAttribute {
+	border: none !important;
+}
+
+#AdditionalAttribute .ui-widget-content {
+	border: none !important;
+}
+
+#BasicAttributes .ui-widget-content {
+	border: none !important;
+}
+

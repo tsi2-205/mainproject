@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/Layout2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="Login" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+		
+			<h:outputText value="#{buyListDetailBB.buyListSelected.name}" styleClass="title1"></h:outputText>
+			<p:commandButton style="float: right;" value="Editar" action="#{buyListDetailBB.editBuyList}"/>
+			<p:separator></p:separator>
+			<h:outputText value="La lista #{buyListDetailBB.buyListSelected.name} esta vacía" rendered="#{empty buyListDetailBB.buyListSelected.elements}"></h:outputText>
+			<p:dataTable id="productsList" var="elem" value="#{buyListDetailBB.buyListSelected.elements}" rendered="#{not empty buyListDetailBB.buyListSelected.elements}"
+             editable="true" editMode="cell" widgetVar="cellProd">
+                <p:column headerText="Name">
+	                <h:outputText value="#{elem.product.name}" />
+	            </p:column>
+                <p:column  headerText="Cantidad" >
+	                <h:outputText value="#{elem.quantity}" />
+                </p:column>
+				<p:column style="width:32px">
+                    <p:commandButton update=":form" icon="ui-icon-check">
+                    	<f:setPropertyActionListener value="#{elem}" target="#{buyListDetailBB.elemSelected}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,5 +1,4 @@
 package managedBeans;
-
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
@@ -11,25 +10,25 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.naming.NamingException;
 
 import comunication.Comunicacion;
-import datatypes.DataUser;
+import datatypes.DataCategory;
+import datatypes.DataStore;
 import exceptions.ExistStoreException;
 
 @ManagedBean
 @ViewScoped
-public class NewStoreBB implements Serializable {
+public class NewCategoryBB implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-	private String addr;
-	private String tel;
-	private String city;
-	private DataUser user;
+    private String description;
+	private DataStore store;
+	private DataCategory fatherCategory;
+	private SessionBB session;
 	
-	public NewStoreBB() {
+	public NewCategoryBB() {
 		super();
 	}
 	
@@ -41,63 +40,58 @@ public class NewStoreBB implements Serializable {
 		Application apli  = context.getApplication( );	
 		ExpressionFactory ef = apli.getExpressionFactory( );
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
-		SessionBB session = (SessionBB) ve.getValue(contextoEL);
-		this.user = session.getLoggedUser();
-		
+		session = (SessionBB) ve.getValue(contextoEL);
+		this.store = session.getStoreSelected();
+		this.fatherCategory = session.getCategorySelected();
 	}
 	
 	public String create() {
-		String ret = "OkNewStore";
+		String ret = "OkNewCategory";
 		
 		try {
-			Comunicacion.getInstance().getIStoreController().createStore(this.name, this.addr, this.tel, this.city, user);
+			Comunicacion.getInstance().getIStoreController().createSpecificCategory(this.name, this.description, this.store, this.fatherCategory);
+			session.setCategorySelected(null);
 		} catch (ExistStoreException e) {
+			ret = "FailNewCategory";
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", e.getMessage()));
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ret = "FailNewCategory";
+			ex.printStackTrace();
 		}
 		
 		return ret;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getAddr() {
-		return addr;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setAddr(String addr) {
-		this.addr = addr;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getTel() {
-		return tel;
+	public DataStore getStore() {
+		return store;
 	}
 
-	public void setTel(String tel) {
-		this.tel = tel;
+	public void setStore(DataStore store) {
+		this.store = store;
 	}
 
-	public String getCity() {
-		return city;
+	public DataCategory getFatherCategory() {
+		return fatherCategory;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public DataUser getUser() {
-		return user;
-	}
-
-	public void setUser(DataUser user) {
-		this.user = user;
+	public void setFatherCategory(DataCategory fatherCategory) {
+		this.fatherCategory = fatherCategory;
 	}
 	
 }

@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SpecificProduct")
+@Table(name = "specificproduct")
 public class SpecificProduct extends Product {
 
 	private static final long serialVersionUID = 1L;

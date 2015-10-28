@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -11,7 +12,16 @@ import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+
 import comunication.Comunicacion;
+import datatypes.DataBuyList;
+import datatypes.DataCategory;
 import datatypes.DataStore;
 import datatypes.DataUser;
 
@@ -29,6 +39,8 @@ public class SessionBB implements Serializable {
 	private DataUser loggedUser;
 	private boolean showError;
 	private DataStore storeSelected;
+	private DataCategory categorySelected;
+	private DataBuyList buyListSelected;
 	
 	public SessionBB() {
 		super();
@@ -44,6 +56,7 @@ public class SessionBB implements Serializable {
 		this.showError = false;
 		try {
 			boolean isUserLogged = Comunicacion.getInstance().getIUserController().isUserLogged(this.email, this.password);
+//			SecurityUtils.getSubject().login(new UsernamePasswordToken(this.email, this.password, false));
 			if (!isUserLogged) {
 				this.showError = true;
 				ret = "loginError";
@@ -52,6 +65,18 @@ public class SessionBB implements Serializable {
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
+		} catch (UnknownAccountException ex) {
+			ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", ex.getMessage()));
+		} catch (IncorrectCredentialsException ex) {
+			ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", ex.getMessage()));
+		} catch (LockedAccountException ex) {
+			ex.printStackTrace();
+		} catch (ExcessiveAttemptsException ex) {
+			ex.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 		return ret;
 	}
@@ -111,6 +136,7 @@ public class SessionBB implements Serializable {
 		this.password = null;
 		this.showError = false;
 		this.storeSelected = null;
+		SecurityUtils.getSubject().logout();
 		return "/pages/Login?faces-redirect=true";
 	}
 
@@ -168,6 +194,22 @@ public class SessionBB implements Serializable {
 
 	public void setStoreSelected(DataStore storeSelected) {
 		this.storeSelected = storeSelected;
+	}
+
+	public DataCategory getCategorySelected() {
+		return categorySelected;
+	}
+
+	public void setCategorySelected(DataCategory categorySelected) {
+		this.categorySelected = categorySelected;
+	}
+
+	public DataBuyList getBuyListSelected() {
+		return buyListSelected;
+	}
+
+	public void setBuyListSelected(DataBuyList buyListSelected) {
+		this.buyListSelected = buyListSelected;
 	}
 	
 }

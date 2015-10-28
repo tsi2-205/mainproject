@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Product")
+@Table(name = "product")
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Product implements Serializable {
 	
@@ -24,8 +24,9 @@ public abstract class Product implements Serializable {
 	@Version
     private int version;
 	
-	@ManyToMany(mappedBy = "products")
-    private List<Category> categories = new LinkedList<Category>();
+	@ManyToOne
+	@JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "idProduct"), inverseJoinColumns = @JoinColumn(name = "idCategory"))
+    private Category category;
     
     @OneToMany(mappedBy = "product")
     private List<Stock> stocks = new LinkedList<Stock>();
@@ -67,16 +68,16 @@ public abstract class Product implements Serializable {
 		this.version = version;
 	}
 
-	public List<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
-	}
-
 	public List<Stock> getStocks() {
 		return stocks;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public void setStocks(List<Stock> stocks) {

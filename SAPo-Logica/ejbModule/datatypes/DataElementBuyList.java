@@ -22,6 +22,12 @@ public class DataElementBuyList implements Serializable {
 		this.product = product;
 	}
 	
+	public DataElementBuyList(int quantity, DataProduct product) {
+		super();
+		this.quantity = quantity;
+		this.product = product;
+	}
+	
 	public DataElementBuyList(ElementBuyList element) {
 		super();
 		this.id = element.getId();

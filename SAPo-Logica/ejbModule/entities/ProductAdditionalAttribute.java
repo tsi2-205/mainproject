@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "ProductAdditionalAttribute")
+@Table(name = "productadditionalattribute")
 public class ProductAdditionalAttribute implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

@@ -8,7 +8,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Stores")
+@Table(name = "stores")
 public class Store implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -39,7 +39,7 @@ public class Store implements Serializable {
     private Registered owner;
     
     @ManyToMany
-    @JoinTable (name = "Strore_Registered", joinColumns = @JoinColumn(name = "idStore"), inverseJoinColumns = @JoinColumn(name = "idRegistered"))
+    @JoinTable (name = "strore_registered", joinColumns = @JoinColumn(name = "idStore"), inverseJoinColumns = @JoinColumn(name = "idRegistered"))
     private List<Registered> guests = new LinkedList<Registered>();
     
     @OneToOne

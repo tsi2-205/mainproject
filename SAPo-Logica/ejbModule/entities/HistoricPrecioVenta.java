@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "HistoricPrecioVenta")
+@Table(name = "pistoricprecioventa")
 public class HistoricPrecioVenta implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

@@ -23,23 +23,23 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 		
-			<h:outputText value="Nueva lista" styleClass="title1"></h:outputText>
-			<p:commandButton style="clear: both; float: right" id="okNewList" value="Crear" action="#{newBuyListBB.createBuyList}"></p:commandButton>
+			<h:outputText value="Editar lista" styleClass="title1"></h:outputText>
+			<p:commandButton style="clear: both; float: right" id="okEditList" value="Guardar" action="#{editBuyListBB.saveBuyList}"></p:commandButton>
 			<p:separator style="clear: both;"></p:separator>
 			
 			<p:panelGrid columns="2" styleClass="basicInfoPanel">
 				<h:outputLabel for="name" value="Nombre:"/>
-				<h:inputText id="name" label="Nombre:" value="#{newBuyListBB.name}" ></h:inputText>
+				<h:inputText id="name" label="Nombre:" value="#{editBuyListBB.name}" ></h:inputText>
 				<h:outputLabel for="description" value="Descripción:"/>
-				<h:inputText id="description" label="Descripción:" value="#{newBuyListBB.description}" ></h:inputText>
+				<h:inputText id="description" label="Descripción:" value="#{editBuyListBB.description}" ></h:inputText>
 		    </p:panelGrid>
 			
 			<p:separator style="clear: both;"></p:separator>
 			<p:panel styleClass="categPanel">
 				<h:outputText value="Categorías" styleClass="title2" />
 				<p:separator style="clear: both;"></p:separator>
-				<p:tree value="#{newBuyListBB.root}" var="node" selectionMode="single" selection="#{newBuyListBB.selectedNode}">
-			        <p:ajax event="select" update="availableProductsField" listener="#{newBuyListBB.onCategorySelect}" />
+				<p:tree value="#{editBuyListBB.root}" var="node" selectionMode="single" selection="#{editBuyListBB.selectedNode}">
+			        <p:ajax event="select" update="availableProductsField" listener="#{editBuyListBB.onCategorySelect}" />
 			        <p:treeNode>
 			            <h:outputText value="#{node.name}" />
 			        </p:treeNode>
@@ -50,8 +50,8 @@
 		    	<h:outputText value="Productos de la lista" styleClass="title2" />
 		    	<p:separator style="clear: both;"></p:separator>
 		        <p:outputPanel id="dropArea">
-		            <h:outputText value="Arrastre sus productos hacia aqui!" rendered="#{empty newBuyListBB.productsSelected}" style="font-size:24px;" />
-		            <p:dataTable id="selectedProducts" var="prod1" value="#{newBuyListBB.productsSelected}" rendered="#{not empty newBuyListBB.productsSelected}"
+		            <h:outputText value="Arrastre sus productos hacia aqui!" rendered="#{empty editBuyListBB.productsSelected}" style="font-size:24px;" />
+		            <p:dataTable id="selectedProducts" var="prod1" value="#{editBuyListBB.productsSelected}" rendered="#{not empty editBuyListBB.productsSelected}"
 		             editable="true" editMode="cell" widgetVar="cellCars">
 		                <p:column headerText="Name">
 			                <h:outputText value="#{prod1.product.name}" />
@@ -59,30 +59,30 @@
 		                <p:column  headerText="Cantidad" style="width: 60px; text-align: center;">
 			                <p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{prod1.cantidad}" />
+									<h:outputText value="#{prod1.quantity}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText id="modelInput" value="#{prod1.cantidad}" style="width:96%" />
+									<p:inputText id="modelInput" value="#{prod1.quantity}" style="width:96%" />
 								</f:facet>
 							</p:cellEditor>
 		                </p:column>
 						<p:column style="width:32px">
-		                    <p:commandButton action="#{newBuyListBB.remove}" update=":form" icon="ui-icon-close">
-		                        <f:setPropertyActionListener value="#{prod1}" target="#{newBuyListBB.selectedProduct}" />
+		                    <p:commandButton action="#{editBuyListBB.remove}" update=":form" icon="ui-icon-close">
+		                        <f:setPropertyActionListener value="#{prod1}" target="#{editBuyListBB.selectedProduct}" />
 		                    </p:commandButton>
 		                </p:column>
 		            </p:dataTable>
 		        </p:outputPanel>
 		    </p:panel>
 		    <p:droppable for="selectedProductsField" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="availableProducts" onDrop="handleDrop">
-		        <p:ajax listener="#{newBuyListBB.onProductDrop}" update="dropArea availableProducts" />
+		        <p:ajax listener="#{editBuyListBB.onProductDrop}" update="dropArea availableProducts" />
 		    </p:droppable>
 		    
 			<p:panel id="availableProductsField">
 		        <h:outputText value="Productos del almacen" styleClass="title2" />
 		        <p:separator style="clear: both;"></p:separator>
-		        <h:outputText value="No hay productos" rendered="#{empty newBuyListBB.productsNoSelected}" style="font-size:24px;" />
-		        <p:dataTable id="availableProducts" rendered="#{not empty newBuyListBB.productsNoSelected}" var="prod" value="#{newBuyListBB.productsNoSelected}">
+		        <h:outputText value="No hay productos" rendered="#{empty editBuyListBB.productsNoSelected}" style="font-size:24px;" />
+		        <p:dataTable id="availableProducts" rendered="#{not empty editBuyListBB.productsNoSelected}" var="prod" value="#{editBuyListBB.productsNoSelected}">
 		            <p:column style="width:20px">
 		                <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
 		                <p:draggable for="dragIcon" revert="true" helper="clone"/>

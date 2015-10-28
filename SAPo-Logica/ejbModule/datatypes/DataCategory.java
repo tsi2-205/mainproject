@@ -1,11 +1,13 @@
 package datatypes;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import entities.Category;
 import entities.GenericCategory;
 
-public class DataCategory implements Serializable {
+public class DataCategory implements Serializable, Comparable<DataCategory> {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -16,6 +18,8 @@ public class DataCategory implements Serializable {
 	private String description;
 	
 	private boolean isGeneric;
+	
+	private List<DataCategory> sonsCategories = new LinkedList<DataCategory>();
 	
 	public DataCategory() {
 		super();
@@ -35,6 +39,9 @@ public class DataCategory implements Serializable {
 		this.name = categ.getName();
 		this.description = categ.getDescription();
 		this.isGeneric = (categ instanceof GenericCategory) ? true : false;
+		for (Category cat: categ.getSonsCategories()) {
+			this.sonsCategories.add(new DataCategory(cat));
+		}
 	}
 
 	public int getId() {
@@ -68,5 +75,25 @@ public class DataCategory implements Serializable {
 	public void setGeneric(boolean isGeneric) {
 		this.isGeneric = isGeneric;
 	}
+
+	public List<DataCategory> getSonsCategories() {
+		return sonsCategories;
+	}
+
+	public void setSonsCategories(List<DataCategory> sonsCategories) {
+		this.sonsCategories = sonsCategories;
+	}
+	
+	@Override
+    public String toString() {
+        return this.name;
+    }
+
+	@Override
+	public int compareTo(DataCategory o) {
+		return this.getName().compareTo(o.getName());
+	}
+
+	
 	
 }

@@ -45,6 +45,16 @@
          <artifactId>atmosphere-runtime</artifactId>
          <version>2.3.5</version>
       </dependency>
+      <dependency>
+  		<groupId>org.apache.shiro</groupId>
+  		<artifactId>shiro-core</artifactId>
+  		<version>1.2.4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.shiro</groupId>
+  		<artifactId>shiro-web</artifactId>
+  		<version>1.2.4</version>
+  	</dependency>
   </dependencies>
   <groupId>SAPo-FrontOffice</groupId>
 </project>
