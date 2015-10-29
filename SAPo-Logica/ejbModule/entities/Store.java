@@ -115,7 +115,7 @@ public class Store implements Serializable {
 		this.city = city;
 	}
 	
-	public User getOwner() {
+	public Registered getOwner() {
 		return owner;
 	}
 	
@@ -208,5 +208,7 @@ public class Store implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	
 	
 }

@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.persistence.*;
 
@@ -21,6 +22,8 @@ public class Notification implements Serializable {
 	
 	private boolean isRead;
 	
+	private Calendar date;
+	
 	@ManyToOne
 	@JoinColumn(name = "IdUser")
 	private Registered user;
@@ -33,12 +36,13 @@ public class Notification implements Serializable {
 		super();
 	}
 	
-	public Notification(String message, boolean isRead, Registered user, Store store) {
+	public Notification(String message, boolean isRead, Registered user, Store store, Calendar date) {
 		super();
 		this.message = message;
 		this.isRead = isRead;
 		this.user = user;
 		this.store = store;
+		this.date = date;
 	}
 
 
@@ -90,5 +94,12 @@ public class Notification implements Serializable {
 	public void setStore(Store store) {
 		this.store = store;
 	}
-	
+
+	public Calendar getDate() {
+		return date;
+	}
+
+	public void setDate(Calendar date) {
+		this.date = date;
+	}
 }
