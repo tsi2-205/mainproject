@@ -25,7 +25,7 @@ public class NotificationController implements INotificationController {
 	
 	public List<DataNotification> getReadNotifications(int userId, int storeId) {
 		List<DataNotification> result = new LinkedList<DataNotification>();
-		String queryStr = " SELECT n FROM Notification n" + " WHERE n.IdUser = :IdUser AND n.IdStore = :IdStore AND n.isRead = true";
+		String queryStr = " SELECT n FROM Notification n" + " WHERE n.user.id = :IdUser AND n.store.id = :IdStore AND n.isRead = true";
 		Query query = em.createQuery(queryStr, Notification.class);
 		query.setParameter("IdUser", userId);
 		query.setParameter("IdStore", storeId);
@@ -39,7 +39,7 @@ public class NotificationController implements INotificationController {
 	
 	public List<DataNotification> getUnreadNotifications(int userId, int storeId) {
 		List<DataNotification> result = new LinkedList<DataNotification>();
-		String queryStr = " SELECT n FROM Notification n" + " WHERE n.IdUser = :IdUser AND n.IdStore = :IdStore AND n.isRead = false";
+		String queryStr = " SELECT n FROM Notification n" + " WHERE n.user.id = :IdUser AND n.store.id = :IdStore AND n.isRead = false";
 		Query query = em.createQuery(queryStr, Notification.class);
 		query.setParameter("IdUser", userId);
 		query.setParameter("IdStore", storeId);

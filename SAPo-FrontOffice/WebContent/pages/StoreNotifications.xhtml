@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<h:form>
+		<p:dataList value="#{storeNotificationsBB.notifications}"
+			var="notification" type="none"
+			emptyMessage="No tienes notificaciones">
+			<f:facet name="header">Notificaciones</f:facet>
+			<p:panel>
+				<h:outputText value="#{notification.message}"
+					rendered="#{notification.read}" />
+				<h:outputText value="#{notification.message}" style="color: red"
+					rendered="#{not notification.read}" />
+				<h:outputText value="Hace 8 horas" />
+				<p:commandButton value="Ver" rendered="#{not notification.read}"
+					type="button" onclick="PF('notificationDialog').show();" />
+				<p:dialog header="Hace 8 horas" widgetVar="notificationDialog"
+					modal="true" height="100">
+					<h:outputText value="#{notification.message}" />
+				</p:dialog>
+			</p:panel>
+		</p:dataList>
+	</h:form>
+</body>
+</html>
