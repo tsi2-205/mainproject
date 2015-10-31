@@ -7,6 +7,7 @@
 
 <h:head></h:head>
 <body>
+	<p:growl widgetVar="growl" showDetail="true" />
 	<h:form>
 		<p:dataList value="#{userNotificationsBB.notifications}"
 			var="notification" type="none"
@@ -26,6 +27,14 @@
 				</p:dialog>
 			</p:panel>
 		</p:dataList>
+		<p:commandButton value="Test Notification" actionListener="#{userNotificationsBB.send}" />
 	</h:form>
+	<p:socket onMessage="handleMessage" channel="/notify/user/#{userNotificationsBB.userId}"/>
+	<script type="text/javascript">
+        function handleMessage(facesmessage) {
+            facesmessage.severity = 'info';
+            PF('growl').show([facesmessage]);
+        }
+	</script>
 </body>
 </html>

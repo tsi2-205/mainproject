@@ -8,23 +8,25 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
+
 import comunication.Comunicacion;
 import datatypes.DataNotification;
-import datatypes.DataStore;
-import datatypes.DataUser;
 
 @ManagedBean
 @ViewScoped
 public class StoreNotificationsBB {
 
-	private DataUser user;
+	private int userId;
 	
-	private DataStore store;
+	private int storeId;
 	
 	private List<DataNotification> notifications = new LinkedList<DataNotification>();
 	
@@ -42,31 +44,31 @@ public class StoreNotificationsBB {
 		ExpressionFactory ef = apli.getExpressionFactory( );
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
-		this.store = session.getStoreSelected();
-		this.user = session.getLoggedUser();
+		this.storeId = session.getStoreSelected().getId();
+		this.userId = session.getLoggedUser().getId();
 		try {
-			this.notifications = Comunicacion.getInstance().getINotificationController().getStoreUserNotifications(this.user.getId(), this.store.getId());
+			this.notifications = Comunicacion.getInstance().getINotificationController().getStoreUserNotifications(this.userId, this.storeId);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
-
-	public DataUser getUser() {
-		return user;
-	}
-
-	public void setUser(DataUser user) {
-		this.user = user;
-	}
-
-	public DataStore getStore() {
-		return store;
-	}
-
-	public void setStore(DataStore store) {
-		this.store = store;
-	}
 	
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public int getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(int storeId) {
+		this.storeId = storeId;
+	}
+
 	public List<DataNotification> getNotifications() {
 		return notifications;
 	}
@@ -82,4 +84,9 @@ public class StoreNotificationsBB {
 	public void setNotificationSelected(DataNotification notificationSelected) {
 		this.notificationSelected = notificationSelected;
 	}
+	
+	public void send() {
+        EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        eventBus.publish("/notify/store/" + this.storeId, new FacesMessage("SAPo", "Store Notification"));
+    }
 }

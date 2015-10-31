@@ -15,13 +15,17 @@ import javax.naming.NamingException;
 
 import comunication.Comunicacion;
 import datatypes.DataNotification;
-import datatypes.DataUser;
+
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
+
+import javax.faces.application.FacesMessage;
 
 @ManagedBean
 @ViewScoped
 public class UserNotificationsBB {
 
-	private DataUser user;
+	private int userId;
 	
 	private List<DataNotification> notifications = new LinkedList<DataNotification>();
 	
@@ -39,20 +43,12 @@ public class UserNotificationsBB {
 		ExpressionFactory ef = apli.getExpressionFactory( );
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
-		this.user = session.getLoggedUser();
+		this.userId = session.getLoggedUser().getId();
 		try {
-			this.notifications = Comunicacion.getInstance().getINotificationController().getUserNotifications(this.user.getId());
+			this.notifications = Comunicacion.getInstance().getINotificationController().getUserNotifications(this.userId);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public DataUser getUser() {
-		return user;
-	}
-
-	public void setUser(DataUser user) {
-		this.user = user;
 	}
 
 	public List<DataNotification> getNotifications() {
@@ -70,4 +66,17 @@ public class UserNotificationsBB {
 	public void setNotificationSelected(DataNotification notificationSelected) {
 		this.notificationSelected = notificationSelected;
 	}
+	
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public void send() {
+        EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        eventBus.publish("/notify/user/" + this.userId, new FacesMessage("SAPo", "User Notification"));
+    }
 }
