@@ -8,11 +8,17 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.naming.NamingException;
 
+import comunication.Comunicacion;
 import datatypes.DataNotification;
 import datatypes.DataUser;
 
+@ManagedBean
+@ViewScoped
 public class UserNotificationsBB {
 
 	private DataUser user;
@@ -34,6 +40,11 @@ public class UserNotificationsBB {
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.user = session.getLoggedUser();
+		try {
+			this.notifications = Comunicacion.getInstance().getINotificationController().getUserNotifications(this.user.getId());
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public DataUser getUser() {

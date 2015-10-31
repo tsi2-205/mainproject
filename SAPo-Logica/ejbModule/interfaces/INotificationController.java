@@ -9,12 +9,14 @@ import datatypes.DataNotification;
 @Local
 public interface INotificationController {
 	
-	public List<DataNotification> getReadNotifications(int userId, int storeId);
+	public List<DataNotification> getStoreUserNotifications(int userId, int storeId);
 	
-	public List<DataNotification> getUnreadNotifications(int userId, int storeId);
+	public List<DataNotification> getUserNotifications(int userId);
+	
+	public void sendStoreUserNotification(String message, int storeId, int senderId);
+	
+	public void sendUserNotification(String message, int userId);
 	
 	public void readNotification(int notificationId);
-	
-	public void sendNotification(String message, int storeId, int senderId);
 
 }

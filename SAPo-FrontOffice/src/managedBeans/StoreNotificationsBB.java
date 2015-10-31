@@ -45,7 +45,7 @@ public class StoreNotificationsBB {
 		this.store = session.getStoreSelected();
 		this.user = session.getLoggedUser();
 		try {
-			this.notifications = Comunicacion.getInstance().getINotificationController().getUnreadNotifications(this.user.getId(), this.store.getId());
+			this.notifications = Comunicacion.getInstance().getINotificationController().getStoreUserNotifications(this.user.getId(), this.store.getId());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
