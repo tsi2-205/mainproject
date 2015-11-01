@@ -86,7 +86,13 @@ public class StoreNotificationsBB {
 	}
 	
 	public void send() {
+		String message = "Store Notification";
+		try {
+			Comunicacion.getInstance().getINotificationController().sendStoreUserNotification(message, this.storeId, this.userId);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish("/notify/store/" + this.storeId, new FacesMessage("SAPo", "Store Notification"));
+        eventBus.publish("/notify/store/" + this.storeId, new FacesMessage("SAPo", message));
     }
 }

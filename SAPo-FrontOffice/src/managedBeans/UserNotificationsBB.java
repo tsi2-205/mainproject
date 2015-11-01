@@ -76,7 +76,13 @@ public class UserNotificationsBB {
 	}
 
 	public void send() {
+		String message = "User Notification";
+		try {
+			Comunicacion.getInstance().getINotificationController().sendUserNotification(message, this.userId);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish("/notify/user/" + this.userId, new FacesMessage("SAPo", "User Notification"));
+        eventBus.publish("/notify/user/" + this.userId, new FacesMessage("SAPo", message));
     }
 }
