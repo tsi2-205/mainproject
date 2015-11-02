@@ -278,6 +278,13 @@ public class SessionBB implements Serializable {
 		this.showError = false;
 		try {
 				Comunicacion.getInstance().getIUserController().setAccount(this.loggedUser.getId());
+				if (this.loggedUser.getEmail()==null){
+					this.loggedUser= Comunicacion.getInstance().getIUserController().getFbUserData(this.loggedUser.getFbId());
+				}
+				else{
+					this.loggedUser= Comunicacion.getInstance().getIUserController().getUserData(this.loggedUser.getEmail());
+				}
+
 				ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
 				configurableNavigationHandler.performNavigation("/pages/Home.xhtml?faces-redirect=true");
 			
