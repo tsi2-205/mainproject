@@ -11,7 +11,7 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			<p:commandButton id="createStore" value="Nueva almacen" action="#{homeBB.createStore}"/>
-			<p:commandLink id="nonAjax" actionListener="#{sessionBB.changeAccount}" ajax="false">
+			<p:commandLink rendered="#{sessionBB.loggedUser.account eq 'F'}" id="nonAjax" actionListener="#{sessionBB.changeAccount}" ajax="false">
         		<h:outputText value="Cuenta Premium" />
     		</p:commandLink>
 			<p:separator></p:separator>

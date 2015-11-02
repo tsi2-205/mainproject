@@ -69,8 +69,14 @@ public class CustomizeBB implements Serializable{
      
     public void upload() throws SerialException, SQLException, NamingException, IOException {
         if(this.file != null) {
-        	System.out.println (CustomizeBB.class.getProtectionDomain().getCodeSource().getLocation());
-        	File f = new File("C:/Users/Nacho/Desktop/TSI-Proyectos/SAPo-FrontOffice/WebContent/resources/styles/"+store.getId()+".css");
+        	String path = CustomizeBB.class.getProtectionDomain().getCodeSource().getLocation().toString();
+        	int end = path.lastIndexOf("/");
+        	path = path.substring(1, end );
+        	end = path.lastIndexOf("/");
+        	path=path.substring(4, end );
+        	path = path.concat("/resources/styles/");
+        	System.out.println(path);
+        	File f = new File(path+store.getId()+".css");
         	FileOutputStream fop = new FileOutputStream(f);
 
 			// if file doesnt exists, then create it
