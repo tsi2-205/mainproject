@@ -85,6 +85,14 @@ public class StoreNotificationsBB {
 		this.notificationSelected = notificationSelected;
 	}
 	
+	public void refreshNotifications() {
+		try {
+			this.notifications = Comunicacion.getInstance().getINotificationController().getStoreUserNotifications(this.userId, this.storeId);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void send() {
 		String message = "Store Notification";
 		try {

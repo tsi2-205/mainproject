@@ -9,8 +9,10 @@
 <body>
 	<p:growl widgetVar="growl" showDetail="true" />
 	<h:form>
+	<p:remoteCommand name="updateNotifications" update="notifications"
+			actionListener="#{storeNotificationsBB.refreshNotifications}" />
 		<p:dataList value="#{storeNotificationsBB.notifications}"
-			var="notification" type="none"
+			var="notification" type="none" id="notifications"
 			emptyMessage="No tienes notificaciones">
 			<f:facet name="header">Notificaciones</f:facet>
 			<p:panel>
@@ -34,6 +36,7 @@
         function handleMessage(facesmessage) {
             facesmessage.severity = 'info';
             PF('growl').show([facesmessage]);
+            updateNotifications();
         }
 	</script>
 </body>

@@ -75,6 +75,14 @@ public class UserNotificationsBB {
 		this.userId = userId;
 	}
 
+	public void refreshNotifications() {
+		try {
+			this.notifications = Comunicacion.getInstance().getINotificationController().getUserNotifications(this.userId);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void send() {
 		String message = "User Notification";
 		try {
