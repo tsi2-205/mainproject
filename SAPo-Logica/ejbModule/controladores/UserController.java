@@ -52,13 +52,13 @@ public class UserController implements IUserController {
 		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
 	}
 	
-	public void registerUser(String email, String password, String name) {
-		Registered r = new Registered(email, password, null, name);
+	public void registerUser(String email, String password, String name, String acc) {
+		Registered r = new Registered(email, password, null, name, acc);
 		em.persist(r);
 	}
 	
 	public void registerFbUser(String fbId, String name) {
-		Registered r = new Registered(null, null, fbId, name);
+		Registered r = new Registered(null, null, fbId, name, "F");
 		em.persist(r);
 	}
 	
@@ -67,7 +67,7 @@ public class UserController implements IUserController {
 		Query query = em.createQuery(queryStr, Registered.class);
 		query.setParameter("email", email);
 		Registered r = (Registered)query.getSingleResult();
-		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getVersion());
+		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getAccount(), r.getVersion());
 	}
 	
 	public DataUser getFbUserData(String fbId) {
@@ -75,7 +75,7 @@ public class UserController implements IUserController {
 		Query query = em.createQuery(queryStr, Registered.class);
 		query.setParameter("fbId", fbId);
 		Registered r = (Registered)query.getSingleResult();
-		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getVersion());
+		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getAccount(), r.getVersion());
 	}
 	
 	public List<DataStore> getStoresGuest(int Id){
@@ -106,6 +106,15 @@ public class UserController implements IUserController {
 			ret.add(dataS);
 		}
 		return ret;
+	}
+	
+	public void setAccount(int Id){
+		String queryStr = " SELECT u FROM Registered u" + " WHERE u.id = :id";
+		Query query = em.createQuery(queryStr, Registered.class);
+		query.setParameter("id", Id);
+		Registered u = (Registered)query.getSingleResult();
+		u.setAccount("P");
+		em.persist(u);
 	}
 	
 }

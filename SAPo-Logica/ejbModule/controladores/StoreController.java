@@ -2,6 +2,10 @@ package controladores;
 
 import interfaces.IStoreController;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -12,6 +16,7 @@ import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.sql.rowset.serial.SerialException;
 
 import datatypes.DataBuyList;
 import datatypes.DataCategory;
@@ -26,6 +31,7 @@ import datatypes.DataStore;
 import datatypes.DataUser;
 import entities.BuyList;
 import entities.Category;
+import entities.Customer;
 import entities.ElementBuyList;
 import entities.GenericCategory;
 import entities.HistoricPrecioCompra;
@@ -59,6 +65,9 @@ public class StoreController implements IStoreController {
 		}
 		Registered u = em.find(Registered.class, dUser.getId());
 		Store s = new Store(name, addr, tel, city, u);
+		Customer c = new Customer();
+		em.persist(c);
+		s.setCustomer(c);
 		em.persist(s);
 	}
 	
@@ -438,6 +447,30 @@ public class StoreController implements IStoreController {
 			em.remove(listRemove.remove(0));
 		}
 		em.merge(buyList);
+	}
+	
+	public File getCustomizeStore(int id) throws SQLException, IOException{
+		String queryStr = " SELECT c FROM Store c" + " WHERE c.id = :id";
+		Query query = em.createQuery(queryStr, Store.class);
+		query.setParameter("id", id);
+		Store s = (Store)query.getSingleResult();
+		Customer c = s.getCustomer();
+		//Blob css=c.getCss();
+//		String ret=null;
+//		if (css!=null){
+//			byte[] bdata = css.getBytes(1, (int) css.length());
+//			ret =  new String(bdata);
+//		}
+		//return ret;
+		return c.getCss();
+	}
+	
+	public void setCustomizeStore(int store, File rutaCss) throws SerialException, SQLException{
+		Store s= em.find(Store.class, store);
+        Customer c= s.getCustomer();
+        //Blob b = new javax.sql.rowset.serial.SerialBlob(rutaCss);
+        c.setCss(rutaCss);
+        em.persist(c);
 	}
 
 }

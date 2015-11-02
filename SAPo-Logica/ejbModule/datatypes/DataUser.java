@@ -16,19 +16,22 @@ public class DataUser implements Serializable {
 	
     private String name;
     
+    private String account;
+    
     private int version;
     
     public DataUser() {
 		super();
 	}
     
-    public DataUser(int id, String email, String password, String fbId, String name, int version) {
+    public DataUser(int id, String email, String password, String fbId, String name, String acc, int version) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.fbId = fbId;
 		this.name = name;
+		this.account=acc;
 		this.version = version;
 	}
 
@@ -70,6 +73,14 @@ public class DataUser implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	public int getVersion() {

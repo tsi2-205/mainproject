@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="SAPo" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:outputLabel for="name" value="Pagar Cuenta Premium"/>
+	<p:separator></p:separator>
+	<h:form>
+		<h:inputHidden id="cmd" value="_s-xclick"/>
+		<h:inputHidden id="hosted_button_id" value="B5Q4JAN9TNZUJ"/>
+		<h:commandLink action="#{sessionBB.paypalChangeAccount}">
+		<h:graphicImage type="button" value="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_paynowCC_LG.gif"  border="0" NAME="submit" alt="PayPal. La forma rápida y segura de pagar en Internet."/>
+		</h:commandLink>
+		<h:graphicImage alt="" border="0" value="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1"/>
+	</h:form>
+	</ui:define>
+</ui:composition>

@@ -18,7 +18,7 @@ public interface IUserController {
 	
 	public boolean isRegisteredFbUser (String fbId);
 	
-	public void registerUser(String email, String password, String name);
+	public void registerUser(String email, String password, String name, String acc);
 	
 	public void registerFbUser(String fbId, String name);
 	
@@ -29,5 +29,7 @@ public interface IUserController {
 	public List<DataStore> getStoresGuest(int Id);
 	
 	public List<DataStore> getStoresOwner(int id);
+	
+	public void setAccount(int Id);
 	
 }

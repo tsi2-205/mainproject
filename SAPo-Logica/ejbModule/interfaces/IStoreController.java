@@ -1,8 +1,12 @@
 package interfaces;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ejb.Local;
+import javax.sql.rowset.serial.SerialException;
 
 import datatypes.DataBuyList;
 import datatypes.DataCategory;
@@ -66,4 +70,7 @@ public interface IStoreController {
 	
 	public void editBuyListStore(int idStore, List<DataElementBuyList> listProducts, String name, String description, DataBuyList dataBuyList) throws ProductNotExistException;
 	
+	public void setCustomizeStore(int store, File rutaCss) throws SerialException, SQLException;
+	
+	public File getCustomizeStore(int id) throws SQLException, IOException;
 }

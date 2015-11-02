@@ -21,5 +21,16 @@
 		</h:panelGrid>	
 		<h:commandButton value="Aceptar" action="#{sessionBB.register}"></h:commandButton>
 	</h:form>
+	
+	<h:form>
+		<h:inputHidden id="cmd" value="_s-xclick"/>
+		<h:inputHidden id="hosted_button_id" value="A575ACHN4DXME"/>
+		<h:commandLink action="#{sessionBB.paypal}">
+		<h:graphicImage type="button" value="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_paynowCC_LG.gif"  border="0" NAME="submit" alt="PayPal. La forma rápida y segura de pagar en Internet."/>
+		</h:commandLink>
+		<h:graphicImage alt="" border="0" value="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1"/>
+	</h:form>
+
+	
 </h:body>
 </html>

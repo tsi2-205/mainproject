@@ -49,6 +49,7 @@ public class StoreDetailBB implements Serializable {
 	private TreeNode selectedNode;
 	private boolean hayCategorias;
 	
+	
 	public StoreDetailBB() {
 		super();
 	}
@@ -288,4 +289,9 @@ public class StoreDetailBB implements Serializable {
 		this.selectedNode = selectedNode;
 	}
 	
+	public String customizeButton() {
+		return "/pages/Customize.xhtml?faces-redirect=true";
+	}
+
+
 }

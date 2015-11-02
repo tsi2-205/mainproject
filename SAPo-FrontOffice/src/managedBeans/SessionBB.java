@@ -1,9 +1,11 @@
 package managedBeans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -108,8 +110,28 @@ public class SessionBB implements Serializable {
 				this.showError = true;
 				ret = "registerError";
 			} else {
-				Comunicacion.getInstance().getIUserController().registerUser(this.email, this.password, this.name);
+				Comunicacion.getInstance().getIUserController().registerUser(this.email, this.password, this.name, "F");
 				this.loggedUser = Comunicacion.getInstance().getIUserController().getUserData(this.email);
+			}
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	public String registerPremiun() {
+		String ret = "registerOkPrem";
+		this.showError = false;
+		try {
+			boolean isRegisteredUser = Comunicacion.getInstance().getIUserController().isRegisteredUser(this.email);
+			if (isRegisteredUser) {
+				this.showError = true;
+				ret = "registerError";
+			} else {
+				Comunicacion.getInstance().getIUserController().registerUser(this.email, this.password, this.name, "P");
+				this.loggedUser = Comunicacion.getInstance().getIUserController().getUserData(this.email);
+				ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+				configurableNavigationHandler.performNavigation("/pages/Home.xhtml?faces-redirect=true");
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -211,5 +233,61 @@ public class SessionBB implements Serializable {
 	public void setBuyListSelected(DataBuyList buyListSelected) {
 		this.buyListSelected = buyListSelected;
 	}
+	
+	public void paypal() throws IOException {
+		String ret=null;
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+	    try {
+	    	boolean isRegisteredUser = Comunicacion.getInstance().getIUserController().isRegisteredUser(this.email);
+			if (isRegisteredUser) {
+				this.showError = true;
+				ret = "registerError";
+			} else {
+					ec.redirect("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A575ACHN4DXME");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void paypalChangeAccount() throws IOException {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+	    try {
+					ec.redirect("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B5Q4JAN9TNZUJ");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void changeAccount(){
+		if (this.loggedUser.getAccount().equals("P")){
+			FacesMessage msg = new FacesMessage("Su Cuenta ya es Premium");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		else{
+			ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+			configurableNavigationHandler.performNavigation("/pages/ChangeAccount.xhtml?faces-redirect=true");
+		}
+	}
+	
+	public String AccountPremiun() {
+		String ret = "registerOkPrem";
+		this.showError = false;
+		try {
+				Comunicacion.getInstance().getIUserController().setAccount(this.loggedUser.getId());
+				ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+				configurableNavigationHandler.performNavigation("/pages/Home.xhtml?faces-redirect=true");
+			
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	
+	
 	
 }

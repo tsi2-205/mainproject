@@ -23,7 +23,7 @@ public class Administrator extends User implements Serializable {
 
 	public Administrator(String nick, String password, String mail,
 			String nombre) {
-		super(nick, password, mail, nombre);
+		super(nick, password, mail, nombre, null);
 	}
 
 	public List<GenericCategory> getGenericCategories() {

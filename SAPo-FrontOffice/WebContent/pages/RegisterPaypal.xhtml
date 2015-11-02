@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="Login" />
+		<h:outputStylesheet library="styles" name="storeDetails.css" />
+	</ui:define>
+	<ui:define name="Principal">
+	   <h:outputLabel for="name" value="Cuenta Premium"/>
+	   <p:separator></p:separator>
+	   <h:outputLabel for="name" value="Confirmar Resgistro"/>
+	   <p:separator></p:separator>
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputText value="Nombre:"></h:outputText>
+				<h:inputText id="nombre" value="#{sessionBB.name}" ></h:inputText>
+				<h:outputText value="Email:"></h:outputText>
+				<h:inputText id="email" value="#{sessionBB.email}" ></h:inputText>
+				<h:outputText value="Contraseña:"></h:outputText>
+				<h:inputSecret id="password" value="#{sessionBB.password}" ></h:inputSecret>
+			</h:panelGrid>	
+ 			<p:commandButton value="Confirmar" ajax="false" actionListener="#{sessionBB.registerPremiun}" />
+		</h:form>
+	</ui:define>
+</ui:composition>

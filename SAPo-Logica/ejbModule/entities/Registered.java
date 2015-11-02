@@ -30,12 +30,13 @@ public class Registered extends User {
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications = new LinkedList<Notification>();
     
+    
 	public Registered() {
 		super();
 	}
 
-	public Registered(String email, String password, String fbId, String name) {
-		super(email, password, fbId, name);
+	public Registered(String email, String password, String fbId, String name, String acc) {
+		super(email, password, fbId, name, acc);
 	}
 
 	public List<Comment> getComments() {

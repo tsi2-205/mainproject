@@ -25,16 +25,19 @@ public abstract class User implements Serializable {
     @Version
     private int version;
     
+    private String account; 
+    
     public User() {
 		super();
 	}
 
-	public User(String email, String password, String fbId, String name) {
+	public User(String email, String password, String fbId, String name, String acc) {
 		super();
 		this.email = email;
 		this.password = password;
 		this.fbId = fbId;
 		this.name = name;
+		this.account=acc;
 	}
 
 	public int getId() {
@@ -84,4 +87,14 @@ public abstract class User implements Serializable {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+	
+	
 }

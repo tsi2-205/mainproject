@@ -11,6 +11,9 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			<p:commandButton id="createStore" value="Nueva almacen" action="#{homeBB.createStore}"/>
+			<p:commandLink id="nonAjax" actionListener="#{sessionBB.changeAccount}" ajax="false">
+        		<h:outputText value="Cuenta Premium" />
+    		</p:commandLink>
 			<p:separator></p:separator>
 			<p:dataTable value="#{homeBB.storesOwner}" var="store" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated" paginatorPosition="bottom"
 		    	selectionMode="single" selection="#{homeBB.storeSelected}" rowKey="#{store.id}" emptyMessage="No es dueño de ningún almacen" >

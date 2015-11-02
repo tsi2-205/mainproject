@@ -9,6 +9,7 @@ import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.ConfigurableNavigationHandler;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -17,6 +18,7 @@ import javax.naming.NamingException;
 import org.primefaces.event.SelectEvent;
 
 import comunication.Comunicacion;
+import datatypes.DataProduct;
 import datatypes.DataStore;
 
 
@@ -103,7 +105,7 @@ public class HomeBB {
 	public void setStoreSelected(DataStore storeSelected) {
 		this.storeSelected = storeSelected;
 	}
-	
+
 	public void showStore(SelectEvent event) {
 		this.storeSelected = (DataStore) event.getObject();
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -125,5 +127,7 @@ public class HomeBB {
 		return "/pages/NewStore.xhtml?faces-redirect=true";
 		
 	}
+	
+	
 	
 }
