@@ -6,22 +6,30 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<h:outputStylesheet library="styles" name="header.css" />
-	<h:form prependId="false">
-		<h:panelGrid id="headerTitle">
-			<h:commandLink action="Home" value="Bienvenido a SAPo" style="font-family: sans-serif;
-				font-size: 30px;
-				color: white;
-				font-weight: 1.5em;
-				font: bold; text-decoration: unset;"/>
-		</h:panelGrid>
-		<div id="linksHeader">
-			<h:outputText style="width: 70%; float: left;" id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
-			<div class="buttons">
-				<h:commandButton id="linkSalir" value="Salir" action="#{sessionBB.logoutUser}"/>
+	<div id="izquierda">
+		
+		<h:outputStylesheet library="styles" name="header.css" />
+		<h:form prependId="false">
+			<h:panelGrid id="headerTitle">
+				<h:commandLink action="Home" value="Bienvenido a SAPo" style="font-family: sans-serif;
+					font-size: 30px;
+					color: black;
+					font-weight: 1.5em;
+					font: bold; text-decoration: unset;"/>
+			</h:panelGrid>
+			<div id="linksHeader">
+				<h:outputText style="width: 70%; float: left;" id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
+				<div class="buttons">
+					<h:commandButton id="linkSalir" value="Salir" action="#{sessionBB.logoutUser}"/>
+				</div>
+				
 			</div>
-			
-		</div>
-		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />	
-	</h:form>
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />	
+		</h:form>
+		
+	</div>
+	
+	<div id="derecha">
+	
+	</div>
 </ui:composition>
