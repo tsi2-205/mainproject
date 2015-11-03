@@ -85,31 +85,42 @@ public class ShareStoreBB {
 		this.loggedUser = loggedUser;
 	}
 
-	public String shareStore() {
-		String result = "ErrorShareStore";
+	public void shareStore() {
 		if (this.selectedUsers == null || this.selectedUsers.isEmpty()) {
 			
 		} else {
-			result = "OkShareStore";
-			String message = this.loggedUser.getName() + " ha agregado a ";
+			//Store notifications
+			String storeMessage = this.loggedUser.getName() + " ha agregado a ";
 			for (DataUser u: this.selectedUsers) {
-				message = message + u.getName();
+				storeMessage = storeMessage + u.getName();
 				if (this.selectedUsers.indexOf(u) == (this.selectedUsers.size()-1)) {
-					message = message + " ";
+					storeMessage = storeMessage + " ";
 				} else {
-					message = message + ", ";
+					storeMessage = storeMessage + ", ";
 				}
+				this.users.remove(u);
 			}
-			message = message + "al almacen";
+			storeMessage = storeMessage + "al almacen";
 			try {
 				Comunicacion.getInstance().getIStoreController().shareStore(this.store.getId(), this.selectedUsers);
-				Comunicacion.getInstance().getINotificationController().sendStoreUserNotification(message, this.store.getId(), this.loggedUser.getId());
+				Comunicacion.getInstance().getINotificationController().sendStoreNotification(storeMessage, this.store.getId());
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
 			EventBus eventBus = EventBusFactory.getDefault().eventBus();
-	        eventBus.publish("/notify/store/" + this.store.getId(), new FacesMessage("SAPo", message));
+	        eventBus.publish("/notify/store/" + this.store.getId(), new FacesMessage("SAPo", storeMessage));
+	        
+	        //User notifications
+	        String userMessage = this.loggedUser.getName() + " te ha agregado al almacen " + this.store.getName();
+	        for (DataUser u: this.selectedUsers) {
+	        	try {
+	        		Comunicacion.getInstance().getINotificationController().sendUserNotification(userMessage, u.getId());
+				} catch (NamingException e) {
+					e.printStackTrace();
+				}
+	        	eventBus.publish("/notify/user/" + u.getId(), new FacesMessage("SAPo", userMessage));
+	        }
+	        this.selectedUsers = null;
 		}
-		return result;
 	}
 }

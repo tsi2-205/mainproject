@@ -137,16 +137,6 @@
 			<to-view-id>/pages/NewGenericProduct.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-	
-	<navigation-rule>
-		<display-name>/CompartirAlmacen</display-name>
-		<from-view-id>/pages/ShareStore.xhtml</from-view-id>
-		<navigation-case>
-			<from-action>#{shareStoreBB.shareStore}</from-action>
-			<from-outcome>OkShareStore</from-outcome>
-			<to-view-id>/pages/StoreDetail.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
 
 	<converter>
 		<display-name>DateConverter</display-name>
