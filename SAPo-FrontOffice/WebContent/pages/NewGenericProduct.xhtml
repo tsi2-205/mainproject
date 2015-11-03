@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/LayoutBackOffice.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="SAPo" />
+		<h:outputStylesheet library="styles" name="NewProduct.css" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			<h:outputText value="Nuevo producto" styleClass="title1"/>
+			<p:commandButton value="Crear" action="#{newGenericProductBB.create}" style="float:right;"></p:commandButton>
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel>
+				<h:outputText value="Debe elegir una categoría" styleClass="title2"/>
+				<p:separator></p:separator>
+				<p:tree value="#{newGenericProductBB.root}" var="node" selectionMode="single" selection="#{newGenericProductBB.selectedNode}">
+			        <p:treeNode>
+			            <h:outputText value="#{node.name}" />
+			        </p:treeNode>
+			    </p:tree>
+		    </p:panel>
+			<p:panel>
+				<h:outputText value="Atributos básicos de su nuevo producto" styleClass="title2"/>
+				<p:separator></p:separator>
+				<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
+					<h:outputLabel for="name" value="Nombre:"/>
+					<h:inputText id="name" label="Nombre:" value="#{newGenericProductBB.name}" ></h:inputText>
+					<h:outputLabel for="description" value="Descripción:"/>
+					<h:inputText id="description" label="Descripción:" value="#{newGenericProductBB.description}" ></h:inputText>
+				</p:panelGrid>
+			</p:panel>
+			<p:panel rendered="#{not empty newGenericProductBB.additionalAttributes}">
+				<h:outputText value="Atributos adicionales de su nuevo producto" styleClass="title2"/>
+				<p:separator></p:separator>
+				<p:dataGrid id="AdditionalAttribute" columns="1" value="#{newGenericProductBB.additionalAttributes}" var="attribute" emptyMessage="">
+					<p:panelGrid columns="2" layout="grid">
+						<h:outputLabel value="#{attribute.nameAttribute}:"/>
+						<h:inputText label="#{attribute.nameAttribute}:" value="#{attribute.valueAttribute}" ></h:inputText>
+					</p:panelGrid>
+				</p:dataGrid>
+			</p:panel>
+			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes"
+				oncomplete="PF('newAttributeDialog').show()" title="Nuevo atributo">
+			</p:commandButton>
+
+			<p:dialog header="Nuevo atributo" widgetVar="newAttributeDialog" resizable="false">
+				<p:outputPanel id="newAttributePanel" style="text-align:center;">
+					<p:panelGrid id="AdditionalAttributes" columns="2">
+						<h:outputLabel for="nameAdditional" value="Nombre:"/>
+						<h:inputText id="nameAdditional" label="Nombre:" value="#{newGenericProductBB.additionalAttributeName}" ></h:inputText>
+						<h:outputLabel for="valueAdditional" value="Valor:"/>
+						<h:inputText id="valueAdditional" label="Valor:" value="#{newGenericProductBB.additionalAttributeValue}" ></h:inputText>
+						<f:facet name="footer">
+							<p:commandButton style="float: right;" id="addAdditionalButton" value="Agregar"
+								update=":form"
+								action="#{newGenericProductBB.addAttribute}"></p:commandButton>
+						</f:facet>
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

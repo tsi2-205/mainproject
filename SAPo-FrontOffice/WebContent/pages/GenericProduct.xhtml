@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/LayoutBackOffice.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="SAPo" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			
+			<p:panel>
+				<h:outputText value="Atributos básicos del producto" styleClass="title2"/>
+				<p:commandButton value="Editar" action="#{genericProductBB.editProduct}" style="float: right;"/>
+				<p:separator style="clear: both;"></p:separator>
+				<p:panelGrid columns="2">
+					<h:outputLabel value="Nombre:" styleClass="title2"/>
+					<h:outputText value="#{genericProductBB.product.name}"/>
+					<h:outputLabel value="Descripción:" styleClass="title2"/>
+					<h:outputText value="#{genericProductBB.product.description}"/>
+					<h:outputLabel value="Categoría:" styleClass="title2"/>
+					<h:outputText value="#{genericProductBB.category.name}"/>
+				</p:panelGrid>
+		    </p:panel>
+			
+			<p:panel>
+				<h:outputText value="Atributos adicionales del producto" styleClass="title2"/>
+				<p:separator></p:separator>
+				<p:dataGrid id="AditionalAttributes" columns="1" layout="grid" var="attribute" value="#{genericProductBB.product.additionalAttributes}" >
+					
+					<h:outputLabel value="#{attribute.nameAttribute}: " styleClass="title2"/>
+					<h:outputText value="#{attribute.valueAttribute}" />
+				</p:dataGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
