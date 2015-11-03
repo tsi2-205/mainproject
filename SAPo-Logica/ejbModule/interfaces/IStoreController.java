@@ -105,4 +105,6 @@ public interface IStoreController {
 	public List<DataUser> findUsers();
 	
 	public List<DataCategory> findGenericCategories();
+	
+	public void shareStore(int storeId, List<DataUser> users);
 }

@@ -684,4 +684,13 @@ public class StoreController implements IStoreController {
 		return result;
 	}
 	
+	public void shareStore(int storeId, List<DataUser> users) {
+		Store s = em.find(Store.class, storeId);
+		for (DataUser u: users) {
+			Registered r = em.find(Registered.class, u.getId());
+			s.getGuests().add(r);
+		}
+		em.persist(s);
+	}
+	
 }

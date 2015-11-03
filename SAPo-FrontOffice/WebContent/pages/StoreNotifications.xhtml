@@ -29,7 +29,6 @@
 				</p:dialog>
 			</p:panel>
 		</p:dataList>
-		<p:commandButton value="Test Notification" actionListener="#{storeNotificationsBB.send}" />
 	</h:form>
 	<p:socket onMessage="handleMessage" channel="/notify/store/#{storeNotificationsBB.storeId}"/>
 	<script type="text/javascript">

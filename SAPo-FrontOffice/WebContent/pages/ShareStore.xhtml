@@ -7,7 +7,7 @@
 
 <h:head></h:head>
 <body>
-	<form id="form_aux">
+	<h:form id="form_aux">
 		<p:dataTable id="checkboxDT" var="user" value="#{shareStoreBB.users}"
 			selection="#{shareStoreBB.selectedUsers}" rowKey="#{user.id}"
 			style="margin-bottom:0">
@@ -23,9 +23,10 @@
 				<h:outputText value="#{user.name}" />
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton process="checkboxDT" value="Compartir" />
+				<p:commandButton value="Compartir"
+					action="#{shareStoreBB.shareStore}" process="checkboxDT" />
 			</f:facet>
 		</p:dataTable>
-	</form>
+	</h:form>
 </body>
 </html>
