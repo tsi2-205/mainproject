@@ -2,6 +2,8 @@ package datatypes;
 
 import java.io.Serializable;
 
+import entities.Registered;
+
 public class DataUser implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -34,6 +36,16 @@ public class DataUser implements Serializable {
 		this.account=acc;
 		this.version = version;
 	}
+    
+    public DataUser(Registered r) {
+    	super();
+    	this.id = r.getId();
+    	this.email = r.getEmail();
+    	this.password = r.getPassword();
+    	this.fbId = r.getFbId();
+    	this.name = r.getName();
+    	this.account = r.getName();
+    }
 
 	public int getId() {
 		return id;

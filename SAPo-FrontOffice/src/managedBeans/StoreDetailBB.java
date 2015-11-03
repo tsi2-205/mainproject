@@ -181,6 +181,10 @@ public class StoreDetailBB implements Serializable {
 		}
     }
     
+    public String shareStore() {
+    	return "/pages/ShareStore.xhtml?faces-redirect=true";
+    }
+    
     public String showProduct() {
 		return "/pages/ProductDetail.xhtml?faces-redirect=true";
 	}

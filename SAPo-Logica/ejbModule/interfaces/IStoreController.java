@@ -73,4 +73,6 @@ public interface IStoreController {
 	public void setCustomizeStore(int store, File rutaCss) throws SerialException, SQLException;
 	
 	public File getCustomizeStore(int id) throws SQLException, IOException;
+	
+	public List<DataUser> getShareUsersFromStore(int storeId);
 }

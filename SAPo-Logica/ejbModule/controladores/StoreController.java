@@ -4,7 +4,6 @@ import interfaces.IStoreController;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -472,5 +471,20 @@ public class StoreController implements IStoreController {
         c.setCss(rutaCss);
         em.persist(c);
 	}
-
+	
+	public List<DataUser> getShareUsersFromStore(int storeId) {
+		Store s = em.find(Store.class, storeId);
+		List<DataUser> result = new LinkedList<DataUser>();
+		String queryStr = "SELECT r FROM Registered r WHERE r NOT IN (SELECT g FROM Store s join s.guests g WHERE s.id = :idStore) ";
+		Query query = em.createQuery(queryStr, Registered.class);
+		query.setParameter("idStore", storeId);
+		for (Object o: query.getResultList()) {
+			Registered r = (Registered)o;
+			if (s.getOwner().getId() != r.getId()) {
+				result.add(new DataUser((Registered)o));
+			}
+		}
+		return result;
+	}
+	
 }
