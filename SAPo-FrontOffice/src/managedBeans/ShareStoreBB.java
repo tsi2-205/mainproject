@@ -85,10 +85,12 @@ public class ShareStoreBB {
 		this.loggedUser = loggedUser;
 	}
 
-	public void shareStore() {
+	public String shareStore() {
+		String result = "ErrorShareStore";
 		if (this.selectedUsers == null || this.selectedUsers.isEmpty()) {
 			
 		} else {
+			result = "OkShareStore";
 			String message = this.loggedUser.getName() + " ha agregado a ";
 			for (DataUser u: this.selectedUsers) {
 				message = message + u.getName();
@@ -108,5 +110,6 @@ public class ShareStoreBB {
 			EventBus eventBus = EventBusFactory.getDefault().eventBus();
 	        eventBus.publish("/notify/store/" + this.store.getId(), new FacesMessage("SAPo", message));
 		}
+		return result;
 	}
 }
