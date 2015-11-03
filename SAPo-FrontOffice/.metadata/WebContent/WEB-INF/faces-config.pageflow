@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14438271560320" configfile="/SAPo-FrontOffice/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="/login" x="122" y="764" id="pf14439003972465" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14439003972466 pf14439003972467 pf14439003972468 pf14445341457590" inlinks="pf14439003972467" path="/pages/Login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/Home.xhtml" x="554" y="764" id="pf14439003972469" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf14439003972466 pf14445341457590 pf14445341457592 pf14445711604851" path="/pages/Home.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/registro" x="338" y="562" id="pf144390039724610" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14445341457592" inlinks="pf14439003972468" path="/pages/Register.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/crearAlmacen" x="338" y="178" id="pf14445711604852" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf14445711604851" path="/pages/NewStore.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/StoreDetail.xhtml" x="338" y="1340" id="pf14446054129041" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" inlinks="pf14452258213670 pf14459513562820" path="/pages/StoreDetail.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/crearProducto" x="122" y="1148" id="pf14452258213671" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14452258213670" path="/pages/NewProduct.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/crearCategoria" x="122" y="1532" id="pf14459513562822" referenceLink="//@navigationRule.6/@navigationCase.1/@toViewId|" outlinks="pf14459513562820 pf14459513562823" inlinks="pf14459513562823" path="/pages/NewCategory.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/crearListaDeCompras" id="pf14459513562825" referenceLink="//@navigationRule.7/@navigationCase.1/@toViewId|" outlinks="pf14459514134406 pf14459514134407" inlinks="pf14459514134406" path="/pages/NewBuyList.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/StoreBuyLists.xhtml" id="pf14459514134408" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" inlinks="pf14459514134407" path="/pages/StoreBuyLists.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/editarListaDeCompras" id="pf14460538705061" referenceLink="//@navigationRule.8/@navigationCase.1/@toViewId|" outlinks="pf14460538705062 pf14460538938333" inlinks="pf14460538705062" path="/pages/EditBuyList.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/BuyListDetail.xhtml" id="pf14460538938334" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" inlinks="pf14460538938333" path="/pages/StoreBuyLists.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/login" x="122" y="380" id="pf14439003972465" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14439003972466 pf14439003972467 pf14439003972468 pf14445341457590" inlinks="pf14439003972467" path="/pages/Login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/Home.xhtml" x="554" y="391" id="pf14439003972469" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf14439003972466 pf14445341457590 pf14445341457592 pf14445711604851" path="/pages/Home.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/registro" x="338" y="178" id="pf144390039724610" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14445341457592" inlinks="pf14439003972468" path="/pages/Register.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/crearAlmacen" x="338" y="604" id="pf14445711604852" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf14445711604851" path="/pages/NewStore.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/StoreDetail.xhtml" x="338" y="988" id="pf14446054129041" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" inlinks="pf14452258213670 pf14459513562820" path="/pages/StoreDetail.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/crearProducto" x="122" y="795" id="pf14452258213671" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14452258213670" path="/pages/NewProduct.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/crearCategoria" x="122" y="1179" id="pf14459513562822" referenceLink="//@navigationRule.6/@navigationCase.1/@toViewId|" outlinks="pf14459513562820 pf14459513562823" inlinks="pf14459513562823" path="/pages/NewCategory.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/crearListaDeCompras" x="122" y="1563" id="pf14459513562825" referenceLink="//@navigationRule.7/@navigationCase.1/@toViewId|" outlinks="pf14459514134406 pf14459514134407" inlinks="pf14459514134406" path="/pages/NewBuyList.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/StoreBuyLists.xhtml" x="338" y="1755" id="pf14459514134408" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" inlinks="pf14459514134407 pf14465156554654" path="/pages/StoreBuyLists.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/editarListaDeCompras" x="122" y="1947" id="pf14460538705061" referenceLink="//@navigationRule.8/@navigationCase.1/@toViewId|" outlinks="pf14460538705062 pf14465156554654" inlinks="pf14460538705062" path="/pages/EditBuyList.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/BuyListDetail.xhtml" x="122" y="2331" id="pf14460538938334" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" path="/pages/StoreBuyLists.xhtml"/>
   <links id="pf14439003972466" target="pf14439003972469" source="pf14439003972465" outcome="loginOk" fromaction="#{sessionBB.loginWithEmail}"/>
   <links id="pf14439003972468" target="pf144390039724610" source="pf14439003972465" outcome="goToRegister" fromaction="#{sessionBB.goToRegister}"/>
   <links id="pf14445341457590" target="pf14439003972469" source="pf14439003972465" outcome="loginOk" fromaction="#{sessionBB.loginWithFacebook}"/>
@@ -18,6 +18,8 @@
   <links id="pf14445711604851" target="pf14439003972469" source="pf14445711604852" outcome="OkNewStore" fromaction="#{newStoreBB.create}"/>
   <links id="pf14452258213670" target="pf14446054129041" source="pf14452258213671" outcome="OkNewProduct" fromaction="#{newProductBB.create}"/>
   <links id="pf14459513562820" target="pf14446054129041" source="pf14459513562822" outcome="OkNewCategory" fromaction="#{newCategoryBB.create}"/>
+  <links id="pf14459514134407" target="pf14459514134408" source="pf14459513562825" outcome="okNewBuyList" fromaction="#{newBuyListBB.createBuyList}"/>
+  <links id="pf14465156554654" target="pf14459514134408" source="pf14460538705061" outcome="okEditBuyList" fromaction="#{editBuyListBB.saveBuyList}"/>
   <links id="pf14439003972467" target="pf14439003972465" source="pf14439003972465" outcome="loginError" fromaction="#{sessionBB.loginWithEmail}">
     <bendPoints d1Height="-36" d2Height="-36"/>
     <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
@@ -28,8 +30,14 @@
     <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
     <bendPoints d1Width="-64" d2Width="-64"/>
   </links>
-  <links id="pf14459514134406" target="pf14459513562825" source="pf14459513562825" outcome="failNewBuyList" fromaction="#{newBuyListBB.createBuyList}"/>
-  <links id="pf14459514134407" target="pf14459514134408" source="pf14459513562825" outcome="okNewBuyList" fromaction="#{newBuyListBB.createBuyList}"/>
-  <links id="pf14460538705062" target="pf14460538705061" source="pf14460538705061" outcome="failEditBuyList" fromaction="#{editBuyListBB.saveBuyList}"/>
-  <links id="pf14460538938333" target="pf14460538938334" source="pf14460538705061" outcome="okEditBuyList" fromaction="#{editBuyListBB.saveBuyList}"/>
+  <links id="pf14459514134406" target="pf14459513562825" source="pf14459513562825" outcome="failNewBuyList" fromaction="#{newBuyListBB.createBuyList}">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+  <links id="pf14460538705062" target="pf14460538705061" source="pf14460538705061" outcome="failEditBuyList" fromaction="#{editBuyListBB.saveBuyList}">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
 </pageflow:Pageflow>

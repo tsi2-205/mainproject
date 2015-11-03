@@ -19,6 +19,8 @@ import datatypes.DataProductAdditionalAttribute;
 import datatypes.DataStock;
 import datatypes.DataStore;
 import datatypes.DataUser;
+import exceptions.CategoryNotExistException;
+import exceptions.ExistCategoryException;
 import exceptions.ExistStoreException;
 import exceptions.NoDeleteCategoryException;
 import exceptions.ProductNotExistException;
@@ -75,4 +77,32 @@ public interface IStoreController {
 	public File getCustomizeStore(int id) throws SQLException, IOException;
 	
 	public List<DataUser> getShareUsersFromStore(int storeId);
+	
+	public List<DataProduct> findGenericsProducts(Integer idCategory) throws CategoryNotExistException;
+	
+	public void createGenericProduct(String name, String description, List<DataProductAdditionalAttribute> additionalAttributes, int idCategory) throws CategoryNotExistException;
+	
+	public void createGenericCategory(String name, String description, DataCategory fatherCat) throws ExistCategoryException;
+	
+	public void editGenericCategory(String name, String description, DataCategory category) throws ExistCategoryException;
+	
+	public void deleteGenericCategory(DataCategory category) throws NoDeleteCategoryException;
+	
+	public List<DataStore> getStores();
+	
+	public DataUser getOwnerStore(int idStore);
+	
+	public List<DataUser> getGuestsStore(int idStore);
+	
+	public int getValueStore(int idStore);
+	
+	public DataCategory findCategoryProduct(int idProduct);
+	
+	public void editGenericProduct(DataProduct product, int idCategory) throws ExistCategoryException;
+	
+	public void deleteAttributeProduct(int idProduct, int idAttribute);
+	
+	public List<DataUser> findUsers();
+	
+	public List<DataCategory> findGenericCategories();
 }

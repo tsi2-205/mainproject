@@ -13,8 +13,10 @@ import javax.persistence.Query;
 
 import datatypes.DataStore;
 import datatypes.DataUser;
+import entities.Administrator;
 import entities.Registered;
 import entities.Store;
+import entities.User;
 
 @Stateless
 @WebService
@@ -24,8 +26,8 @@ public class UserController implements IUserController {
 	private EntityManager em;
 	
 	public boolean isUserLogged (String email, String password) {
-		String queryStr = " SELECT r FROM Registered r" + " WHERE r.email = :email AND r.password = :password";
-		Query query = em.createQuery(queryStr, Registered.class);
+		String queryStr = " SELECT r FROM User r" + " WHERE r.email = :email AND r.password = :password";
+		Query query = em.createQuery(queryStr, User.class);
 		query.setParameter("email", email);
 		query.setParameter("password", password);
 		return (!query.getResultList().isEmpty() && query.getResultList().size() > 0);
@@ -63,11 +65,16 @@ public class UserController implements IUserController {
 	}
 	
 	public DataUser getUserData(String email) {
-		String queryStr = " SELECT r FROM Registered r" + " WHERE r.email = :email";
-		Query query = em.createQuery(queryStr, Registered.class);
+		String queryStr = " SELECT r FROM User r" + " WHERE r.email = :email";
+		Query query = em.createQuery(queryStr, User.class);
 		query.setParameter("email", email);
-		Registered r = (Registered)query.getSingleResult();
-		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getAccount(), r.getVersion());
+		User r = (User)query.getSingleResult();
+		int tipo = (r instanceof Administrator) ? 0 : 1;
+		if (r instanceof Administrator) {
+			tipo = 0;
+		}
+		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getAccount(), tipo);
+		
 	}
 	
 	public DataUser getFbUserData(String fbId) {
@@ -75,7 +82,7 @@ public class UserController implements IUserController {
 		Query query = em.createQuery(queryStr, Registered.class);
 		query.setParameter("fbId", fbId);
 		Registered r = (Registered)query.getSingleResult();
-		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getAccount(), r.getVersion());
+		return new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getAccount(), 1);
 	}
 	
 	public List<DataStore> getStoresGuest(int Id){
