@@ -124,4 +124,30 @@ public class UserController implements IUserController {
 		em.persist(u);
 	}
 	
+	public boolean createMoreStores(int id){
+		String queryStr = "SELECT s FROM Store s WHERE s.owner.id = :id";
+		Query query = em.createQuery(queryStr, Store.class);
+		query.setParameter("id", id);
+		String queryStr1 = " SELECT u FROM Registered u" + " WHERE u.id = :id";
+		Query query1 = em.createQuery(queryStr1, Registered.class);
+		query1.setParameter("id", id);
+		Registered u = (Registered)query1.getSingleResult();
+		String account = u.getAccount();
+		boolean ret= false;
+		if (account.equals("P")){
+			ret=true;
+		}
+		else{
+			if (!query.getResultList().isEmpty()){
+				ret=false;
+			}
+			else{
+				ret=true;
+			}
+		}
+		return ret;
+			
+			
+		}
+	
 }
