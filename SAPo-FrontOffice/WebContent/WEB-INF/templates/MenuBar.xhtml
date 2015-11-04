@@ -7,26 +7,14 @@
 
 	<h:outputStylesheet library="styles" name="menuBar.css" />
 	<h:form prependId="false">
-		<h:commandLink id="linkStoreDetail" action="StoreDetail"
-			value="Productos"
-			style="font-family: sans-serif;
-				font-size: 30px;
-				color: white;
-				font-weight: 1.5em;
-				font: bold; text-decoration: unset;" />
-		<h:commandLink id="linkStoreMoves" action="StoreMoves"
-			value="Movimientos"
-			style="font-family: sans-serif;
-				font-size: 30px;
-				color: white;
-				font-weight: 1.5em;
-				font: bold; text-decoration: unset;" />
-		<h:commandLink id="linkStoreBuyLists" action="StoreBuyLists"
-			value="Listas de compras"
-			style="font-family: sans-serif;
-				font-size: 30px;
-				color: white;
-				font-weight: 1.5em;
-				font: bold; text-decoration: unset;" />
+		<div class="menuoption">
+			<h:commandLink id="linkStoreDetail" action="StoreDetail" value="Productos" />
+		</div>
+		<div class="menuoption">
+			<h:commandLink id="linkStoreMoves" action="StoreMoves" value="Movimientos"  />
+		</div>
+		<div class="menuoption">
+			<h:commandLink id="linkStoreBuyLists" action="StoreBuyLists" value="Listas de compras"  />
+		</div>
 	</h:form>
 </ui:composition>
