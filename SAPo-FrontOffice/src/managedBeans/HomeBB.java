@@ -18,7 +18,6 @@ import javax.naming.NamingException;
 import org.primefaces.event.SelectEvent;
 
 import comunication.Comunicacion;
-import datatypes.DataProduct;
 import datatypes.DataStore;
 
 
@@ -42,16 +41,22 @@ public class HomeBB {
 		ExpressionFactory ef = apli.getExpressionFactory( );
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
-		this.id=session.getLoggedUser().getId();
-//		session.setStoreSelected(null);
-		try{
-			this.storesOwner = Comunicacion.getInstance().getIUserController().getStoresOwner(this.id);
-			this.storesGuest= Comunicacion.getInstance().getIUserController().getStoresGuest(this.id);
-				
-		} catch (NamingException e) {
-			e.printStackTrace();
+		if (session.chequearAcceso(2)) {
+			this.id=session.getLoggedUser().getId();
+			session.setStoreSelected(null);
+			session.setCategorySelected(null);
+			session.setBuyListSelected(null);
+			session.setProductSelected(null);
+			session.setStockSelected(null);
+			
+			try{
+				this.storesOwner = Comunicacion.getInstance().getIUserController().getStoresOwner(this.id);
+				this.storesGuest= Comunicacion.getInstance().getIUserController().getStoresGuest(this.id);
+					
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
 	
 	public HomeBB() {
@@ -106,8 +111,7 @@ public class HomeBB {
 		this.storeSelected = storeSelected;
 	}
 
-	public void showStore(SelectEvent event) {
-		this.storeSelected = (DataStore) event.getObject();
+	public String showStore() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ELContext contextoEL = context.getELContext( );
 		Application apli  = context.getApplication( );	
@@ -115,9 +119,10 @@ public class HomeBB {
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		session.setStoreSelected(this.storeSelected);		
-		FacesContext faces = FacesContext.getCurrentInstance();
-		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
-		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");
+		return "/pages/StoreDetail.xhtml?faces-redirect=true";
+//		FacesContext faces = FacesContext.getCurrentInstance();
+//		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+//		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");
 	}
 	
 	public void createStore() throws NamingException {

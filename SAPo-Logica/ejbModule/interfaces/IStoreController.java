@@ -46,19 +46,19 @@ public interface IStoreController {
 	
 //	public List<DataProduct> findGenericProductsStore(int idStore);
 	
-	public List<DataCategory> findGenericCategoriesStore(int idStore);
+//	public List<DataCategory> findGenericCategoriesStore(int idStore);
 	
 	public void editProductBasic(DataStock stock, int idStore);
 	
-	public List<DataHistoricStock> findHistoricStockProducto(int idStore, int idProduct);
+	public List<DataHistoricStock> findHistoricStockProduct(int idProduct);
 	
 	public List<DataHistoricStock> findHistoricStock(int idStore);
 	
-	public List<DataHistoricPrecioCompra> findHistoricPrecioCompraProducto(int idStore, int idProduct);
+	public List<DataHistoricPrecioCompra> findHistoricPrecioCompraProducto(int idProduct);
 	
 	public List<DataHistoricPrecioCompra> findHistoricPrecioCompra(int idStore);
 	
-	public List<DataHistoricPrecioVenta> findHistoricPrecioVentaProducto(int idStore, int idProduct);
+	public List<DataHistoricPrecioVenta> findHistoricPrecioVentaProducto(int idProduct);
 	
 	public List<DataHistoricPrecioVenta> findHistoricPrecioVenta(int idStore);
 	
@@ -107,4 +107,7 @@ public interface IStoreController {
 	public List<DataCategory> findGenericCategories();
 	
 	public void shareStore(int storeId, List<DataUser> users);
+
+	public void editProductStore(DataStock stock, int idStore, int idCategory) throws ExistCategoryException;
+
 }

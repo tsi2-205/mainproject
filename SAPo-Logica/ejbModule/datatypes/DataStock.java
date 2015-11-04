@@ -25,9 +25,9 @@ public class DataStock implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
     
-	public DataStock(int id, int cantidad, int precioVenta, int precioCompra) {
+	public DataStock(DataProduct product, int cantidad, int precioVenta, int precioCompra) {
 		super();
-		this.id = id;
+		this.product = product;
 		this.cantidad = cantidad;
 		this.precioVenta = precioVenta;
 		this.precioCompra = precioCompra;

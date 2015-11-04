@@ -10,6 +10,8 @@
 	</ui:define>
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
+			<h:outputText value="Usuarios del sistema" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
 			<p:panel id="filter" style="float: right;">
 				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
 				<h:inputText id="idTextFilter" value="#{adminUsersBB.textFilter}">

@@ -7,6 +7,7 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="title">
 		<h:outputText value="SAPo" />
+		<h:outputStylesheet library="styles" name="CategoryDetails.css" />
 	</ui:define>
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
@@ -14,7 +15,7 @@
 			
 			<p:commandButton value="Nuevo Categoria" style="float: right;" action="#{adminCategoriesBB.seeCreateNew}" update="createNewCategoryPanel" />
 			<p:commandButton value="Limpiar" action="#{adminCategoriesBB.clearCategorySelect}" update=":form" style="float: right;"/>
-			<h:outputText value="Tus categorías" styleClass="title1"></h:outputText>
+			<h:outputText value="Categorías genéricas" styleClass="title1"></h:outputText>
 			
 			<p:separator style="clear: both;"></p:separator>
 			

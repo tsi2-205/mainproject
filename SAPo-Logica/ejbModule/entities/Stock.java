@@ -29,7 +29,7 @@ public class Stock implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "idProduct", referencedColumnName = "id", nullable = false)
-    private Product product;
+    private SpecificProduct product;
     
     
 	public Stock() {
@@ -37,7 +37,7 @@ public class Stock implements Serializable {
 	}
 
 	public Stock(int cantidad, int precioVenta, int precioCompra,
-			Store store, Product product) {
+			Store store, SpecificProduct product) {
 		super();
 		this.cantidad = cantidad;
 		this.precioVenta = precioVenta;
@@ -94,11 +94,11 @@ public class Stock implements Serializable {
 		this.store = store;
 	}
 
-	public Product getProduct() {
+	public SpecificProduct getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(SpecificProduct product) {
 		this.product = product;
 	}
     

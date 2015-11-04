@@ -17,8 +17,10 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
+
 import datatypes.DataCategory;
 import datatypes.DataProductAdditionalAttribute;
+import datatypes.DataStock;
 import datatypes.DataStore;
 import datatypes.DataUser;
 
@@ -35,6 +37,9 @@ public class NewProductBB implements Serializable {
 	private int stockIni;
 	private int precioCompra;
 	private int precioVenta;
+	
+	private DataStock stockSelected;
+	private boolean isEdition = false;
 	
 	private TreeNode root;
 	private TreeNode selectedNode;
@@ -59,6 +64,16 @@ public class NewProductBB implements Serializable {
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.user = session.getLoggedUser();
 		this.store = session.getStoreSelected();
+		this.stockSelected = session.getStockSelected();
+		if (this.stockSelected != null) {
+			this.isEdition = true;
+			this.name = this.stockSelected.getProduct().getName();
+			this.description = this.stockSelected.getProduct().getDescription();
+			this.stockIni = this.stockSelected.getCantidad();
+			this.precioCompra = this.stockSelected.getPrecioCompra();
+			this.precioVenta = this.stockSelected.getPrecioVenta();
+			this.additionalAttributes = this.stockSelected.getProduct().getAdditionalAttributes(); 
+		}
 		this.constructCategoryTree();
 	}
 	
@@ -75,8 +90,27 @@ public class NewProductBB implements Serializable {
 		String ret = "OkNewProduct";
 		
 		try {
-			Comunicacion.getInstance().getIStoreController().createSpecificProduct(this.name, this.description, this.stockIni, this.precioCompra, this.precioVenta, this.store, this.additionalAttributes, ((DataCategory)selectedNode.getData()).getId());
-		} catch (NamingException e) {
+			if (!isEdition) {
+				Comunicacion
+						.getInstance()
+						.getIStoreController()
+						.createSpecificProduct(this.name, this.description,
+								this.stockIni, this.precioCompra,
+								this.precioVenta, this.store,
+								this.additionalAttributes,
+								((DataCategory) selectedNode.getData()).getId());
+			} else {
+				this.stockSelected.setCantidad(this.stockIni);
+				this.stockSelected.setPrecioCompra(this.precioCompra);
+				this.stockSelected.setPrecioVenta(this.precioVenta);
+				Comunicacion
+						.getInstance()
+						.getIStoreController()
+						.editProductStore(this.stockSelected, store.getId(),
+								((DataCategory) selectedNode.getData()).getId());
+			}
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -201,6 +235,14 @@ public class NewProductBB implements Serializable {
 
 	public void setSelectedNode(TreeNode selectedNode) {
 		this.selectedNode = selectedNode;
+	}
+
+	public boolean isEdition() {
+		return isEdition;
+	}
+
+	public void setEdition(boolean isEdition) {
+		this.isEdition = isEdition;
 	}
 	
 }

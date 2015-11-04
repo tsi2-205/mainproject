@@ -28,15 +28,6 @@ public abstract class Product implements Serializable {
 	@JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "idProduct"), inverseJoinColumns = @JoinColumn(name = "idCategory"))
     private Category category;
     
-    @OneToMany(mappedBy = "product")
-    private List<Stock> stocks = new LinkedList<Stock>();
-    
-    @OneToMany(mappedBy = "product")
-    private List<HistoricPrecioCompra> historicsPrecios = new LinkedList<HistoricPrecioCompra>();
-    
-    @OneToMany(mappedBy = "product")
-    private List<HistoricStock> historicStock = new LinkedList<HistoricStock>();
-    
     @OneToMany
     @JoinColumn (name = "idProduct", referencedColumnName="id")
     private List<ProductAdditionalAttribute> additionalAttributes = new LinkedList<ProductAdditionalAttribute>();
@@ -68,36 +59,12 @@ public abstract class Product implements Serializable {
 		this.version = version;
 	}
 
-	public List<Stock> getStocks() {
-		return stocks;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-
-	public void setStocks(List<Stock> stocks) {
-		this.stocks = stocks;
-	}
-
-	public List<HistoricPrecioCompra> getHistoricsPrecios() {
-		return historicsPrecios;
-	}
-
-	public void setHistoricsPrecios(List<HistoricPrecioCompra> historicsPrecios) {
-		this.historicsPrecios = historicsPrecios;
-	}
-
-	public List<HistoricStock> getHistoricStock() {
-		return historicStock;
-	}
-
-	public void setHistoricStock(List<HistoricStock> historicStock) {
-		this.historicStock = historicStock;
 	}
 
 	public String getName() {
