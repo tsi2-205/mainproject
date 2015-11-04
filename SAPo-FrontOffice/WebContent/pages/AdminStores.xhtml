@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/LayoutBackOffice.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="SAPo" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			<p:panel id="filter" style="float: right;">
+				<h:outputText style="margin-right: 4px;" value="Buscar"></h:outputText>
+				<h:inputText id="idTextFilter" value="#{adminStoresBB.textFilter}">
+					 <f:ajax event="keyup" execute="@form" listener="#{adminStoresBB.filtered}" render="storesDiv" />
+				</h:inputText>
+				<p:watermark for="idTextFilter" value="Ingrese el nombre" />
+			</p:panel>
+			<p:panel id="storesDiv" style="clear: both;">
+				<p:dataList id="listStores" emptyMessage="No hay almacenes"
+					value="#{adminStoresBB.storesFiltered}" var="store"
+					type="unordered" itemType="none" paginator="true" rows="5"
+					styleClass="paginated" paginatorAlwaysVisible="false"
+					paginatorPosition="bottom">
+					<p:panel>
+						<h:outputText styleClass="title2" value="#{store.name}"></h:outputText>
+						<p:commandButton action="#{adminStoresBB.seeStore}"
+							icon="ui-icon-search" style="float:right;margin-right:10px">
+							<f:setPropertyActionListener value="#{store}"
+								target="#{adminStoresBB.storeSelected}" />
+						</p:commandButton>
+					</p:panel>
+				</p:dataList>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

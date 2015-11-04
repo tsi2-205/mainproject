@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/LayoutBackOffice.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="SAPo" />
+		<h:outputStylesheet library="styles" name="NewProduct.css" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			<h:outputText value="Editar producto" styleClass="title1"/>
+			<p:commandButton value="Guardar" action="#{genericProductBB.saveChanges}" style="float:right;"></p:commandButton>
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel>
+				<h:outputText value="Puede cambiar la categoría" styleClass="title2"/>
+				<p:separator></p:separator>
+				<p:tree value="#{genericProductBB.root}" var="node" selectionMode="single" selection="#{genericProductBB.selectedNode}">
+			        <p:treeNode>
+			            <h:outputText value="#{node.name}" />
+			        </p:treeNode>
+			    </p:tree>
+		    </p:panel>
+			<p:panel>
+				<h:outputText value="Atributos básicos de su nuevo producto" styleClass="title2"/>
+				<p:separator></p:separator>
+				<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
+					<h:outputLabel for="name" value="Nombre:"/>
+					<h:inputText id="name" label="Nombre:" value="#{genericProductBB.product.name}" ></h:inputText>
+					<h:outputLabel for="description" value="Descripción:"/>
+					<h:inputText id="description" label="Descripción:" value="#{genericProductBB.product.description}" ></h:inputText>
+				</p:panelGrid>
+			</p:panel>
+			<p:panel rendered="#{not empty genericProductBB.product.additionalAttributes}">
+				<h:outputText value="Atributos adicionales de su nuevo producto" styleClass="title2"/>
+				<p:separator></p:separator>
+				<h:outputText value="No tiene atributos adicionales" styleClass="title2"  rendered="#{empty genericProductBB.product.additionalAttributes}"/>
+				<p:dataTable id="AdditionalAttribute" var="attribute" value="#{genericProductBB.product.additionalAttributes}" rendered="#{not empty genericProductBB.product.additionalAttributes}"
+	            	editable="true" editMode="cell" widgetVar="cellAttrib">
+	                
+	                <p:column headerText="Nombre">
+	                	<p:cellEditor>
+							<f:facet name="output"><h:outputText value="#{attribute.nameAttribute}" /></f:facet>
+							<f:facet name="input"><p:inputText value="#{attribute.nameAttribute}"/></f:facet>
+						</p:cellEditor>
+		            </p:column>
+	                <p:column headerText="Valor">
+	                	<p:cellEditor>
+							<f:facet name="output"><h:outputText value="#{attribute.valueAttribute}" /></f:facet>
+							<f:facet name="input"><p:inputText id="modelInput" value="#{attribute.valueAttribute}"/></f:facet>
+						</p:cellEditor>
+		            </p:column>
+	                <p:column style="width:32px">
+	                    <p:commandButton action="#{genericProductBB.deleteAttributeSelected}" update=":form" icon="ui-icon-close">
+	                    	<f:setPropertyActionListener value="#{attribute}" target="#{genericProductBB.attributeSelected}" />
+	                    </p:commandButton>
+	                </p:column>
+	            </p:dataTable>
+			</p:panel>
+			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes"
+				oncomplete="PF('newAttributeDialog').show()" title="Nuevo atributo">
+			</p:commandButton>
+			<p:dialog header="Nuevo atributo" widgetVar="newAttributeDialog" resizable="false">
+				<p:outputPanel id="newAttributePanel" style="text-align:center;">
+					<p:panelGrid id="AdditionalAttributes" columns="2">
+						<h:outputLabel for="nameAdditional" value="Nombre:"/>
+						<h:inputText id="nameAdditional" label="Nombre:" value="#{genericProductBB.additionalAttributeName}" ></h:inputText>
+						<h:outputLabel for="valueAdditional" value="Valor:"/>
+						<h:inputText id="valueAdditional" label="Valor:" value="#{genericProductBB.additionalAttributeValue}" ></h:inputText>
+						<f:facet name="footer">
+							<p:commandButton style="float: right;" id="addAdditionalButton" value="Agregar"
+								update=":form"
+								action="#{genericProductBB.addAttribute}"></p:commandButton>
+						</f:facet>
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

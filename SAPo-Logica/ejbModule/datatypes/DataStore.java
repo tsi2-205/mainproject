@@ -18,26 +18,30 @@ public class DataStore implements Serializable {
 	
     private String city;
     
+    private DataUser owner;
+    
     public DataStore() {
 		super();
 	}
     
-    public DataStore(int id, String name, String address, String telephone, String city) {
+    public DataStore(int id, String name, String address, String telephone, String city, DataUser owner) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.telephone = telephone;
 		this.city = city;
+		this.owner = owner;
     }
     
-    public DataStore(Store stor) {
+    public DataStore(Store store) {
 		super();
-		this.id = stor.getId();
-		this.name = stor.getName();
-		this.address = stor.getAddress();
-		this.telephone = stor.getTelephone();
-		this.city = stor.getCity();
+		this.id = store.getId();
+		this.name = store.getName();
+		this.address = store.getAddress();
+		this.telephone = store.getTelephone();
+		this.city = store.getCity();
+		this.owner = new DataUser(store.getOwner());
     }
 
 	public int getId() {
@@ -79,6 +83,12 @@ public class DataStore implements Serializable {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
 
+	public DataUser getOwner() {
+		return owner;
+	}
+
+	public void setOwner(DataUser owner) {
+		this.owner = owner;
+	}
 }

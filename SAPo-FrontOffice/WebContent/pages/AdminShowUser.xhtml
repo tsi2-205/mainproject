@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/LayoutBackOffice.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="Login" />
+		<h:outputStylesheet library="styles" name="storeDetails.css" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			<h:outputText value="Almacenes de los que es dueño" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel id="panelStoresOwner">
+				<h:outputText value="No tiene almacenes" rendered="#{empty adminShowUserBB.storesOwner}" styleClass="title2" />
+				<p:dataTable rendered="#{not empty adminShowUserBB.storesOwner}" id="listStoresOwner" var="store"
+					value="#{adminShowUserBB.storesOwner}"
+					style="margin-bottom:20px" emptyMessage="No existen almacenes"
+					sortMode="multiple">
+					<p:column headerText="Nombre" sortBy="#{store.name}">
+						<h:outputText value="#{store.name}" styleClass="title2" />
+					</p:column>
+					<p:column style="width:32px">
+						<p:commandButton id="ShowStoreDetail" icon="ui-icon-search"
+							action="#{adminShowUserBB.showStore}">
+							<f:setPropertyActionListener value="#{store}"
+								target="#{adminShowUserBB.storeSelected}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<h:outputText value="Almacenes a los que está invitado" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel id="panelStoresGuests">
+				<h:outputText value="No tiene almacenes" rendered="#{empty adminShowUserBB.storesGuest}" styleClass="title2" />
+				<p:dataTable rendered="#{not empty adminShowUserBB.storesGuest}" id="listStoresGuests" var="store"
+					value="#{adminShowUserBB.storesGuest}"
+					style="margin-bottom:20px" emptyMessage="No existen almacenes"
+					sortMode="multiple">
+					<p:column headerText="Nombre" sortBy="#{store.name}">
+						<h:outputText value="#{store.name}" styleClass="title2" />
+					</p:column>
+					<p:column style="width:32px">
+						<p:commandButton id="ShowStoreDetail" icon="ui-icon-search"
+							action="#{adminShowUserBB.showStore}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

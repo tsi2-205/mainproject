@@ -12,36 +12,46 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			<p:growl id="msgs" showDetail="true" />
-			
+
 			<h:outputText value="Tus productos" styleClass="title1"></h:outputText>
-			<p:commandButton style="clear: both; float: right" id="buttonCreateProduct" value="Nuevo Producto"
-						action="#{storeDetailBB.createProduct}" />
-			<p:commandButton style="clear: both; float: right" id="buttonCustomize" value="Customizar"
-					action="#{storeDetailBB.customizeButton}" />
+			<p:commandButton style="clear: both; float: right"
+				id="buttonCreateProduct" value="Nuevo Producto"
+				action="#{storeDetailBB.createProduct}" />
+			<p:commandButton style="clear: both; float: right"
+				id="buttonShareStore" value="Compartir"
+				oncomplete="PF('dlgShare').show();" update="dlgShare"
+				rendered="#{storeDetailBB.storeOwner}" />
+			<p:commandButton style="clear: both; float: right"
+				id="buttonCustomize" value="Customizar"
+				action="#{storeDetailBB.customizeButton}" />
 			<p:separator style="clear: both;"></p:separator>
-			
+
 			<p:panel id="panelCategories">
-				<h:outputText rendered="#{!storeDetailBB.hayCategorias}" value="No hay categorías" styleClass="title2"></h:outputText>
-				<p:tree value="#{storeDetailBB.root}" var="node" selectionMode="single" selection="#{storeDetailBB.selectedNode}">
-			        <p:ajax event="select" update="listProducts" listener="#{storeDetailBB.onCategorySelect}" />
-			        <p:treeNode>
-			            <h:outputText value="#{node.name}" />
-			        </p:treeNode>
-			    </p:tree>
-			    <p:commandButton value="Editar" actionListener="#{storeDetailBB.editCategory}"/>
+				<h:outputText rendered="#{!storeDetailBB.hayCategorias}"
+					value="No hay categorías" styleClass="title2"></h:outputText>
+				<p:tree value="#{storeDetailBB.root}" var="node"
+					selectionMode="single" selection="#{storeDetailBB.selectedNode}">
+					<p:ajax event="select" update="listProducts"
+						listener="#{storeDetailBB.onCategorySelect}" />
+					<p:treeNode>
+						<h:outputText value="#{node.name}" />
+					</p:treeNode>
+				</p:tree>
+				<p:commandButton value="Editar"
+					actionListener="#{storeDetailBB.editCategory}" />
 			</p:panel>
-			
+
 			<p:panel id="panelProducts">
 				<p:dataTable id="listProducts" var="stock"
 					value="#{storeDetailBB.stocks}" editable="true"
 					style="margin-bottom:20px" emptyMessage="No existen productos"
 					sortMode="multiple">
-	
-					<p:ajax event="rowEdit" listener="#{storeDetailBB.onRowProductEdit}"
-						update=":form:msgs" />
+
+					<p:ajax event="rowEdit"
+						listener="#{storeDetailBB.onRowProductEdit}" update=":form:msgs" />
 					<p:ajax event="rowEditCancel"
 						listener="#{storeDetailBB.onRowProductCancel}" update=":form:msgs" />
-	
+
 					<p:column headerText="Nombre" sortBy="#{stock.product.name}">
 						<p:cellEditor>
 							<f:facet name="output">
@@ -53,7 +63,7 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-	
+
 					<p:column headerText="Stock" sortBy="#{stock.cantidad}">
 						<p:cellEditor>
 							<f:facet name="output">
@@ -64,7 +74,7 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-	
+
 					<p:column headerText="Precio de compra"
 						sortBy="#{stock.precioCompra}">
 						<p:cellEditor>
@@ -77,8 +87,9 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-	
-					<p:column headerText="Precio de venta" sortBy="#{stock.precioVenta}">
+
+					<p:column headerText="Precio de venta"
+						sortBy="#{stock.precioVenta}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="$#{stock.precioVenta}" />
@@ -89,19 +100,38 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-	
+
 					<p:column style="width:32px">
 						<p:rowEditor />
 					</p:column>
-	
+
 					<p:column style="width:32px">
 						<h:commandLink id="ShowProductDetail" value="Info"
 							action="#{storeDetailBB.showProduct}" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
-			
-			
+
+			<p:dialog id="dlgShare" header="Compartir" widgetVar="dlgShare"
+				resizable="false">
+				<h:form>
+					<p:dataTable id="checkboxDT" var="user"
+						value="#{shareStoreBB.users}"
+						selection="#{shareStoreBB.selectedUsers}" rowKey="#{user.id}"
+						style="margin-bottom:0; width:300px;">
+						<p:column selectionMode="multiple"
+							style="width:16px;text-align:center" />
+						<p:column headerText="Nombre">
+							<h:outputText value="#{user.name}" />
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton value="Compartir"
+								oncomplete="PF('dlgShare').hide();"
+								action="#{shareStoreBB.shareStore}" process="checkboxDT" />
+						</f:facet>
+					</p:dataTable>
+				</h:form>
+			</p:dialog>
 
 		</h:form>
 	</ui:define>

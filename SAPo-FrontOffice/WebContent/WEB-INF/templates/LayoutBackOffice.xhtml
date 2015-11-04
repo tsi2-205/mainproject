@@ -8,8 +8,7 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<h:outputStylesheet library="styles" name="layout2.css" />
-	<h:outputStylesheet library="styles" name="#{sessionBB.storeSelected.id}.css" />
+	<h:outputStylesheet library="styles" name="LayoutBackOffice.css" />
 	<h:outputStylesheet library="styles" name="editPrimFaces.css" />
 	<ui:insert name="scripts">
 	</ui:insert>
@@ -17,28 +16,21 @@
 		<ui:insert name="title"/>
 	</title>
 </h:head>
-<h:body>		
-	
+<h:body>
 	<div id="header">
 		<ui:insert name="Header">
-			<ui:include src="/WEB-INF/templates/Header2.xhtml" />
+			<ui:include src="/WEB-INF/templates/Header.xhtml" />
 		</ui:insert>
 	</div>
-	<div id="menuBar">
-		<ui:insert name="MenuBar">
-			<ui:include src="/WEB-INF/templates/MenuBar.xhtml" />
+	<div id="menuBarBackOffice">
+		<ui:insert name="MenuBarBackOffice">
+			<ui:include src="/WEB-INF/templates/MenuBarBackOffice.xhtml" />
 		</ui:insert>
 	</div>
 	<div id="content">
 		<div id="center">
 			<ui:insert name="Principal"></ui:insert>
 		</div>
-		<div id="right">
-			<ui:insert name="rightMenu">
-				<ui:include src="/pages/StoreNotifications.xhtml" />
-			</ui:insert>
-		</div>
-		<div style="clear:both"></div>
 	</div>
 	<div id="footer">
 		<ui:insert name="footer">

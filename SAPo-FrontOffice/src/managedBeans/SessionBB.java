@@ -24,6 +24,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import comunication.Comunicacion;
 import datatypes.DataBuyList;
 import datatypes.DataCategory;
+import datatypes.DataProduct;
 import datatypes.DataStore;
 import datatypes.DataUser;
 
@@ -43,6 +44,8 @@ public class SessionBB implements Serializable {
 	private DataStore storeSelected;
 	private DataCategory categorySelected;
 	private DataBuyList buyListSelected;
+	private DataProduct productSelected;
+	private DataUser userSelected;
 	
 	public SessionBB() {
 		super();
@@ -53,8 +56,21 @@ public class SessionBB implements Serializable {
 		this.showError = false;
 	}
 	
+	public void chequearAcceso(int idPage) {
+		if (loggedUser == null) {
+			
+		} else {
+			if (loggedUser.getTipo() == 0) {
+				
+			} else {
+				
+			}
+		}
+		
+	}
+	
 	public String loginWithEmail() {
-		String ret = "loginOk";
+		String ret = "loginOkRegistered";
 		this.showError = false;
 		try {
 			boolean isUserLogged = Comunicacion.getInstance().getIUserController().isUserLogged(this.email, this.password);
@@ -64,6 +80,10 @@ public class SessionBB implements Serializable {
 				ret = "loginError";
 			} else {
 				this.loggedUser = Comunicacion.getInstance().getIUserController().getUserData(this.email);
+				if (this.loggedUser.getTipo() == 0) {
+					ret = "loginOkAdmin";
+				}
+				
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -84,7 +104,7 @@ public class SessionBB implements Serializable {
 	}
 	
 	public String loginWithFacebook() {
-		String ret = "loginOk";
+		String ret = "loginOkRegistered";
 		FacesContext context = FacesContext.getCurrentInstance();
 	    Map map = context.getExternalContext().getRequestParameterMap();
 	    this.fbId = (String) map.get("fbId");
@@ -158,7 +178,7 @@ public class SessionBB implements Serializable {
 		this.password = null;
 		this.showError = false;
 		this.storeSelected = null;
-		SecurityUtils.getSubject().logout();
+//		SecurityUtils.getSubject().logout();
 		return "/pages/Login?faces-redirect=true";
 	}
 
@@ -232,6 +252,22 @@ public class SessionBB implements Serializable {
 
 	public void setBuyListSelected(DataBuyList buyListSelected) {
 		this.buyListSelected = buyListSelected;
+	}
+
+	public DataProduct getProductSelected() {
+		return productSelected;
+	}
+
+	public void setProductSelected(DataProduct productSelected) {
+		this.productSelected = productSelected;
+	}
+
+	public DataUser getUserSelected() {
+		return userSelected;
+	}
+
+	public void setUserSelected(DataUser userSelected) {
+		this.userSelected = userSelected;
 	}
 	
 	public void paypal() throws IOException {

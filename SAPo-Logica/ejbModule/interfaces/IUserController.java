@@ -32,4 +32,6 @@ public interface IUserController {
 	
 	public void setAccount(int Id);
 	
+	public boolean createMoreStores(int id);
+	
 }

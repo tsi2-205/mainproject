@@ -48,6 +48,7 @@ public class StoreDetailBB implements Serializable {
 	private TreeNode root;
 	private TreeNode selectedNode;
 	private boolean hayCategorias;
+	private boolean isStoreOwner;
 	
 	
 	public StoreDetailBB() {
@@ -64,6 +65,7 @@ public class StoreDetailBB implements Serializable {
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.user = session.getLoggedUser();
 		this.store = session.getStoreSelected();
+		this.isStoreOwner = this.user.getId() == this.store.getOwner().getId();
 		try{
 			
 			this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), null);
@@ -273,6 +275,14 @@ public class StoreDetailBB implements Serializable {
 		this.hayCategorias = hayCategorias;
 	}
 
+	public boolean isStoreOwner() {
+		return isStoreOwner;
+	}
+
+	public void setStoreOwner(boolean isStoreOwner) {
+		this.isStoreOwner = isStoreOwner;
+	}
+
 	public TreeNode getRoot() {
 		return root;
 	}
@@ -292,6 +302,4 @@ public class StoreDetailBB implements Serializable {
 	public String customizeButton() {
 		return "/pages/Customize.xhtml?faces-redirect=true";
 	}
-
-
 }

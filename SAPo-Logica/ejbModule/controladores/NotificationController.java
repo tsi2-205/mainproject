@@ -50,18 +50,13 @@ public class NotificationController implements INotificationController {
 		return result;
 	}
 	
-	public void sendStoreUserNotification(String message, int storeId, int senderId){
+	public void sendStoreNotification(String message, int storeId) {
 		Store s = em.find(Store.class, storeId);
-		Registered owner = s.getOwner();
 		List<Registered> users = s.getGuests();
 		for (Registered r: users) {
-			if (r.getId() != senderId) {
-				Notification not = new Notification(message,false,r,s,new GregorianCalendar());
-				em.persist(not);
-			}
+			Notification not = new Notification(message,false,r,s,new GregorianCalendar());
+			em.persist(not);
 		}
-		Notification notOwner = new Notification(message,false,owner,s,new GregorianCalendar());
-		em.persist(notOwner);
 	}
 	
 	public void sendUserNotification(String message, int userId) {

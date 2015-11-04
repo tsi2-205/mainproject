@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/LayoutBackOffice.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="Login" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			
+			<h:outputText value="Movimientos" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
+			
+			<p:tabView orientation="left">
+				<p:tab title="Stock">
+					<p:dataTable var="stock" value="#{adminStoreHistoricsBB.histStock}"
+						widgetVar="movsStock"
+						emptyMessage="No hay registros de movimientos de stock"
+						filteredValue="#{adminStoreHistoricsBB.filteredHistStock}">
+
+						<p:column headerText="Producto" filterBy="#{stock.nameProduct}" filterMatchMode="contains" >
+							<h:outputText value="#{stock.nameProduct}" />
+						</p:column>
+
+						<p:column headerText="Fecha">
+							<h:outputText value="#{stock.fecha}" converter="DateConverter" />
+						</p:column>
+
+						<p:column headerText="Stock">
+							<h:outputText value="#{stock.stock}" />
+						</p:column>
+
+						<p:column headerText="Tipo">
+							<h:outputText value="#{stock.tipo == 1 ? 'Sube': 'Baja'}" />
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+				<p:tab title="Precio de compra">
+					<p:dataTable var="precioCompra"
+						value="#{adminStoreHistoricsBB.histPrecioCompra}"
+						widgetVar="movsPrecioCompra"
+						emptyMessage="No hay registros de movimientos de precios de compra"
+						filteredValue="#{adminStoreHistoricsBB.filteredHistPrecioCompra}">
+
+						<p:column headerText="Producto" filterBy="#{precioCompra.nameProduct}" filterMatchMode="contains">
+							<h:outputText value="#{precioCompra.nameProduct}" />
+						</p:column>
+
+						<p:column headerText="Fecha">
+							<h:outputText value="#{precioCompra.fecha}"
+								converter="DateConverter" />
+						</p:column>
+
+						<p:column headerText="Precio de compra">
+							<h:outputText value="#{precioCompra.precioCompra}">
+								<f:convertNumber currencySymbol="$" type="currency" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Tipo">
+							<h:outputText value="#{precioCompra.tipo == 1 ? 'Sube': 'Baja'}" />
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+				<p:tab title="Precio de venta">
+
+					<p:dataTable var="precioVenta"
+						value="#{adminStoreHistoricsBB.histPrecioVenta}"
+						widgetVar="movsPrecioVenta"
+						emptyMessage="No hay registros de movimientos de precios de venta"
+						filteredValue="#{adminStoreHistoricsBB.filteredHistPrecioVenta}">
+
+						<p:column headerText="Producto" filterBy="#{precioVenta.nameProduct}" filterMatchMode="contains">
+							<h:outputText value="#{precioVenta.nameProduct}" />
+						</p:column>
+
+						<p:column headerText="Fecha">
+							<h:outputText value="#{precioVenta.fecha}"
+								converter="DateConverter" />
+						</p:column>
+
+						<p:column headerText="Precio de venta">
+							<h:outputText value="#{precioVenta.precioVenta}">
+								<f:convertNumber currencySymbol="$" type="currency" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Tipo">
+							<h:outputText value="#{precioVenta.tipo == 1 ? 'Sube': 'Baja'}" />
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>

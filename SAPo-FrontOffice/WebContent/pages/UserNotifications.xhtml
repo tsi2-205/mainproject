@@ -29,8 +29,6 @@
 				</p:dialog>
 			</p:panel>
 		</p:dataList>
-		<p:commandButton value="Test Notification"
-			actionListener="#{userNotificationsBB.send}" />
 	</h:form>
 	<p:socket onMessage="handleMessage"
 		channel="/notify/user/#{userNotificationsBB.userId}" />

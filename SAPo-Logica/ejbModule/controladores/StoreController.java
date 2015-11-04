@@ -4,7 +4,6 @@ import interfaces.IStoreController;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -34,6 +33,7 @@ import entities.Category;
 import entities.Customer;
 import entities.ElementBuyList;
 import entities.GenericCategory;
+import entities.GenericProduct;
 import entities.HistoricPrecioCompra;
 import entities.HistoricPrecioVenta;
 import entities.HistoricStock;
@@ -44,6 +44,8 @@ import entities.SpecificCategory;
 import entities.SpecificProduct;
 import entities.Stock;
 import entities.Store;
+import exceptions.CategoryNotExistException;
+import exceptions.ExistCategoryException;
 import exceptions.ExistStoreException;
 import exceptions.NoDeleteCategoryException;
 import exceptions.ProductNotExistException;
@@ -472,5 +474,223 @@ public class StoreController implements IStoreController {
         c.setCss(rutaCss);
         em.persist(c);
 	}
-
+	
+	public List<DataUser> getShareUsersFromStore(int storeId) {
+		Store s = em.find(Store.class, storeId);
+		List<DataUser> result = new LinkedList<DataUser>();
+		String queryStr = "SELECT r FROM Registered r WHERE r NOT IN (SELECT g FROM Store s join s.guests g WHERE s.id = :idStore) ";
+		Query query = em.createQuery(queryStr, Registered.class);
+		query.setParameter("idStore", storeId);
+		for (Object o: query.getResultList()) {
+			Registered r = (Registered)o;
+			if (s.getOwner().getId() != r.getId()) {
+				result.add(new DataUser((Registered)o));
+			}
+		}
+		return result;
+	}
+	
+	public List<DataProduct> findGenericsProducts(Integer idCategory) throws CategoryNotExistException {
+		List<DataProduct> result = new LinkedList<DataProduct>();
+		String queryStr = null;
+		if (idCategory == null) {
+			queryStr = "SELECT p FROM GenericProduct p Order by p.name";
+			Query query = em.createQuery(queryStr, GenericProduct.class);
+			for (Object o: query.getResultList()) {
+				result.add(new DataProduct((GenericProduct)o));
+			}
+		} else {
+			Category cat = em.find(Category.class, idCategory);
+			if (cat == null) {
+				throw new CategoryNotExistException("No existe la categoría con identificador " + idCategory);
+			}
+			queryStr = "SELECT p FROM GenericProduct p Order by p.name";
+			Query query = em.createQuery(queryStr, GenericProduct.class);
+			for (Object o: query.getResultList()) {
+				GenericProduct p = (GenericProduct) o;
+				List<Category> cats = obtenerAncestros(p.getCategory());
+				if (cats.contains(cat)) {
+					result.add(new DataProduct(p));
+				}
+			}
+		}
+		return result;
+	}
+	
+	public void createGenericProduct(String name, String description, List<DataProductAdditionalAttribute> additionalAttributes, int idCategory) throws CategoryNotExistException {
+		Category cat = em.find(Category.class, idCategory);
+		if (cat == null) {
+			throw new CategoryNotExistException("No existe la categoría con identificador " + idCategory);
+		}
+		GenericProduct p = new GenericProduct(name, description);
+		p.setCategory(cat);
+		for (DataProductAdditionalAttribute dAdAt: additionalAttributes) {
+			ProductAdditionalAttribute newAttribute = new ProductAdditionalAttribute(dAdAt.getNameAttribute(), dAdAt.getValueAttribute());
+			em.persist(newAttribute);
+			p.getAdditionalAttributes().add(newAttribute);
+		}
+		em.persist(p);
+	}
+	
+	public void createGenericCategory(String name, String description, DataCategory fatherCat) throws ExistCategoryException {
+		String queryStr = "SELECT cat FROM Category cat WHERE cat.name = :name";
+		Query query = em.createQuery(queryStr, Category.class);
+		query.setParameter("name", name);
+		if (!query.getResultList().isEmpty()) {
+			throw new ExistCategoryException("Ya existe una categoría con nombre " + name);
+		}
+		if (fatherCat != null) {
+			GenericCategory father = em.find(GenericCategory.class, fatherCat.getId());
+			GenericCategory cat = new GenericCategory(name, description, father);
+			em.persist(cat);
+		} else {
+			GenericCategory cat = new GenericCategory(name, description, null);
+			em.persist(cat);
+		}
+	}
+	
+	public void editGenericCategory(String name, String description, DataCategory category) throws ExistCategoryException {
+		String queryStr = "SELECT cat FROM Category cat WHERE cat.id <> :idCat AND cat.name = :name";
+		Query query = em.createQuery(queryStr, Category.class);
+		query.setParameter("name", name);
+		query.setParameter("idCat", category.getId());
+		if (!query.getResultList().isEmpty()) {
+			throw new ExistCategoryException("Ya existe una categoría con nombre " + name);
+		}
+		Category c = em.find(Category.class, category.getId());
+		if (c != null) {
+			c.setName(name);
+			c.setDescription(description);
+			em.merge(c);
+		}
+	}
+	
+	public void deleteGenericCategory(DataCategory category) throws NoDeleteCategoryException {
+		Category c = em.find(Category.class, category.getId());
+		if (c != null) {
+			if (!c.getSonsCategories().isEmpty()) {
+				throw new NoDeleteCategoryException("Esta categoría posee subcategorías");
+			}
+			if (!c.getProducts().isEmpty()) {
+				throw new NoDeleteCategoryException("Esta categoría posee productos");
+			}
+			c.setFatherCategory(null);
+			em.remove(c);
+		}
+	}
+	
+	public List<DataStore> getStores() {
+		List<DataStore> ret = new LinkedList<DataStore>();
+		String queryStr = "SELECT s FROM Store s";
+		Query query = em.createQuery(queryStr, Store.class);
+		for (Object o: query.getResultList()) {
+			ret.add(new DataStore((Store)o));
+		}
+		return ret;
+	}
+	
+	public DataUser getOwnerStore(int idStore) {
+		Registered user = (Registered) (em.find(Store.class, idStore)).getOwner();
+		return new DataUser(user.getId(), user.getEmail(), null, user.getFbId(), user.getName(),user.getAccount(), 1);
+		
+	}
+	
+	public List<DataUser> getGuestsStore(int idStore) {
+		List<DataUser> ret = new LinkedList<DataUser>();
+		List<Registered> users = (List<Registered>) (em.find(Store.class, idStore)).getGuests();
+		for (Registered r: users) {
+			ret.add(new DataUser(r.getId(), r.getEmail(), null, r.getFbId(), r.getName(), r.getAccount(), 1));
+		}
+		return ret;
+	}
+	
+	public int getValueStore(int idStore) {
+		int val = 0;
+		Store s = em.find(Store.class, idStore);
+		for (Stock stk: s.getStocks()) {
+			val += stk.getCantidad() * stk.getPrecioVenta();
+		}
+		return val;
+	}
+	
+	public DataCategory findCategoryProduct(int idProduct) {
+		Product p = em.find(Product.class, idProduct);
+		DataCategory category = new DataCategory(p.getCategory());
+		return category;
+	}
+	
+	public void editGenericProduct(DataProduct product, int idCategory) throws ExistCategoryException {
+		String queryStr = "SELECT prod FROM Product prod WHERE prod.id <> :idProd AND prod.name = :name";
+		Query query = em.createQuery(queryStr, Product.class);
+		query.setParameter("name", product.getName());
+		query.setParameter("idProd", product.getId());
+		if (!query.getResultList().isEmpty()) {
+			throw new ExistCategoryException("Ya existe un producto con nombre " + product.getName());
+		}
+		Product p = em.find(Product.class, product.getId());
+		if (p.getCategory().getId() != idCategory) {
+			Category category = em.find(Category.class, idCategory);
+			p.setCategory(category);
+		}
+		p.setName(product.getName());
+		p.setDescription(product.getDescription());
+		ProductAdditionalAttribute a = null;
+		for (DataProductAdditionalAttribute data: product.getAdditionalAttributes()) {
+			boolean exist = false;
+			for (ProductAdditionalAttribute atr: p.getAdditionalAttributes()) {
+				if (atr.getId() == data.getId()) {
+					a = atr;
+					exist = true;
+					break;
+				}
+			}
+			if (exist) {
+				a.setNameAttribute(data.getNameAttribute());
+				a.setValueAttribute(data.getValueAttribute());
+				exist = false;
+			} else {
+				p.getAdditionalAttributes().add(new ProductAdditionalAttribute(data.getNameAttribute(), data.getValueAttribute()));
+			}
+		}
+		em.merge(p);
+	}
+	
+	public void deleteAttributeProduct(int idProduct, int idAttribute) {
+		Product p = em.find(Product.class, idProduct);
+		ProductAdditionalAttribute atr = em.find(ProductAdditionalAttribute.class, idAttribute);
+		p.getAdditionalAttributes().remove(atr);
+		em.remove(atr);
+		em.merge(p);
+	}
+	
+	public List<DataUser> findUsers() {
+		List<DataUser> ret = new LinkedList<DataUser>();
+		String queryStr = "SELECT reg FROM Registered reg";
+		Query query = em.createQuery(queryStr, Registered.class);
+		for (Object o: query.getResultList()) {
+			Registered r = (Registered)o;
+			ret.add(new DataUser(r.getId(), r.getEmail(), r.getPassword(), r.getFbId(), r.getName(), r.getAccount(), 1));
+		}
+		return ret;
+	}
+	
+	public List<DataCategory> findGenericCategories() {
+		List<DataCategory> result = new LinkedList<DataCategory>();
+		String queryStr = "SELECT c FROM GenericCategory c WHERE c.fatherCategory = null Order by c.name";
+		Query query = em.createQuery(queryStr, GenericCategory.class);
+		for (Object o: query.getResultList()) {
+			result.add(new DataCategory((GenericCategory)o));
+		}
+		return result;
+	}
+	
+	public void shareStore(int storeId, List<DataUser> users) {
+		Store s = em.find(Store.class, storeId);
+		for (DataUser u: users) {
+			Registered r = em.find(Registered.class, u.getId());
+			s.getGuests().add(r);
+		}
+		em.persist(s);
+	}
+	
 }

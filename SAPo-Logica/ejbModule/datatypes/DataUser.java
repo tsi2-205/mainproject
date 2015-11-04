@@ -2,6 +2,8 @@ package datatypes;
 
 import java.io.Serializable;
 
+import entities.Registered;
+
 public class DataUser implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -16,24 +18,39 @@ public class DataUser implements Serializable {
 	
     private String name;
     
+    //P: Premium, F: Free
     private String account;
     
     private int version;
+    
+    //tipo: 0=Admin, 1=Registered
+    private int tipo;
+    
     
     public DataUser() {
 		super();
 	}
     
-    public DataUser(int id, String email, String password, String fbId, String name, String acc, int version) {
-		super();
+    public DataUser(int id, String email, String password, String fbId, String name, String acc, int tipo) {
+    	super();
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.fbId = fbId;
 		this.name = name;
-		this.account=acc;
-		this.version = version;
+		this.account = acc;
+		this.tipo = tipo;
 	}
+    
+    public DataUser(Registered r) {
+    	super();
+    	this.id = r.getId();
+    	this.email = r.getEmail();
+    	this.password = r.getPassword();
+    	this.fbId = r.getFbId();
+    	this.name = r.getName();
+    	this.account = r.getName();
+    }
 
 	public int getId() {
 		return id;
@@ -90,4 +107,13 @@ public class DataUser implements Serializable {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+
+	public int getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
+	}
+	
 }

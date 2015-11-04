@@ -120,11 +120,19 @@ public class HomeBB {
 		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");
 	}
 	
-	public String createStore() {
+	public void createStore() throws NamingException {
 //		FacesContext faces = FacesContext.getCurrentInstance();
 //		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
 //		configurableNavigationHandler.performNavigation("/pages/NewStore.xhtml?faces-redirect=true");
-		return "/pages/NewStore.xhtml?faces-redirect=true";
+		if (Comunicacion.getInstance().getIUserController().createMoreStores(this.id)){
+			ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+			configurableNavigationHandler.performNavigation("/pages/NewStore.xhtml?faces-redirect=true");
+		}
+		else{
+			FacesMessage msg = new FacesMessage("Su cuenta debe ser premium");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		
 		
 	}
 	

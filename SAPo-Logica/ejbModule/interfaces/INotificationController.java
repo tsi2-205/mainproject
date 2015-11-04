@@ -13,7 +13,7 @@ public interface INotificationController {
 	
 	public List<DataNotification> getUserNotifications(int userId);
 	
-	public void sendStoreUserNotification(String message, int storeId, int senderId);
+	public void sendStoreNotification(String message, int storeId);
 	
 	public void sendUserNotification(String message, int userId);
 	

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/LayoutBackOffice.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="SAPo" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			<p:panel id="filter" style="float: right;">
+				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
+				<h:inputText id="idTextFilter" value="#{adminUsersBB.textFilter}">
+					 <f:ajax event="keyup" execute="@form" listener="#{adminUsersBB.filtered}" render="listUsers" />
+				</h:inputText>
+				<p:watermark for="idTextFilter" value="Ingrese el nombre/identificador" />
+			</p:panel>
+			<p:panel style="clear: both;" id="listUsers">
+				<p:dataTable var="user" value="#{adminUsersBB.usersFiltered}"
+					widgetVar="user"
+					emptyMessage="No hay usuarios">
+					<p:column headerText="Identificador" >
+						<h:outputText rendered="#{user.email != null}" value="#{user.email}" />
+						<h:outputText rendered="#{user.email == null}" value="#{user.fbId}" />
+					</p:column>
+					<p:column headerText="Nombre" >
+						<h:outputText value="#{user.name}" />
+					</p:column>
+					<p:column headerText="Tipo" >
+						<h:outputText rendered="#{user.account.equals('F')}" value="Free" />
+						<h:outputText rendered="#{user.account.equals('P')}" value="Premium" />
+					</p:column>
+					<p:column style="width: 32px;">
+						<p:commandButton icon="ui-icon-search" action="#{adminUsersBB.showUser}">
+							<f:setPropertyActionListener value="#{user}" target="#{adminUsersBB.userSelected}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/LayoutBackOffice.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="SAPo" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			
+			<p:panel>
+				<p:panelGrid columns="2">
+					<h:outputText value="Nombre:"/>
+					<h:outputText value="#{adminStoreDetailBB.store.name}"/>
+					
+					<h:outputText value="Ciudad:"/>
+					<h:outputText rendered="#{adminStoreDetailBB.store.city != null}" value="#{adminStoreDetailBB.store.city}"/>
+					<h:outputText rendered="#{adminStoreDetailBB.store.city == null}" value="---"/>
+					
+					<h:outputText value="Dirección:"/>
+					<h:outputText rendered="#{adminStoreDetailBB.store.address != null}" value="#{adminStoreDetailBB.store.address}"/>
+					<h:outputText rendered="#{adminStoreDetailBB.store.address == null}" value="---"/>
+					
+					<h:outputText value="Telefono:"/>
+					<h:outputText rendered="#{adminStoreDetailBB.store.telephone != null}" value="#{adminStoreDetailBB.store.telephone}"/>
+					<h:outputText rendered="#{adminStoreDetailBB.store.telephone == null}" value="---"/>
+					
+					<h:outputText value="Dueño:"/>
+					<h:outputText value="#{adminStoreDetailBB.ownerStore.name} (#{adminStoreDetailBB.ownerStore.email})" rendered="#{adminStoreDetailBB.ownerStore.email != null}"/>
+					<h:outputText value="#{adminStoreDetailBB.ownerStore.name} (#{adminStoreDetailBB.ownerStore.fbId})" rendered="#{adminStoreDetailBB.ownerStore.fbId != null}" />
+					
+					<h:outputText value="Invitados:"/>
+					<h:outputText rendered="#{empty adminStoreDetailBB.guestsStore}" value="---"/>
+					<p:panel rendered="#{not empty adminStoreDetailBB.guestsStore}">
+						<h:outputText rendered="#{not empty adminStoreDetailBB.guestsStore}" value="#{adminStoreDetailBB.guestsStore.size}"/>
+						<p:dataList value="#{adminStoreDetailBB.guestsStore}" var="userGuest">
+							<h:outputText value="#{userGuest.name} (#{userGuest.email})" rendered="#{userGuest.email != null}"/>
+							<h:outputText value="#{userGuest.name} (#{userGuest.fbId})" rendered="#{userGuest.fbId != null}" />
+						</p:dataList>
+					</p:panel>
+				</p:panelGrid>
+		    </p:panel>
+		    
+		    <p:panel id="idPanelButtons">
+				<p:commandButton value="Productos" action="#{adminStoreDetailBB.showProducts}" ></p:commandButton>
+				<p:commandButton value="Historicos" action="#{adminStoreDetailBB.showHistorics}" ></p:commandButton>
+		    </p:panel>
+			
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

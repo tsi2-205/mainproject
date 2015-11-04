@@ -25,7 +25,10 @@ public class GenericProduct extends Product {
 
 	public GenericProduct() {
 		super();
-		// TODO Auto-generated constructor stub
+	}
+
+	public GenericProduct(String name, String description) {
+		super(name, description);
 	}
 
 	public Administrator getAdministrator() {
