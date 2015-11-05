@@ -62,18 +62,96 @@
 		  }
 		  
 		</script>
+		
+		<style>
+	
+			
+			.loginBTN {
+			 background:url('https://dh3vbjnk0bnfa.cloudfront.net/static/centralauth/images/btn-login.png') no-repeat 5px 5px #484B4F;
+			  width: 120px;
+			  cursor:pointer;
+			  border-radius:50px;
+			  padding:10px 20px 10px 0;
+			  color:White;
+			  font-size:12px;
+			  text-align:left;
+			  text-indent:40px;
+			  display:block;
+			  margin:0 auto;
+			 
+			  /* Animations: */
+			  -webkit-transition-timing-function: ease-in-out;
+			  -webkit-transition-duration: .4s;
+			  -webkit-transition-property: all;
+			  
+			  -moz-transition-timing-function: ease-in-out;
+			  -moz-transition-duration: .4s;
+			  -moz-transition-property: all;
+			}
+			
+			.loginBTN:hover {
+			  background-image: url('https://dh3vbjnk0bnfa.cloudfront.net/static/centralauth/images/btn-login-hover.png');
+			  background-position: 75px 5px;
+			  text-indent: 20px;  
+			}
+			
+			.PassInput { 
+				border-color:#cccccc; 
+				padding:6px; 
+				font-size:17px;
+				width: 200px;
+				text-align:center; 
+				border-width:3px;
+				border-radius:16px;
+				border-style:solid; 
+				text-shadow:0px 1px 2px rgba(42,42,42,.75);
+				font-style:none; font-family:fantasy; 
+			} 
+			.PassInput:focus { outline:none; }
+						
+.btnRegister {
+  background: #34d947;
+  background-image: -webkit-linear-gradient(top, #34d947, #0d7313);
+  background-image: -moz-linear-gradient(top, #34d947, #0d7313);
+  background-image: -ms-linear-gradient(top, #34d947, #0d7313);
+  background-image: -o-linear-gradient(top, #34d947, #0d7313);
+  background-image: linear-gradient(to bottom, #34d947, #0d7313);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 23px;
+  padding: 5px 32px 5px 32px;
+  border: solid #1f8c3c 2px;
+  text-decoration: none;
+}
+
+.btnRegister:hover {
+  background: #09ad09;
+  background-image: -webkit-linear-gradient(top, #09ad09, #023602);
+  background-image: -moz-linear-gradient(top, #09ad09, #023602);
+  background-image: -ms-linear-gradient(top, #09ad09, #023602);
+  background-image: -o-linear-gradient(top, #09ad09, #023602);
+  background-image: linear-gradient(to bottom, #09ad09, #023602);
+  text-decoration: none;
+}
+
+		</style>
 	<h:form>
 		<div id="container">
 			<div id="header-container">
 				<h:outputLabel style="font-size: 36px; color: white;" id="header-title" value="" />
 			</div>
-			<div id="login-container">
+			<div id="login-container" style="height: 250px;">
+				
+				<br/>
 				<div id="email-container">
-					<p:inputText style="width:310px; height:45%; margin-top: 15px;" id="email" value="#{sessionBB.email}" />
+					<p:inputText class="PassInput" id="email" value="#{sessionBB.email}" />
 					<p:watermark for="email" value="Email" />
 				</div>
 				<div id="password-container">
-					<p:password style="width:310px; height:45%; margin-top: 5px;" id="password" value="#{sessionBB.password}" />
+					<p:password class="PassInput" id="password" value="#{sessionBB.password}" />
 					<p:watermark for="password" value="Contraseña" />
 				</div>
 				<div id="message-container">
@@ -81,10 +159,9 @@
 						rendered="#{sessionBB.showError}"></h:outputText>
 				</div>
 				<div id="sign-in-container">
-					<h:commandButton
-						style="position: relative; width:315px; height:70%;
-	font-size: 18px; margin-top: 5px;"
-						value="Ingresar" action="#{sessionBB.loginWithEmail}"></h:commandButton>
+					<div class="wrap">
+						<h:commandButton class="loginBTN"  value="Ingresar" action="#{sessionBB.loginWithEmail}"></h:commandButton>
+					</div>
 				</div>
 			</div>
 			<p:separator />
@@ -97,10 +174,9 @@
 					action="#{sessionBB.loginWithFacebook}" />
 			</div>
 			<p:separator />
-			<div id="register-container">
+			<div id="register-container"><br/>
 				<h:commandButton
-					style="position: relative; margin-top: 20px; margin-bottom: 30px; width:315px; height:50%;
-	font-size: 18px;"
+					class="btnRegister"
 					value="Registrarse" action="#{sessionBB.goToRegister}"></h:commandButton>
 			</div>
 		</div>

@@ -8,28 +8,94 @@
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Index</title>
-</h:head>
-<h:body>	
-	<h:form>
-		<h:panelGrid columns="2">
-			<h:outputText value="Nombre:"></h:outputText>
-			<h:inputText id="nombre" value="#{sessionBB.name}" ></h:inputText>
-			<h:outputText value="Email:"></h:outputText>
-			<h:inputText id="email" value="#{sessionBB.email}" ></h:inputText>
-			<h:outputText value="Contraseña:"></h:outputText>
-			<h:inputSecret id="password" value="#{sessionBB.password}" ></h:inputSecret>
-		</h:panelGrid>	
-		<h:commandButton value="Aceptar" action="#{sessionBB.register}"></h:commandButton>
-	</h:form>
+
+<style>
+	.inputs {
+		border-color:#cccccc;
+		padding-top:2px;
+		padding-bottom:2px;
+		padding-left:6px;
+		padding-right:6px;
+		font-size:17px;
+		text-align:center;
+		border-width:3px;
+		border-radius:16px;
+		border-style:solid;
+		text-shadow:0px 1px 2px rgba(42,42,42,.75);
+		font-style:none;
+		font-family:fantasy;
+	}
+	.inputs:focus { outline:none; }
 	
-	<h:form>
-		<h:inputHidden id="cmd" value="_s-xclick"/>
-		<h:inputHidden id="hosted_button_id" value="A575ACHN4DXME"/>
-		<h:commandLink action="#{sessionBB.paypal}">
-		<h:graphicImage type="button" value="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_paynowCC_LG.gif"  border="0" NAME="submit" alt="PayPal. La forma rápida y segura de pagar en Internet."/>
-		</h:commandLink>
-		<h:graphicImage alt="" border="0" value="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1"/>
-	</h:form>
+.doneBTN {
+  background: #34d947;
+  background-image: -webkit-linear-gradient(top, #34d947, #0d7313);
+  background-image: -moz-linear-gradient(top, #34d947, #0d7313);
+  background-image: -ms-linear-gradient(top, #34d947, #0d7313);
+  background-image: -o-linear-gradient(top, #34d947, #0d7313);
+  background-image: linear-gradient(to bottom, #34d947, #0d7313);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 23px;
+  padding: 0px 25px 0px 25px;
+  border: solid #1f8c3c 2px;
+  text-decoration: none;
+  float: right;
+  position: relative;
+}
+
+.doneBTN:hover {
+  background: #09ad09;
+  background-image: -webkit-linear-gradient(top, #09ad09, #023602);
+  background-image: -moz-linear-gradient(top, #09ad09, #023602);
+  background-image: -ms-linear-gradient(top, #09ad09, #023602);
+  background-image: -o-linear-gradient(top, #09ad09, #023602);
+  background-image: linear-gradient(to bottom, #09ad09, #023602);
+  text-decoration: none;
+}
+.externo{
+	margin-left: 20%;
+	margin-top: 5%;
+	background-color: blue;
+	width: 282px;
+}
+.inner{
+	background-color: green;
+	float: right;
+}
+</style>
+
+</h:head>
+<h:body>
+	
+	<div class="externo">
+		<h3>Registrarse como usuario SAPo</h3>
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputText value="Nombre:"></h:outputText>
+				<h:inputText class="inputs" id="nombre" value="#{sessionBB.name}" ></h:inputText>
+				<h:outputText value="Email:"></h:outputText>
+				<h:inputText class="inputs" id="email" value="#{sessionBB.email}" ></h:inputText>
+				<h:outputText value="Contraseña:"></h:outputText>
+				<h:inputSecret class="inputs" id="password" value="#{sessionBB.password}" ></h:inputSecret>
+			</h:panelGrid>	<br/><br/>
+			<h:commandButton class="doneBTN" value="Hecho" action="#{sessionBB.register}"></h:commandButton>
+		</h:form>
+		<br/><br/><br/><br/><br/>
+		<div class="inner">
+			<h:form>
+				<h:inputHidden id="cmd" value="_s-xclick"/>
+				<h:inputHidden id="hosted_button_id" value="A575ACHN4DXME"/>
+				<h:commandLink action="#{sessionBB.paypal}">
+				<h:graphicImage type="button" value="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_paynowCC_LG.gif"  border="0" NAME="submit" alt="PayPal. La forma rápida y segura de pagar en Internet."/>
+				</h:commandLink>
+				<h:graphicImage alt="" border="0" value="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1"/>
+			</h:form>
+		</div>		
+	</div>
 
 	
 </h:body>
