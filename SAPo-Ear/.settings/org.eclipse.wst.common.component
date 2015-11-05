@@ -10,5 +10,9 @@
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="SAPo-WS.war" deploy-path="/" handle="module:/resource/SAPo-WS/SAPo-WS">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

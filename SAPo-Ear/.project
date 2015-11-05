@@ -5,6 +5,7 @@
 	<projects>
 		<project>SAPo-Logica</project>
 		<project>SAPo-FrontOffice</project>
+		<project>SAPo-WS</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
