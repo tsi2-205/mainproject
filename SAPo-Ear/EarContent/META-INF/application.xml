@@ -10,5 +10,11 @@
       <context-root>SAPo-FrontOffice</context-root>
     </web>
   </module>
+  <module>
+    <web>
+      <web-uri>SAPo-WS.war</web-uri>
+      <context-root>SAPo-WS</context-root>
+    </web>
+  </module>
   <library-directory>lib</library-directory>
 </application>
