@@ -1,14 +1,14 @@
 package response;
 
-import entities.User;
+import datatypes.DataUser;
 
 public class LoginResponse {
 
 	int respCode;
 	String message;
-	User user;
+	DataUser user;
 	
-	public LoginResponse(int respCode, String message, User user) {
+	public LoginResponse(int respCode, String message, DataUser user) {
 		super();
 		this.respCode = respCode;
 		this.message = message;
@@ -31,11 +31,11 @@ public class LoginResponse {
 		this.message = message;
 	}
 
-	public User getUser() {
+	public DataUser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(DataUser user) {
 		this.user = user;
 	}
 }
