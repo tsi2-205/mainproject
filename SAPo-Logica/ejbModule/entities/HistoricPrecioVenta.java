@@ -34,7 +34,7 @@ public class HistoricPrecioVenta implements Serializable {
 	
 	@ManyToOne
     @JoinColumn(name = "idProducto", referencedColumnName = "id", nullable = false)
-    private Product product;
+    private SpecificProduct product;
 	
 	@ManyToOne
     @JoinColumn(name = "idStore", referencedColumnName = "id", nullable = false)
@@ -45,7 +45,7 @@ public class HistoricPrecioVenta implements Serializable {
 	}
 	
 	public HistoricPrecioVenta(Calendar fecha, int precioVenta,
-			int tipo, Product product, Store store) {
+			int tipo, SpecificProduct product, Store store) {
 		super();
 		this.fecha = fecha;
 		this.precioVenta = precioVenta;
@@ -94,11 +94,11 @@ public class HistoricPrecioVenta implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public Product getProduct() {
+	public SpecificProduct getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(SpecificProduct product) {
 		this.product = product;
 	}
 

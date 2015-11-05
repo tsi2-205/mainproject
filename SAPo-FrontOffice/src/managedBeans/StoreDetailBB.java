@@ -63,24 +63,24 @@ public class StoreDetailBB implements Serializable {
 		ExpressionFactory ef = apli.getExpressionFactory( );
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
-		this.user = session.getLoggedUser();
-		this.store = session.getStoreSelected();
-		this.isStoreOwner = this.user.getId() == this.store.getOwner().getId();
-		try{
-			
-			this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), null);
-//			this.gemericProducts = Comunicacion.getInstance().getIStoreController().findGenericProductsStore(store.getId());
-			
-			this.constructCategoryTree();
-				
-		} catch (NamingException e) {
-			e.printStackTrace();
+		if (session.chequearAcceso(3)) {
+			this.user = session.getLoggedUser();
+			this.store = session.getStoreSelected();
+			this.isStoreOwner = this.user.getId() == this.store.getOwner().getId();
+			session.setCategorySelected(null);
+			session.setBuyListSelected(null);
+			session.setProductSelected(null);
+			session.setStockSelected(null);
+			try{
+				this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), null);
+//				this.gemericProducts = Comunicacion.getInstance().getIStoreController().findGenericProductsStore(store.getId());
+				this.constructCategoryTree();
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
 	
-	
-    
     public void constructCategoryTree() {
     	try {
 			this.categories= Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
@@ -188,7 +188,7 @@ public class StoreDetailBB implements Serializable {
 	}
     
 	public String createProduct() {
-		return "/pages/NewProduct.xhtml?faces-redirect=true";
+		return "/pages/ListGenericProducts.xhtml?faces-redirect=true";
 	}
 	
 	public String createCategory() {

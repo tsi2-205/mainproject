@@ -182,9 +182,9 @@ public class StoreController implements IStoreController {
 			for (Product p: store.getSpecificsProducts()) {
 				result.add(new DataProduct(p));
 			}
-			for (Product p: store.getGenericsProducts()) {
-				result.add(new DataProduct(p));
-			}
+//			for (Product p: store.getGenericsProducts()) {
+//				result.add(new DataProduct(p));
+//			}
 		} else {
 			Category cat = em.find(Category.class, idCategory);
 			for (Product p: store.getSpecificsProducts()) {
@@ -193,12 +193,12 @@ public class StoreController implements IStoreController {
 					result.add(new DataProduct(p));
 				}
 			}
-			for (Product p: store.getGenericsProducts()) {
-				List<Category> cats = obtenerAncestros(p.getCategory());
-				if (cats.contains(cat)) {
-					result.add(new DataProduct(p));
-				}
-			}
+//			for (Product p: store.getGenericsProducts()) {
+//				List<Category> cats = obtenerAncestros(p.getCategory());
+//				if (cats.contains(cat)) {
+//					result.add(new DataProduct(p));
+//				}
+//			}
 		}
 		return result;
 	}
@@ -223,20 +223,21 @@ public class StoreController implements IStoreController {
 //		return result;
 //	}
 	
-	public List<DataCategory> findGenericCategoriesStore(int idStore) {
-		Store store = em.find(Store.class, idStore);
-		List<DataCategory> result = new LinkedList<DataCategory>();
-		for (Category c: store.getCategories()) {
-			if (c instanceof GenericCategory) {
-				result.add(new DataCategory(c));
-			}
-		}
-		return result;
-	}
+//	public List<DataCategory> findGenericCategoriesStore(int idStore) {
+//		Store store = em.find(Store.class, idStore);
+//		List<DataCategory> result = new LinkedList<DataCategory>();
+//		for (Category c: store.getCategories()) {
+//			if (c instanceof GenericCategory) {
+//				result.add(new DataCategory(c));
+//			}
+//		}
+//		return result;
+//	}
 	
+	// Chequear que no exista otro producto co el mismo nombre en el almacen
 	public void editProductBasic(DataStock stock, int idStore) {
 		Stock stk = em.find(Stock.class, stock.getId());
-		Product p = stk.getProduct();
+		SpecificProduct p = stk.getProduct();
 		Store s = stk.getStore();
 		Calendar fechaActual = new GregorianCalendar();
 		
@@ -280,15 +281,16 @@ public class StoreController implements IStoreController {
 		em.merge(p);
 	}
 	
-	public List<DataHistoricStock> findHistoricStockProducto(int idStore, int idProduct) {
-		String queryStr = "SELECT hs FROM HistoricStock hs join Product p join Store s WHERE s.id = :idStore AND p.id = :idProduct Order by hs.fecha";
-		Query query = em.createQuery(queryStr, HistoricStock.class);
-		query.setParameter("idStore", idStore);
-		query.setParameter("idProduct", idProduct);
+	public List<DataHistoricStock> findHistoricStockProduct(int idProduct) {
+//		String queryStr = "SELECT hs FROM HistoricStock hs join SpecificProduct p join Store s WHERE s.id = :idStore AND p.id = :idProduct Order by hs.fecha";
+//		Query query = em.createQuery(queryStr, HistoricStock.class);
+//		query.setParameter("idStore", idStore);
+//		query.setParameter("idProduct", idProduct);
 		
+		SpecificProduct p = em.find(SpecificProduct.class, idProduct);
 		List<DataHistoricStock> result = new LinkedList<DataHistoricStock>();
-		for (Object o: query.getResultList()) {
-			result.add(new DataHistoricStock((HistoricStock)o));
+		for (HistoricStock hs: p.getHistoricStock()) {
+			result.add(new DataHistoricStock(hs));
 		}
 		return result;
 	}
@@ -305,15 +307,16 @@ public class StoreController implements IStoreController {
 		return result;
 	}
 	
-	public List<DataHistoricPrecioCompra> findHistoricPrecioCompraProducto(int idStore, int idProduct) {
-		String queryStr = "SELECT hpc FROM HistoricPrecioCompra hpc join hpc.product p join hpc.store s WHERE s.id = :idStore AND p.id = :idProduct Order by hpc.fecha";
-		Query query = em.createQuery(queryStr, HistoricPrecioCompra.class);
-		query.setParameter("idStore", idStore);
-		query.setParameter("idProduct", idProduct);
+	public List<DataHistoricPrecioCompra> findHistoricPrecioCompraProducto(int idProduct) {
+//		String queryStr = "SELECT hpc FROM HistoricPrecioCompra hpc join hpc.product p join hpc.store s WHERE s.id = :idStore AND p.id = :idProduct Order by hpc.fecha";
+//		Query query = em.createQuery(queryStr, HistoricPrecioCompra.class);
+//		query.setParameter("idStore", idStore);
+//		query.setParameter("idProduct", idProduct);
 		
+		SpecificProduct p = em.find(SpecificProduct.class, idProduct);
 		List<DataHistoricPrecioCompra> result = new LinkedList<DataHistoricPrecioCompra>();
-		for (Object o: query.getResultList()) {
-			result.add(new DataHistoricPrecioCompra((HistoricPrecioCompra)o));
+		for (HistoricPrecioCompra hpc: p.getHistoricsPreciosCompra()) {
+			result.add(new DataHistoricPrecioCompra(hpc));
 		}
 		return result;
 	}
@@ -330,15 +333,15 @@ public class StoreController implements IStoreController {
 		return result;
 	}
 	
-	public List<DataHistoricPrecioVenta> findHistoricPrecioVentaProducto(int idStore, int idProduct) {
-		String queryStr = "SELECT hpv FROM HistoricPrecioVenta hpv join Product p join Store s WHERE s.id = :idStore AND p.id = :idProduct Order by hpv.fecha";
-		Query query = em.createQuery(queryStr, HistoricPrecioVenta.class);
-		query.setParameter("idStore", idStore);
-		query.setParameter("idProduct", idProduct);
-		
+	public List<DataHistoricPrecioVenta> findHistoricPrecioVentaProducto(int idProduct) {
+//		String queryStr = "SELECT hpv FROM HistoricPrecioVenta hpv join Product p join Store s WHERE s.id = :idStore AND p.id = :idProduct Order by hpv.fecha";
+//		Query query = em.createQuery(queryStr, HistoricPrecioVenta.class);
+//		query.setParameter("idStore", idStore);
+//		query.setParameter("idProduct", idProduct);
+		SpecificProduct p = em.find(SpecificProduct.class, idProduct);
 		List<DataHistoricPrecioVenta> result = new LinkedList<DataHistoricPrecioVenta>();
-		for (Object o: query.getResultList()) {
-			result.add(new DataHistoricPrecioVenta((HistoricPrecioVenta)o));
+		for (HistoricPrecioVenta hpv: p.getHistoricsPreciosVenta()) {
+			result.add(new DataHistoricPrecioVenta(hpv));
 		}
 		return result;
 	}
@@ -690,7 +693,108 @@ public class StoreController implements IStoreController {
 			Registered r = em.find(Registered.class, u.getId());
 			s.getGuests().add(r);
 		}
-		em.persist(s);
+		em.merge(s);
+	}
+
+	public void editProductStore(DataStock stock, int idStore, int idCategory) throws ExistCategoryException {
+		Store store = em.find(Store.class, idStore);
+		Product p = em.find(Product.class, stock.getProduct().getId());
+		String queryStr = "SELECT sp FROM Store s join s.specificsProducts sp WHERE sp.name = :name AND sp.id <> :id";
+		Query query = em.createQuery(queryStr);
+		query.setParameter("name", p.getName());
+		query.setParameter("id", p.getId());
+		if (!query.getResultList().isEmpty()) {
+			throw new ExistCategoryException("Ya existe un producto con nombre " + p.getName());
+		}
+		
+		if (p instanceof GenericProduct) {
+			//esta agregando un producto generico
+			Category cat = em.find(Category.class, idCategory);
+			SpecificProduct sp = new SpecificProduct(stock.getProduct().getName(), stock.getProduct().getDescription(), store);
+			sp.setCategory(cat);
+			for (DataProductAdditionalAttribute dAdAt: stock.getProduct().getAdditionalAttributes()) {
+				ProductAdditionalAttribute newAttribute = new ProductAdditionalAttribute(dAdAt.getNameAttribute(), dAdAt.getValueAttribute());
+				em.persist(newAttribute);
+				sp.getAdditionalAttributes().add(newAttribute);
+			}
+			Stock stk = new Stock(stock.getCantidad(), stock.getPrecioVenta(), stock.getPrecioCompra(), store, sp);
+			em.persist(sp);
+			em.persist(stk);
+			Calendar fechaActual = new GregorianCalendar();
+			HistoricStock hs = new HistoricStock(fechaActual, stk.getCantidad(), 1, sp, store);
+			em.persist(hs);
+			HistoricPrecioCompra hpc = new HistoricPrecioCompra(fechaActual, stk.getPrecioCompra(), 1, sp, store);
+			em.persist(hpc);
+			HistoricPrecioVenta hpv = new HistoricPrecioVenta(fechaActual, stk.getPrecioVenta(), 1, sp, store);
+			em.persist(hpv);
+			
+		} else {
+			//Esta editando un producto especifico
+			if (p.getCategory().getId() != idCategory) {
+				Category category = em.find(Category.class, idCategory);
+				p.setCategory(category);
+			}
+			p.setName(stock.getProduct().getName());
+			p.setDescription(stock.getProduct().getDescription());
+			ProductAdditionalAttribute a = null;
+			for (DataProductAdditionalAttribute data: stock.getProduct().getAdditionalAttributes()) {
+				boolean exist = false;
+				for (ProductAdditionalAttribute atr: p.getAdditionalAttributes()) {
+					if (atr.getId() == data.getId()) {
+						a = atr;
+						exist = true;
+						break;
+					}
+				}
+				if (exist) {
+					a.setNameAttribute(data.getNameAttribute());
+					a.setValueAttribute(data.getValueAttribute());
+					exist = false;
+				} else {
+					p.getAdditionalAttributes().add(new ProductAdditionalAttribute(data.getNameAttribute(), data.getValueAttribute()));
+				}
+			}
+			em.merge(p);
+			Stock stk = em.find(Stock.class, stock.getId());
+			Calendar fechaActual = new GregorianCalendar();
+			if (stk.getCantidad() != stock.getCantidad()) {
+				int tipo;
+				if (stk.getCantidad() < stock.getCantidad()) {
+					tipo = 1;
+				} else {
+					tipo = 0;
+				}
+				HistoricStock hs = new HistoricStock(fechaActual, stock.getCantidad(), tipo, (SpecificProduct)p, store);
+				stk.setCantidad(stock.getCantidad());
+				em.persist(hs);
+			}
+			if (stk.getPrecioCompra() != stock.getPrecioCompra()) {
+				int tipo;
+				if (stk.getPrecioCompra() < stock.getPrecioCompra()) {
+					tipo = 1;
+				} else {
+					tipo = 0;
+				}
+				HistoricPrecioCompra hpc = new HistoricPrecioCompra(fechaActual, stock.getPrecioCompra(), tipo, (SpecificProduct)p, store);
+				stk.setPrecioCompra(stock.getPrecioCompra());
+				em.persist(hpc);
+			}
+			if (stk.getPrecioVenta() != stock.getPrecioVenta()) {
+				int tipo;
+				if (stk.getPrecioVenta() < stock.getPrecioVenta()) {
+					tipo = 1;
+				} else {
+					tipo = 0;
+				}
+				HistoricPrecioVenta hpv = new HistoricPrecioVenta(fechaActual, stock.getPrecioVenta(), tipo, (SpecificProduct)p, store);
+				stk.setCantidad(stock.getCantidad());
+				em.persist(hpv);
+				stk.setPrecioVenta(stock.getPrecioVenta());
+			}
+			em.merge(stk);
+		}
+		
+
 	}
 	
 }

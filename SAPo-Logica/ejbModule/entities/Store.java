@@ -28,8 +28,8 @@ public class Store implements Serializable {
     @Version
     private int version;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy="stores")
-    private List<GenericProduct> genericsProducts = new LinkedList<GenericProduct>();
+//    @ManyToMany(fetch = FetchType.LAZY, mappedBy="stores")
+//    private List<GenericProduct> genericsProducts = new LinkedList<GenericProduct>();
     
     @OneToMany(mappedBy="store", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<SpecificProduct> specificsProducts = new LinkedList<SpecificProduct>();
@@ -119,13 +119,13 @@ public class Store implements Serializable {
 		return owner;
 	}
 	
-	public List<GenericProduct> getGenericsProducts() {
-		return genericsProducts;
-	}
-	
-	public void setGenericsProducts(List<GenericProduct> genericsProducts) {
-		this.genericsProducts = genericsProducts;
-	}
+//	public List<GenericProduct> getGenericsProducts() {
+//		return genericsProducts;
+//	}
+//	
+//	public void setGenericsProducts(List<GenericProduct> genericsProducts) {
+//		this.genericsProducts = genericsProducts;
+//	}
 	
 	public List<SpecificProduct> getSpecificsProducts() {
 		return specificsProducts;

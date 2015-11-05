@@ -49,6 +49,12 @@ public class StoreBuyListsBB {
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.user = session.getLoggedUser();
 		this.store = session.getStoreSelected();
+//		categorySelected;
+//		buyListSelected;
+//		productSelected;
+//		userSelected;
+//		stockSelected;
+		session.setBuyListSelected(null);
 
 		try {
 			this.buyLists = Comunicacion.getInstance().getIStoreController().findBuyListsStore(store.getId());

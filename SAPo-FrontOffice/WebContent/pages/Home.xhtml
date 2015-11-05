@@ -10,26 +10,50 @@
 	</ui:define>
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
-			<p:commandButton id="createStore" value="Nueva almacen" action="#{homeBB.createStore}"/>
+			<p:commandButton id="createStore" value="Nuevo almacen" action="#{homeBB.createStore}"/>
 			<p:commandLink rendered="#{sessionBB.loggedUser.account eq 'F'}" id="nonAjax" actionListener="#{sessionBB.changeAccount}" ajax="false">
         		<h:outputText value="Cuenta Premium" />
     		</p:commandLink>
 			<p:separator></p:separator>
-			<p:dataTable value="#{homeBB.storesOwner}" var="store" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated" paginatorPosition="bottom"
-		    	selectionMode="single" selection="#{homeBB.storeSelected}" rowKey="#{store.id}" emptyMessage="No es dueño de ningún almacen" >
-		        <p:ajax event="rowSelect" listener="#{homeBB.showStore}" />
-		        <p:column headerText="Mis almacenes">
-					<h:outputText value="#{store.name}"/>
-				</p:column>
-		    </p:dataTable>
-			<br/>
-			<p:dataTable value="#{homeBB.storesGuest}" var="store" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated" paginatorPosition="bottom"
-		    	selectionMode="single" selection="#{homeBB.storeSelected}" rowKey="#{store.id}" emptyMessage="No está invitado a ningún almacen" >
-		        <p:ajax event="rowSelect" listener="#{homeBB.showStore}" />
-		        <p:column headerText="Almacenes compartidas">
-					<h:outputText value="#{store.name}"/>
-				</p:column>
-		    </p:dataTable>
+			<h:outputText value="Almacenes de los que es dueño" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel id="panelStoresOwner">
+				<h:outputText value="No tiene almacenes" rendered="#{empty homeBB.storesOwner}" styleClass="title2" />
+				<p:dataTable rendered="#{not empty homeBB.storesOwner}" id="listStoresOwner" var="store"
+					value="#{homeBB.storesOwner}"
+					style="margin-bottom:20px" emptyMessage="No existen almacenes"
+					sortMode="multiple">
+					<p:column headerText="Nombre" sortBy="#{store.name}">
+						<h:outputText value="#{store.name}" styleClass="title2" />
+					</p:column>
+					<p:column style="width:32px">
+						<p:commandButton id="ShowStoreDetail" icon="ui-icon-search"
+							action="#{homeBB.showStore}">
+							<f:setPropertyActionListener value="#{store}"
+								target="#{homeBB.storeSelected}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<h:outputText value="Almacenes a los que está invitado" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel id="panelStoresGuests">
+				<h:outputText value="No tiene almacenes" rendered="#{empty homeBB.storesGuest}" styleClass="title2" />
+				<p:dataTable rendered="#{not empty homeBB.storesGuest}" id="listStoresGuests" var="store"
+					value="#{homeBB.storesGuest}"
+					style="margin-bottom:20px" emptyMessage="No existen almacenes"
+					sortMode="multiple">
+					<p:column headerText="Nombre" sortBy="#{store.name}">
+						<h:outputText value="#{store.name}" styleClass="title2" />
+					</p:column>
+					<p:column style="width:32px">
+						<p:commandButton id="ShowStoreDetail" icon="ui-icon-search"
+							action="#{homeBB.showStore}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		    
+		    
 		</h:form>
 	</ui:define>
 </ui:composition>

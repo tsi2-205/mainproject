@@ -25,6 +25,7 @@ import comunication.Comunicacion;
 import datatypes.DataBuyList;
 import datatypes.DataCategory;
 import datatypes.DataProduct;
+import datatypes.DataStock;
 import datatypes.DataStore;
 import datatypes.DataUser;
 
@@ -46,6 +47,7 @@ public class SessionBB implements Serializable {
 	private DataBuyList buyListSelected;
 	private DataProduct productSelected;
 	private DataUser userSelected;
+	private DataStock stockSelected;
 	
 	public SessionBB() {
 		super();
@@ -56,17 +58,40 @@ public class SessionBB implements Serializable {
 		this.showError = false;
 	}
 	
-	public void chequearAcceso(int idPage) {
+	
+	// NIVELES DE ACCESO
+	// userType = 0 --> logged user debe ser null
+	// userType = 1 --> logged user debe ser administrador (tipo 0)
+	// userType = 2 --> logged user debe ser usuario registrado (tipo 1)
+	// userType = 3 --> logged user debe ser usuario registrado (tipo 1) y storeSelected != null
+	public boolean chequearAcceso(int userType) {
+		boolean ret = true;
 		if (loggedUser == null) {
-			
-		} else {
-			if (loggedUser.getTipo() == 0) {
-				
-			} else {
-				
+			if (userType != 0) {
+				ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+				configurableNavigationHandler.performNavigation("/pages/Login.xhtml?faces-redirect=true");
+				ret = false;
+			}
+		} else if ((loggedUser.getTipo() == 0)) {
+			// Si es administrador redireccionar al Home de BackOffice
+			if (userType != 1) {
+				ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+				configurableNavigationHandler.performNavigation("/pages/AdminProducts.xhtml?faces-redirect=true");
+				ret = false;
+			}
+		} else if ((loggedUser.getTipo() == 1)) {
+			// Si es usuario comun redireccionar al Home de FrontOffice
+			if ((userType == 0) || (userType == 1)) {
+				ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+				configurableNavigationHandler.performNavigation("/pages/Home.xhtml?faces-redirect=true");
+				ret = false;
+			} else if ((userType == 3) && (this.storeSelected == null)) {
+				ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+				configurableNavigationHandler.performNavigation("/pages/Home.xhtml?faces-redirect=true");
+				ret = false;
 			}
 		}
-		
+		return ret;
 	}
 	
 	public String loginWithEmail() {
@@ -329,8 +354,14 @@ public class SessionBB implements Serializable {
 		}
 		return ret;
 	}
-	
-	
+
+	public DataStock getStockSelected() {
+		return stockSelected;
+	}
+
+	public void setStockSelected(DataStock stockSelected) {
+		this.stockSelected = stockSelected;
+	}
 	
 	
 }

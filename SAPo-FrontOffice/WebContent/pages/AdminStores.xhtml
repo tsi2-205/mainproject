@@ -10,6 +10,8 @@
 	</ui:define>
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
+			<h:outputText value="Almacenes del sistema" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
 			<p:panel id="filter" style="float: right;">
 				<h:outputText style="margin-right: 4px;" value="Buscar"></h:outputText>
 				<h:inputText id="idTextFilter" value="#{adminStoresBB.textFilter}">
@@ -17,22 +19,27 @@
 				</h:inputText>
 				<p:watermark for="idTextFilter" value="Ingrese el nombre" />
 			</p:panel>
+			
 			<p:panel id="storesDiv" style="clear: both;">
-				<p:dataList id="listStores" emptyMessage="No hay almacenes"
-					value="#{adminStoresBB.storesFiltered}" var="store"
-					type="unordered" itemType="none" paginator="true" rows="5"
-					styleClass="paginated" paginatorAlwaysVisible="false"
-					paginatorPosition="bottom">
-					<p:panel>
-						<h:outputText styleClass="title2" value="#{store.name}"></h:outputText>
-						<p:commandButton action="#{adminStoresBB.seeStore}"
-							icon="ui-icon-search" style="float:right;margin-right:10px">
+				<h:outputText value="No hay almacenes" rendered="#{empty adminStoresBB.storesFiltered}" styleClass="title2" />
+				<p:dataTable rendered="#{not empty adminStoresBB.storesFiltered}" id="listStores" var="store"
+					value="#{adminStoresBB.storesFiltered}"
+					style="margin-bottom:20px" emptyMessage="No hay almacenes"
+					sortMode="multiple">
+					<p:column headerText="Nombre" sortBy="#{store.name}">
+						<h:outputText value="#{store.name}" styleClass="title2" />
+					</p:column>
+					<p:column style="width:32px">
+						<p:commandButton id="ShowStoreDetail" icon="ui-icon-search"
+							action="#{adminStoresBB.seeStore}">
 							<f:setPropertyActionListener value="#{store}"
 								target="#{adminStoresBB.storeSelected}" />
 						</p:commandButton>
-					</p:panel>
-				</p:dataList>
+					</p:column>
+				</p:dataTable>
 			</p:panel>
+			
+			
 		</h:form>
 	</ui:define>
 </ui:composition>

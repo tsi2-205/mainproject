@@ -10,9 +10,9 @@ import javax.persistence.Table;
 public class GenericCategory extends Category {
 	
 	private static final long serialVersionUID = 1L;
-	@ManyToOne
-    @JoinColumn(name="IdAdministrator")
-    private Administrator administrator;
+//	@ManyToOne
+//    @JoinColumn(name="IdAdministrator")
+//    private Administrator administrator;
 
 	public GenericCategory() {
 		super();
@@ -22,12 +22,12 @@ public class GenericCategory extends Category {
 		super(name, description, father, null);
 	}
 
-	public Administrator getAdministrator() {
-		return administrator;
-	}
-
-	public void setAdministrator(Administrator administrator) {
-		this.administrator = administrator;
-	}
+//	public Administrator getAdministrator() {
+//		return administrator;
+//	}
+//
+//	public void setAdministrator(Administrator administrator) {
+//		this.administrator = administrator;
+//	}
 	
 }

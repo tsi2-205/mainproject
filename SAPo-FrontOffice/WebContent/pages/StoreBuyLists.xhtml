@@ -16,17 +16,26 @@
 				action="#{storeBuyListsBB.createBuyList}" />
 			<h:outputText value="Tus listas de compras" styleClass="title1"></h:outputText>
 			<p:separator style="clear: both;"></p:separator>
-			<p:dataList value="#{storeBuyListsBB.buyLists}" var="list" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated" paginatorAlwaysVisible="false" paginatorPosition="bottom">
-		        <p:panel>
-			        <h:outputText styleClass="title1" value="#{list.name}"></h:outputText>
-			        <p:commandButton action="#{storeBuyListsBB.deleteBuyList}" update=":form" icon="ui-icon-close" style="float:right;margin-right:10px">
-			            <f:setPropertyActionListener value="#{list}" target="#{storeBuyListsBB.buyListSelected}" />
-			        </p:commandButton>
-			        <p:commandButton action="#{storeBuyListsBB.seeBuyList}" icon="ui-icon-search" style="float:right;margin-right:10px">
-			            <f:setPropertyActionListener value="#{list}" target="#{storeBuyListsBB.buyListSelected}" />
-			        </p:commandButton>
-		        </p:panel>
-		    </p:dataList>
+			
+		    <p:panel id="buyListsDiv" style="clear: both;">
+				<h:outputText value="No tiene listas de compras" rendered="#{empty storeBuyListsBB.buyLists}" styleClass="title2" />
+				<p:dataTable rendered="#{not empty storeBuyListsBB.buyLists}" id="listStores" var="list"
+					value="#{storeBuyListsBB.buyLists}"
+					style="margin-bottom:20px" emptyMessage="No tiene listas de compras">
+					<p:column headerText="Nombre">
+						<h:outputText styleClass="title2" value="#{list.name}"></h:outputText>
+					</p:column>
+					<p:column style="width:90px">
+						<p:commandButton action="#{storeBuyListsBB.deleteBuyList}" update=":form" icon="ui-icon-close" style="float:right;margin-right:10px">
+				            <f:setPropertyActionListener value="#{list}" target="#{storeBuyListsBB.buyListSelected}" />
+				        </p:commandButton>
+				        <p:commandButton action="#{storeBuyListsBB.seeBuyList}" icon="ui-icon-search" style="float:right;margin-right:10px">
+				            <f:setPropertyActionListener value="#{list}" target="#{storeBuyListsBB.buyListSelected}" />
+				        </p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			
 		</h:form>
 	</ui:define>
 </ui:composition>
