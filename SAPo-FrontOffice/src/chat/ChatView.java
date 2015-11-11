@@ -112,7 +112,7 @@ public class ChatView implements Serializable {
     public void disconnect() {
         //remove user and update ui
         users.remove(username);
-        RequestContext.getCurrentInstance().update("form:users");
+        RequestContext.getCurrentInstance().update("form2:users");
          
         //push leave information
         eventBus.publish(CHANNEL + "*", username + " left the channel.");
