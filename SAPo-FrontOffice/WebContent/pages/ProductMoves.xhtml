@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/Layout2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="Login" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			
+			<h:outputText value="Movimientos" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
+			
+			<h:outputText value="" styleClass="title1"></h:outputText>
+			
+			<p:outputLabel for="fIni" value="Desde:" />
+			<p:calendar id="fIni" value="#{productMovesBB.fechaIni}"
+				pattern="dd/MM/yyyy" mask="true" converter="DateConverter" lang="es">
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</p:calendar>
+			<p:outputLabel for="fFin" value="Hasta:" />
+			<p:calendar id="fFin" value="#{productMovesBB.fechaFin}"
+				pattern="dd/MM/yyyy" mask="true" converter="DateConverter" lang="es" >
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</p:calendar>
+			
+			<p:commandButton value="Volver" action="#{productMovesBB.volver}" immediate="true" style="float: rigth;"></p:commandButton>
+			<p:commandButton value="Aceptar" actionListener="#{productMovesBB.showPanel}" update=":form" style="float: rigth;"></p:commandButton>
+			<p:separator style="clear: both;"></p:separator>
+			
+			<p:panel id="idPanelListMoves">
+				<p:dataTable var="stock" value="#{productMovesBB.histStock}"
+					emptyMessage="No hay registros de movimientos de stock">
+	
+					<p:column headerText="Fecha">
+						<h:outputText value="#{stock.fecha}" converter="DateConverter" />
+					</p:column>
+	
+					<p:column headerText="Cantidad">
+						<h:outputText value="#{stock.cantChange}" />
+					</p:column>
+	
+					<p:column headerText="Precio">
+						<h:outputText value="#{stock.precio}" />
+					</p:column>
+	
+					<p:column headerText="Tipo">
+						<h:outputText value="#{stock.tipo == 1 ? 'Alta': 'Baja'}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

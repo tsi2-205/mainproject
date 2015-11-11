@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/Layout2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="SAPo" />
+		<h:outputStylesheet library="styles" name="CategoryDetails.css" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			<h:outputText value="Categorías genéricas" styleClass="title1"></h:outputText>
+			<p:commandButton value="Volver" immediate="true" style="float: right;" action="#{listGenericCategoriesBB.volver}" />
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel id="panelCategoriesG">
+				<h:outputText rendered="#{!listGenericCategoriesBB.hayCategoriasG}" value="No hay categorías genéricas" styleClass="title2"></h:outputText>
+				<p:tree  style="text-align: left;" rendered="#{listGenericCategoriesBB.hayCategoriasG}" value="#{listGenericCategoriesBB.rootG}" var="nodeG" selectionMode="single" selection="#{listGenericCategoriesBB.selectedNodeG}">
+			        <p:treeNode>
+			            <h:outputText value="#{nodeG.name}" />
+			        </p:treeNode>
+			    </p:tree>
+			</p:panel>
+			
+			<p:separator style="clear: both;"></p:separator>
+			<p:commandButton value="Agregar categoría" update="panelCategoriesE" style="float: left;" action="#{listGenericCategoriesBB.addCategorySelected}" />
+			<p:commandButton value="Agregar categoría y subcategorías" update="panelCategoriesE" style="float: left;" action="#{listGenericCategoriesBB.addTreeSelected}" />
+			<p:separator style="clear: both;"></p:separator>
+			
+			<h:outputText value="Categorías del almacen" styleClass="title1"></h:outputText>
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel id="panelCategoriesE">
+				<h:outputText rendered="#{!listGenericCategoriesBB.hayCategoriasE}" value="No hay categorías específicas" styleClass="title2"></h:outputText>
+				<p:tree  style="text-align: left;" rendered="#{listGenericCategoriesBB.hayCategoriasE}" value="#{listGenericCategoriesBB.rootE}" var="nodeE" selectionMode="single" selection="#{listGenericCategoriesBB.selectedNodeE}">
+			        <p:treeNode>
+			            <h:outputText value="#{nodeE.name}" />
+			        </p:treeNode>
+			    </p:tree>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

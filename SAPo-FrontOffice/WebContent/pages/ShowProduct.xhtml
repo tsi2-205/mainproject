@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/Layout2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="Login" />
+		<h:outputStylesheet library="styles" name="NewProduct.css" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			
+			<h:outputText value="Producto #{showProductBB.stockSelected.product.name}" styleClass="title1"/>
+			<p:commandButton value="Editar" action="#{showProductBB.editProduct}" style="float:right;"></p:commandButton>
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel>
+				<h:outputText value="Atributos básicos" styleClass="title2"/>
+				<p:separator></p:separator>
+				<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
+					<h:outputLabel for="description" value="Descripción:"/>
+					<h:outputText id="description" label="Descripción:" value="#{showProductBB.stockSelected.product.description}" ></h:outputText>
+					<h:outputLabel for="category" value="Categoría:"/>
+					<h:outputText id="category" label="Categoría:" value="#{showProductBB.category.name}" ></h:outputText>
+					<h:outputLabel for="stockMin" value="Stock mínimo:"/>
+					<h:outputText id="stockMin" label="Stock mínimo:" value="#{showProductBB.stockSelected.cantidadMin}" ></h:outputText>
+					<h:outputLabel for="stockMax" value="Stock máximo:"/>
+					<h:outputText id="stockMax" label="Stock máximo:" value="#{showProductBB.stockSelected.cantidadMax}" ></h:outputText>
+				</p:panelGrid>
+			</p:panel>
+			<p:panel rendered="#{not empty showProductBB.stockSelected.product.additionalAttributes}">
+				<h:outputText value="Atributos adicionales" styleClass="title2"/>
+				<p:separator></p:separator>
+				<p:dataGrid id="AdditionalAttribute" columns="1" value="#{showProductBB.stockSelected.product.additionalAttributes}" var="attribute" emptyMessage="">
+					<p:panelGrid columns="2" layout="grid">
+						<h:outputLabel value="#{attribute.nameAttribute}:"/>
+						<h:outputText label="#{attribute.nameAttribute}:" value="#{attribute.valueAttribute}" ></h:outputText>
+					</p:panelGrid>
+				</p:dataGrid>
+			</p:panel>			
+		</h:form>
+	</ui:define>
+</ui:composition>
