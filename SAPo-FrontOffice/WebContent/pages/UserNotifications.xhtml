@@ -20,7 +20,7 @@
 					rendered="#{notification.read}" />
 				<h:outputText value="#{notification.message}" style="color: red"
 					rendered="#{not notification.read}" />
-				<h:outputText value="Hace 8 horas" />
+				<h:outputText value="#{notification.getTimeDesc()}" />
 				<p:commandButton value="Ver" rendered="#{not notification.read}"
 					type="button" onclick="PF('notificationDialog').show();" />
 				<p:dialog header="Hace 8 horas" widgetVar="notificationDialog"

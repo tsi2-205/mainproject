@@ -1,5 +1,6 @@
 package datatypes;
 
+import java.sql.Date;
 import java.util.Calendar;
 
 public class DataNotification {
@@ -75,5 +76,39 @@ public class DataNotification {
 
 	public void setDate(Calendar date) {
 		this.date = date;
+	}
+	
+	public String getTimeDesc() {
+		
+		Date date = new Date(this.date.getTime().getTime());
+		Date currentDate = new Date(Calendar.getInstance().getTime().getTime());
+		
+		long diff = currentDate.getTime() - date.getTime();
+		
+		String end = ".";
+		
+		long diffSeconds = diff / 1000;
+		if (diffSeconds > 1L)
+			end = "s.";
+		if (diffSeconds < 60)
+			return "Hace " + diffSeconds + " segundo" + end; 
+		
+		long diffMinutes = diff / (60 * 1000);
+		if (diffMinutes > 1L)
+			end = "s.";
+		if (diffMinutes < 60)
+			return "Hace " + diffMinutes + " minuto" + end;
+		
+		long diffHours = diff / (60 * 60 * 1000);
+		if (diffHours > 1L)
+			end = "s.";
+		if (diffHours < 24)
+			return "Hace " + diffHours + " hora" + end;
+		
+		long diffDays = diff / (24 * 60 * 60 * 1000);
+		if (diffDays > 1L)
+			end = "s.";
+		return "Hace " + diffDays + " dia" + end;
+		
 	}
 }
