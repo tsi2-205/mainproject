@@ -15,7 +15,7 @@ public interface IProductController {
 	
 	public void editProductStore(DataStock stock, int idStore, Integer idCategory) throws ExistCategoryException;
 	
-	public void changeStockProduct(int idStore, int idProduct, int movCant, int movPrecio, int tipo);
+	public int changeStockProduct(int idStore, int idProduct, int movCant, int movPrecio, int tipo);
 	
 	
 

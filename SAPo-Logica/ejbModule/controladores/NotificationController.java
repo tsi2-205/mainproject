@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -49,11 +48,16 @@ public class NotificationController implements INotificationController {
 		return result;
 	}
 	
-	public void sendStoreNotification(String message, int storeId) {
+	public void sendStoreNotification(String message, int storeId, boolean sendOwner) {
 		Store s = em.find(Store.class, storeId);
 		List<Registered> users = s.getGuests();
 		for (Registered r: users) {
 			Notification not = new Notification(message,false,r,s,new GregorianCalendar());
+			em.persist(not);
+		}
+		if (sendOwner) {
+			Registered owner = s.getOwner();
+			Notification not = new Notification(message,false,owner,s,new GregorianCalendar());
 			em.persist(not);
 		}
 	}
