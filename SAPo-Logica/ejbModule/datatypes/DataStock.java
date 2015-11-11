@@ -43,6 +43,12 @@ public class DataStock implements Serializable {
 		this.store = store;
 	}
 	
+	public DataStock(int cant, DataProduct product) {
+		super();
+		this.cantidad= cant;
+		this.product = product;
+	}
+	
 	public DataStock(Integer cantidadMin,
 			Integer cantidadMax, DataProduct product) {
 		super();

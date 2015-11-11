@@ -442,7 +442,7 @@ public class StoreController implements IStoreController {
 		em.merge(buyList);
 	}
 	
-<<<<<<< Updated upstream
+
 	public DataBuyList findBuyList(int idBuyList) {
 		BuyList bl = em.find(BuyList.class, idBuyList);
 		return new DataBuyList(bl);
@@ -743,7 +743,7 @@ public class StoreController implements IStoreController {
 						noAdd=true;
 					}
 			}
-			DataStock ds = new DataStock(dataP,i , 0, 0 );
+			DataStock ds = new DataStock(i, dataP);
 			if (!noAdd){
 				result.add(ds);
 			}
