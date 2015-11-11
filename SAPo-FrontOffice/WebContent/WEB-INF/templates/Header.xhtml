@@ -7,15 +7,44 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script id="forNewStore">
+
+		  function validatePhone(ph) {
+			    var re = /^\+?[0-9]+$/;
+			    return re.test(ph);
+		  }
 	
-	<style>
-		#header { margin-top: 50px; }
-		.ui-messages-info { margin-top: -95px; }
-		.ui-messages-info-icon, .ui-icon-close{ display:none !important;}
-	</style>
+		  $( document ).ready(function() {
+			  	console.log ("Ready");
+				$( ".sendBTN" ).click(function( event ) {
+					if ( $("#name").val() == "" ){
+						window.alert("Debe ingresar un nombre para el nuevo almacen");
+						event.preventDefault();
+						return false;
+					}
+					if ( $("#city").val() == "" ){
+						window.alert("Debe ingresar una ciudad para el nuevo almacen");
+						event.preventDefault();
+						return false;
+					}
+					if ( $("#addres").val() == "" ){
+						window.alert("Debe ingresar una direccion para el nuevo almacen");
+						event.preventDefault();
+						return false;
+					}
+					if ( !validatePhone($("#tel").val()) ){
+						window.alert("El telefono ingresado es invalido");
+						event.preventDefault();
+						return false;
+					}
+				});
+		  });
+	
+	</script>
 	
 <div id="welcomeMSJ" style="font-family: sans-serif; padding-left:50px; font-size: 30px; color: black; font-weight: 1.5em; font: bold; text-decoration: unset;">Bienvenido a SAPo</div>
-<h:commandButton id="linkSalir" value="Salir" action="#{sessionBB.logoutUser}"/>
+
+
 
 	<div id="izquierda" onclick="location.href = 'Home.xhtml';" style="cursor:pointer; cursor: hand" >
 		
@@ -28,8 +57,10 @@
 				<div class="buttons"></div>
 				
 			</div>
-			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />	
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			<h:commandButton id="exitButton" value="Salir" action="#{sessionBB.logoutUser}"/>
 		</h:form>
-	
+		
 	</div>
+	
 </ui:composition>

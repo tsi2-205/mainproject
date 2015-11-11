@@ -16,10 +16,45 @@
 	<title>
 		<ui:insert name="title"/>
 	</title>
+	
+	<style id="estiloParaMensajesEnLayout2">
+		.ui-messages{ 
+			position: absolute;
+			margin-top: -66px;
+			margin-left: -53px;
+		}
+		.headerDeLayout2 { margin-top: 45px !important; }
+		
+		#exitButton {
+			border: none !important;
+			background: #3a9979 !important;
+			color: #f2f2f2 !important;
+			padding: 10px !important;
+			font-size: 18px !important;
+			border-radius: 5px !important;
+			position: relative !important;
+			box-sizing: border-box !important;
+			transition: all 500ms ease !important;
+			width: 75px !important;
+			padding-top: 3px !important;
+			padding-bottom: 3px !important;
+			position: absolute !important;
+			margin-left:730px !important;
+			margin-top: 30px !important;
+		}
+			
+		#exitButton:hover {
+			background: #FFFFFF !important;
+		 	color: #3a9979 !important;
+		 	box-shadow: inset 0 0 0 3px #3a9979 !important;
+		}
+		
+	</style>
+	
 </h:head>
 <h:body>		
 	
-	<div id="header">
+	<div id="header" class="headerDeLayout2">
 		<ui:insert name="Header">
 			<ui:include src="/WEB-INF/templates/Header2.xhtml" />
 		</ui:insert>

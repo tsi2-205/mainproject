@@ -16,12 +16,12 @@
 				font: bold; text-decoration: unset;"/>
 		</h:panelGrid>
 		<div id="linksHeader">
-			<h:outputText style="width: 70%; float: left;" id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
-			<div class="buttons">
-				<h:commandButton id="linkSalir" value="Salir" action="#{sessionBB.logoutUser}"/>
-			</div>
+			<h:outputText style="width: 70%; float: left; margin-top: 30px;" id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
+	
 			
 		</div>
 		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		<h:commandButton id="exitButton" value="Salir" action="#{sessionBB.logoutUser}"/>
 	</h:form>
+	
 </ui:composition>
