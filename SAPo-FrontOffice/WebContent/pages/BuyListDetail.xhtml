@@ -19,7 +19,7 @@
              editable="true"  editMode="cell" widgetVar="cellProd">
                 <p:column style="width:32px">
                     <p:commandButton id="checkBtn" rendered="#{!elem.checked}" icon="ui-icon-check" />
-					<p:overlayPanel id="checkPanel" for="checkBtn" hideEffect="fade" dynamic="true" style="text-align:center; width:300px">
+					<p:overlayPanel id="checkPanel" for="checkBtn" hideEffect="fade" dynamic="true" style="text-align:center; width:300px;" showCloseIcon="true">
 						<h:outputText value="¿Confirma el alta del producto #{elem.product.name} en su almacen?" style="float: left;"></h:outputText>
 						<p:panelGrid style="clear: both;" columns="2">
 							<h:outputLabel  for="precio" value="Precio de compra:"/>
@@ -29,7 +29,6 @@
 						<p:commandButton value="Aceptar" update=":form" action="#{buyListDetailBB.checkElementBuyList}" >
 							<f:setPropertyActionListener value="#{elem}" target="#{buyListDetailBB.elemSelected}" />
 						</p:commandButton>
-						<p:commandButton value="Cancelar" />
 					</p:overlayPanel>
 				</p:column>
                 <p:column headerText="Name">

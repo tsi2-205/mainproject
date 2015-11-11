@@ -65,10 +65,10 @@ public class ProductController implements IProductController {
 		Product p = em.find(Product.class, stock.getProduct().getId());
 		String queryStr = "SELECT sp FROM Store s join s.specificsProducts sp WHERE sp.name = :name AND sp.id <> :id";
 		Query query = em.createQuery(queryStr);
-		query.setParameter("name", p.getName());
+		query.setParameter("name", stock.getProduct().getName());
 		query.setParameter("id", p.getId());
 		if (!query.getResultList().isEmpty()) {
-			throw new ExistCategoryException("Ya existe un producto con nombre " + p.getName());
+			throw new ExistCategoryException("Ya existe un producto con nombre " + stock.getProduct().getName());
 		}
 		
 		if (p instanceof GenericProduct) {
