@@ -68,7 +68,18 @@ public class CustomizeBB implements Serializable{
     
      
     public void upload() throws SerialException, SQLException, NamingException, IOException {
-        if(this.file != null) {
+    	
+            if(this.file != null) {
+            	byte[] input = this.file.getContents();
+            	Comunicacion.getInstance().getIStoreController().setCustomizeStore(store.getId(), input);
+                FacesMessage message = new FacesMessage("Customización cargada con existo.");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
+    		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+    		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");
+     
+    	
+    /*    if(this.file != null) {
         	String path = CustomizeBB.class.getProtectionDomain().getCodeSource().getLocation().toString();
         	int end = path.lastIndexOf("/");
         	path = path.substring(1, end );
@@ -93,7 +104,7 @@ public class CustomizeBB implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
 		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
-		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");
+		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");*/
     }
 	
 }

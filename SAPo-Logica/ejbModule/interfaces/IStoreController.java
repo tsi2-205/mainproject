@@ -72,14 +72,14 @@ public interface IStoreController {
 	public void deleteBuyListsStore(int idBuyList, int idStore);
 	
 	public void editBuyListStore(int idStore, List<DataElementBuyList> listProducts, String name, String description, DataBuyList dataBuyList) throws ProductNotExistException;
-	
+
 	public DataBuyList findBuyList(int idBuyList);
 	
 	public void checkElementBuyList(int idElementBuyList, int idStore, int precio);
+
+	public void setCustomizeStore(int store, byte[] rutaCss) throws SerialException, SQLException;
 	
-	public void setCustomizeStore(int store, File rutaCss) throws SerialException, SQLException;
-	
-	public File getCustomizeStore(int id) throws SQLException, IOException;
+	public String getCustomizeStore(int id) throws SQLException, IOException;
 	
 	public List<DataUser> getShareUsersFromStore(int storeId);
 	
@@ -113,6 +113,11 @@ public interface IStoreController {
 	
 	public void shareStore(int storeId, List<DataUser> users);
 
+
 	public List<DataHistoricStock> findHistoricStockProductDate(int idStore, int idProduct, Calendar fechaIni, Calendar fechaFin);
+
+	
+	public List<DataStock> buyRecommendation(int id, DataBuyList db);
+
 
 }

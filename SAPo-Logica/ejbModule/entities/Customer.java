@@ -16,7 +16,7 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idCustomer;
 	
-	private File css;
+	private byte[] css;
 	
 	@Version
     private int version;
@@ -27,7 +27,7 @@ public class Customer implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Customer(File css) {
+	public Customer(byte[] css) {
 		Customer c= new Customer();
 		c.css=css;
 	}
@@ -48,11 +48,11 @@ public class Customer implements Serializable {
 		this.version = version;
 	}
 	
-	public File getCss() {
+	public byte[] getCss() {
 		return this.css;
 	}
 
-	public void setCss(File c) {
+	public void setCss(byte[] c) {
 		this.css = c;
 	}
 	

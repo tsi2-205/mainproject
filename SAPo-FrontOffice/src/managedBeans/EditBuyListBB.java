@@ -9,6 +9,7 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -230,6 +231,11 @@ public class EditBuyListBB implements Serializable {
 
 	public void setCategories(List<DataCategory> categories) {
 		this.categories = categories;
+	}
+	
+	public void buyRecommendation() throws NamingException{
+		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+		configurableNavigationHandler.performNavigation("/pages/RecommendationBuy.xhtml?faces-redirect=true");
 	}
 	
 }
