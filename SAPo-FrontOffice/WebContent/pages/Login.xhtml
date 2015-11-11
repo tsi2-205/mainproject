@@ -69,11 +69,19 @@
 
 		  $( document ).ready(function() {
 				$( ".loginBTN" ).click(function( event ) {
-					if ( !validateEmail($("input[type='text']").val()) ){
-						window.alert("e-mail invalido");
-						event.preventDefault();
-						return false;
+					var email = $("input[type='text']").val().toLowerCase();
+
+					if (email != "admin"){
+
+						if ( !validateEmail ( email )  ){
+							window.alert("e-mail invalido");
+							event.preventDefault();
+							return false;
+						}
+						
 					}
+
+					
 					if ( $("input[type='password']").val() == "" ){
 						window.alert("password no puede ser vacio");
 						event.preventDefault();
