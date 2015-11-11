@@ -12,6 +12,10 @@ public class DataStock implements Serializable {
 
     private int cantidad;
 	
+    private Integer cantidadMin;
+    
+    private Integer cantidadMax;
+	
     private int precioVenta;
     
     private int precioCompra;
@@ -25,18 +29,34 @@ public class DataStock implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
     
-	public DataStock(DataProduct product, int cantidad, int precioVenta, int precioCompra) {
+	public DataStock(int id, int cantidad, Integer cantidadMin,
+			Integer cantidadMax, int precioVenta, int precioCompra,
+			DataProduct product, DataStore store) {
 		super();
-		this.product = product;
+		this.id = id;
 		this.cantidad = cantidad;
+		this.cantidadMin = cantidadMin;
+		this.cantidadMax = cantidadMax;
 		this.precioVenta = precioVenta;
 		this.precioCompra = precioCompra;
+		this.product = product;
+		this.store = store;
+	}
+	
+	public DataStock(Integer cantidadMin,
+			Integer cantidadMax, DataProduct product) {
+		super();
+		this.cantidadMin = cantidadMin;
+		this.cantidadMax = cantidadMax;
+		this.product = product;
 	}
 
 	public DataStock(Stock st) {
 		super();
 		this.id = st.getId();
 		this.cantidad = st.getCantidad();
+		this.cantidadMin = st.getCantidadMin();
+		this.cantidadMax = st.getCantidadMax();
 		this.precioVenta = st.getPrecioVenta();
 		this.precioCompra = st.getPrecioCompra();
 		this.product = new DataProduct(st.getProduct());
@@ -89,6 +109,22 @@ public class DataStock implements Serializable {
 
 	public void setStore(DataStore store) {
 		this.store = store;
+	}
+
+	public Integer getCantidadMin() {
+		return cantidadMin;
+	}
+
+	public void setCantidadMin(Integer cantidadMin) {
+		this.cantidadMin = cantidadMin;
+	}
+
+	public Integer getCantidadMax() {
+		return cantidadMax;
+	}
+
+	public void setCantidadMax(Integer cantidadMax) {
+		this.cantidadMax = cantidadMax;
 	}
 	
 }

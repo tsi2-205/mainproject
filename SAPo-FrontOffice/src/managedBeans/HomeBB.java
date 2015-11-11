@@ -119,7 +119,7 @@ public class HomeBB {
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		session.setStoreSelected(this.storeSelected);		
-		return "/pages/StoreDetail.xhtml?faces-redirect=true";
+		return "/pages/StoreMoves.xhtml?faces-redirect=true";
 //		FacesContext faces = FacesContext.getCurrentInstance();
 //		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
 //		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");

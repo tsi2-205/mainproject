@@ -4,10 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,6 +12,10 @@ import javax.persistence.Table;
 public class GenericProduct extends Product {
 	
 	private static final long serialVersionUID = 1L;
+	
+	@OneToMany(mappedBy = "genericProduct")
+    private List<SpecificProduct> specificsProducts = new LinkedList<SpecificProduct>();
+	
 //	@ManyToOne
 //    @JoinColumn(name="IdAdministrator")
 //    private Administrator administrator;
@@ -29,6 +30,14 @@ public class GenericProduct extends Product {
 
 	public GenericProduct(String name, String description) {
 		super(name, description);
+	}
+
+	public List<SpecificProduct> getSpecificsProducts() {
+		return specificsProducts;
+	}
+
+	public void setSpecificsProducts(List<SpecificProduct> specificsProducts) {
+		this.specificsProducts = specificsProducts;
 	}
 
 //	public Administrator getAdministrator() {

@@ -11,89 +11,43 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			
-			<h:outputText value="Movimientos" styleClass="title1"></h:outputText>
-			<p:separator style="clear: both;"></p:separator>
 			
-			<p:tabView orientation="left">
-				<p:tab title="Stock">
-					<p:dataTable var="stock" value="#{storeMovesBB.histStock}"
-						widgetVar="movsStock"
-						emptyMessage="No hay registros de movimientos de stock"
-						filteredValue="#{storeMovesBB.filteredHistStock}">
-
-						<p:column headerText="Producto" filterBy="#{stock.nameProduct}" filterMatchMode="contains" >
-							<h:outputText value="#{stock.nameProduct}" />
-						</p:column>
-
-						<p:column headerText="Fecha">
-							<h:outputText value="#{stock.fecha}" converter="DateConverter" />
-						</p:column>
-
-						<p:column headerText="Stock">
-							<h:outputText value="#{stock.stock}" />
-						</p:column>
-
-						<p:column headerText="Tipo">
-							<h:outputText value="#{stock.tipo == 1 ? 'Sube': 'Baja'}" />
-						</p:column>
-					</p:dataTable>
-				</p:tab>
-				<p:tab title="Precio de compra">
-					<p:dataTable var="precioCompra"
-						value="#{storeMovesBB.histPrecioCompra}"
-						widgetVar="movsPrecioCompra"
-						emptyMessage="No hay registros de movimientos de precios de compra"
-						filteredValue="#{storeMovesBB.filteredHistPrecioCompra}">
-
-						<p:column headerText="Producto" filterBy="#{precioCompra.nameProduct}" filterMatchMode="contains">
-							<h:outputText value="#{precioCompra.nameProduct}" />
-						</p:column>
-
-						<p:column headerText="Fecha">
-							<h:outputText value="#{precioCompra.fecha}"
-								converter="DateConverter" />
-						</p:column>
-
-						<p:column headerText="Precio de compra">
-							<h:outputText value="#{precioCompra.precioCompra}">
-								<f:convertNumber currencySymbol="$" type="currency" />
-							</h:outputText>
-						</p:column>
-
-						<p:column headerText="Tipo">
-							<h:outputText value="#{precioCompra.tipo == 1 ? 'Sube': 'Baja'}" />
-						</p:column>
-					</p:dataTable>
-				</p:tab>
-				<p:tab title="Precio de venta">
-
-					<p:dataTable var="precioVenta"
-						value="#{storeMovesBB.histPrecioVenta}"
-						widgetVar="movsPrecioVenta"
-						emptyMessage="No hay registros de movimientos de precios de venta"
-						filteredValue="#{storeMovesBB.filteredHistPrecioVenta}">
-
-						<p:column headerText="Producto" filterBy="#{precioVenta.nameProduct}" filterMatchMode="contains">
-							<h:outputText value="#{precioVenta.nameProduct}" />
-						</p:column>
-
-						<p:column headerText="Fecha">
-							<h:outputText value="#{precioVenta.fecha}"
-								converter="DateConverter" />
-						</p:column>
-
-						<p:column headerText="Precio de venta">
-							<h:outputText value="#{precioVenta.precioVenta}">
-								<f:convertNumber currencySymbol="$" type="currency" />
-							</h:outputText>
-						</p:column>
-
-						<p:column headerText="Tipo">
-							<h:outputText value="#{precioVenta.tipo == 1 ? 'Sube': 'Baja'}" />
-						</p:column>
-					</p:dataTable>
-				</p:tab>
-			</p:tabView>
+			<p:panel id="infoPanel" rendered="#{storeMovesBB.productSelected == null}">
+				<h:outputText value="Seleccione un producto para realizar cambios de stock" styleClass="title1"></h:outputText>
+			</p:panel>
+			
+			<h:panelGrid style="float: left;" columns="2" cellpadding="5">
+				<p:outputLabel value="Busar:" for="idInputProductName" />
+				<p:autoComplete id="idInputProductName"
+					value="#{storeMovesBB.productNameSelected}" 
+					minQueryLength="2"
+					completeMethod="#{storeMovesBB.completeName}" 
+					forceSelection="true">
+					<p:ajax event="itemSelect" listener="#{storeMovesBB.onProductSelect}" update=":form"/>
+				</p:autoComplete>
+				<p:watermark for="idInputProductName" value="Ingrese el nombre" />
+			</h:panelGrid>
+			<p:commandButton value="Ver últimos movimientos" action="#{storeMovesBB.seeProductMoves}" rendered="#{storeMovesBB.productSelected != null}" style="float: right;"></p:commandButton>
+			<p:separator style="clear: both;"></p:separator>
+			<p:panel id="panelButtons" rendered="#{storeMovesBB.productSelected != null}">
+				<h:outputText value="Ingrese cambio en el stock del producto #{storeMovesBB.productSelected}" styleClass="title1"></h:outputText>
+				
+				<p:separator style="clear: both;"></p:separator>
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel value="Tipo:" for="idTipo" />
+					<p:selectOneMenu id="idTipo" value="#{storeMovesBB.movTipo}"
+						style="width:125px">
+						<f:selectItem itemLabel="Alta" itemValue="Alta" />
+						<f:selectItem itemLabel="Baja" itemValue="Baja" />
+					</p:selectOneMenu>
+					<h:outputLabel value="Cantidad:" for="idCant" />
+					<h:inputText id="idCant" value="#{storeMovesBB.movCant}" />
+					<h:outputLabel value="Precio:" for="idPrecio" />
+					<h:inputText id="idPrecio" value="#{storeMovesBB.movPrecio}" />
+				</h:panelGrid>
+				<p:commandButton value="Guardar" update=":form" action="#{storeMovesBB.saveChangeStock}" style="float: right;"></p:commandButton>
+			</p:panel>
+			
 		</h:form>
 	</ui:define>
 </ui:composition>

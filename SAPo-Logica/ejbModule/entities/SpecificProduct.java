@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,8 +20,8 @@ public class SpecificProduct extends Product {
     @JoinColumn(name = "idStore", referencedColumnName = "id", nullable = false)
     private Store store;
 	
-	@OneToMany(mappedBy = "product")
-    private List<Stock> stocks = new LinkedList<Stock>();
+	@OneToOne(mappedBy = "product")
+    private Stock stock;
     
     @OneToMany(mappedBy = "product")
     private List<HistoricPrecioCompra> historicsPreciosCompra = new LinkedList<HistoricPrecioCompra>();
@@ -30,6 +31,10 @@ public class SpecificProduct extends Product {
     
     @OneToMany(mappedBy = "product")
     private List<HistoricStock> historicStock = new LinkedList<HistoricStock>();
+    
+    @ManyToOne
+    @JoinColumn(name = "idGenericProduct", referencedColumnName = "id")
+    private GenericProduct genericProduct;
 
 	public SpecificProduct() {
 		super();
@@ -48,12 +53,12 @@ public class SpecificProduct extends Product {
 		this.store = store;
 	}
 
-	public List<Stock> getStocks() {
-		return stocks;
+	public Stock getStock() {
+		return stock;
 	}
 
-	public void setStocks(List<Stock> stocks) {
-		this.stocks = stocks;
+	public void setStock(Stock stock) {
+		this.stock = stock;
 	}
 
 	public List<HistoricPrecioCompra> getHistoricsPreciosCompra() {
@@ -81,6 +86,13 @@ public class SpecificProduct extends Product {
 	public void setHistoricStock(List<HistoricStock> historicStock) {
 		this.historicStock = historicStock;
 	}
-	
+
+	public GenericProduct getGenericProduct() {
+		return genericProduct;
+	}
+
+	public void setGenericProduct(GenericProduct genericProduct) {
+		this.genericProduct = genericProduct;
+	}
 	
 }

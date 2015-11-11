@@ -13,9 +13,10 @@
 		<h:form id="form" prependId="false">
 		
 			
-			<p:commandButton value="Crear Nueva Categoria" style="float: right;" action="#{categoryDetailBB.seeCreateNew}" update="createNewCategoryPanel" />
+			<p:commandButton value="Ver categorías genéricas" style="float: right;" action="#{categoryDetailBB.seeGenericCategories}" />
+			<p:commandButton value="Nuevo Categoría" style="float: right;" action="#{categoryDetailBB.seeCreateNew}" update="createNewCategoryPanel" />
 			<p:commandButton value="Limpiar" action="#{categoryDetailBB.clearCategorySelect}" update=":form" style="float: right;"/>
-			<h:outputText value="Tus categorías" styleClass="title1"></h:outputText>
+			<h:outputText value="Categorías" styleClass="title1"></h:outputText>
 			
 			<p:separator style="clear: both;"></p:separator>
 			

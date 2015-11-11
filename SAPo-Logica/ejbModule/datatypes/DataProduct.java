@@ -88,4 +88,9 @@ public class DataProduct implements Serializable {
 		this.additionalAttributes = additionalAttributes;
 	}
 	
+	@Override
+    public String toString() {
+        return this.name;
+    }
+	
 }

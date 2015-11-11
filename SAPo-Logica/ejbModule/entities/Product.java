@@ -28,7 +28,7 @@ public abstract class Product implements Serializable {
 	@JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "idProduct"), inverseJoinColumns = @JoinColumn(name = "idCategory"))
     private Category category;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn (name = "idProduct", referencedColumnName="id")
     private List<ProductAdditionalAttribute> additionalAttributes = new LinkedList<ProductAdditionalAttribute>();
 

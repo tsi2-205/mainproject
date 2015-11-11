@@ -26,6 +26,8 @@ public class ElementBuyList implements Serializable {
 	
 	private int quantity;
 	
+	private boolean checked;
+	
 	@OneToOne
     @JoinColumn(name = "idProduct")
     private Product product;
@@ -39,6 +41,7 @@ public class ElementBuyList implements Serializable {
 		super();
 		this.quantity = quantity;
 		this.product = product;
+		this.checked = false;
 	}
 
 	public int getId() {
@@ -71,6 +74,14 @@ public class ElementBuyList implements Serializable {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 }

@@ -24,6 +24,7 @@ import comunication.Comunicacion;
 import datatypes.DataCategory;
 import datatypes.DataProduct;
 import datatypes.DataStock;
+import datatypes.DataStore;
 import exceptions.ExistCategoryException;
 
 @ManagedBean
@@ -121,7 +122,7 @@ public class ListGenericProductsBB {
     		ExpressionFactory ef = apli.getExpressionFactory( );
     		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
     		SessionBB session = (SessionBB) ve.getValue(contextoEL);
-    		DataStock ds = new DataStock(this.productSelected, 0, 0, 0);
+    		DataStock ds = new DataStock(null, null, this.productSelected);
     		session.setStockSelected(ds);
 //    		try {
 //				Comunicacion.getInstance().getIStoreController().addGenericProductStore(this.productSelected.getId(), session.getStoreSelected().getId());
@@ -153,7 +154,7 @@ public class ListGenericProductsBB {
 		return ret;
 	}
     
-	public String createProduct() {
+	public String volver() {
 		return "/pages/NewProduct.xhtml?faces-redirect=true";
 	}
 

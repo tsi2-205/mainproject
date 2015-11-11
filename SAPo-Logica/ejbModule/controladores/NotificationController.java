@@ -17,7 +17,6 @@ import entities.Store;
 import interfaces.INotificationController;
 
 @Stateless
-@WebService
 public class NotificationController implements INotificationController {
 	
 	@PersistenceContext(unitName = "SAPo-Logica")

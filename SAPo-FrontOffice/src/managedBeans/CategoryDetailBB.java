@@ -66,7 +66,6 @@ public class CategoryDetailBB implements Serializable {
 	public void constructCategoryTree() {
     	try {
 			this.categories= Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
-//			this.gemericCategories = Comunicacion.getInstance().getIStoreController().findGenericCategoriesStore(store.getId());
 			if (this.categories.isEmpty()) {
 				this.hayCategorias = false;
 			} else {
@@ -100,6 +99,10 @@ public class CategoryDetailBB implements Serializable {
     public String seeCreateNew() {
 		this.seeCreateNewSeleccionada = true;
 		return "";
+	}
+    
+    public String seeGenericCategories() {
+    	return "/pages/ListGenericCategories.xhtml?faces-redirect=true";
 	}
     
     public String seeCreateSub() {

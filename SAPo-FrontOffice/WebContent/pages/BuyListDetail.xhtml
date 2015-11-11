@@ -16,20 +16,32 @@
 			<p:separator></p:separator>
 			<h:outputText value="La lista #{buyListDetailBB.buyListSelected.name} esta vacía" rendered="#{empty buyListDetailBB.buyListSelected.elements}"></h:outputText>
 			<p:dataTable id="productsList" var="elem" value="#{buyListDetailBB.buyListSelected.elements}" rendered="#{not empty buyListDetailBB.buyListSelected.elements}"
-             editable="true" editMode="cell" widgetVar="cellProd">
+             editable="true"  editMode="cell" widgetVar="cellProd">
+                <p:column style="width:32px">
+                    <p:commandButton id="checkBtn" rendered="#{!elem.checked}" icon="ui-icon-check" />
+					<p:overlayPanel id="checkPanel" for="checkBtn" hideEffect="fade" dynamic="true" style="text-align:center; width:300px">
+						<h:outputText value="¿Confirma el alta del producto #{elem.product.name} en su almacen?" style="float: left;"></h:outputText>
+						<p:panelGrid style="clear: both;" columns="2">
+							<h:outputLabel  for="precio" value="Precio de compra:"/>
+							<h:inputText id="precio" label="Precio de compra:"
+								value="#{buyListDetailBB.precio}" style="width:65px"></h:inputText>
+						</p:panelGrid>
+						<p:commandButton value="Aceptar" update=":form" action="#{buyListDetailBB.checkElementBuyList}" >
+							<f:setPropertyActionListener value="#{elem}" target="#{buyListDetailBB.elemSelected}" />
+						</p:commandButton>
+						<p:commandButton value="Cancelar" />
+					</p:overlayPanel>
+				</p:column>
                 <p:column headerText="Name">
-	                <h:outputText value="#{elem.product.name}" />
+	                <h:outputText rendered="#{!elem.checked}" style="font-weight: bold" value="#{elem.product.name}" />
+	                <h:outputText rendered="#{elem.checked}" style="color: gray" value="#{elem.product.name}" />
 	            </p:column>
                 <p:column  headerText="Cantidad" >
-	                <h:outputText value="#{elem.quantity}" />
+	                <h:outputText rendered="#{!elem.checked}" style="font-weight: bold" value="#{elem.quantity}" />
+	                <h:outputText rendered="#{elem.checked}" style="color: gray" value="#{elem.quantity}" />
                 </p:column>
-				<p:column style="width:32px">
-                    <p:commandButton update=":form" icon="ui-icon-check">
-                    	<f:setPropertyActionListener value="#{elem}" target="#{buyListDetailBB.elemSelected}" />
-                    </p:commandButton>
-                </p:column>
+				
             </p:dataTable>
-			
 		</h:form>
 	</ui:define>
 </ui:composition>

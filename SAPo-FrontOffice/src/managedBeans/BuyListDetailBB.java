@@ -5,10 +5,13 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.naming.NamingException;
 
+import comunication.Comunicacion;
 import datatypes.DataBuyList;
 import datatypes.DataElementBuyList;
 import datatypes.DataStore;
@@ -22,6 +25,8 @@ public class BuyListDetailBB {
 	private DataBuyList buyListSelected; 
 	
 	private DataElementBuyList elemSelected;
+	
+	private int precio;
 	
 	public BuyListDetailBB() {
 		super();
@@ -40,6 +45,17 @@ public class BuyListDetailBB {
 		this.buyListSelected = session.getBuyListSelected();
 		
 		
+	}
+	
+	public void checkElementBuyList() {
+		try {
+			Comunicacion.getInstance().getIStoreController().checkElementBuyList(this.elemSelected.getId(), this.store.getId(), precio);
+			this.buyListSelected = Comunicacion.getInstance().getIStoreController().findBuyList(this.buyListSelected.getId());
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Bien de bien"));
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public String editBuyList() {
@@ -68,6 +84,14 @@ public class BuyListDetailBB {
 
 	public void setElemSelected(DataElementBuyList elemSelected) {
 		this.elemSelected = elemSelected;
+	}
+
+	public int getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(int precio) {
+		this.precio = precio;
 	}
 	
 }

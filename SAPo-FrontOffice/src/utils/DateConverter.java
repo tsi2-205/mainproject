@@ -36,7 +36,7 @@ public class DateConverter implements Converter {
         
         if (value != null && value instanceof GregorianCalendar){            
             GregorianCalendar date = (GregorianCalendar)value;            
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy-hh:mm");            
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");            
             result = format.format(date.getTime());            
         }
         return result;       

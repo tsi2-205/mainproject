@@ -19,6 +19,10 @@ public class HistoricStock implements Serializable {
 	private int version;
 
 	private Calendar fecha;
+	
+	private int cantChange;
+	
+	private int precio;
 
 	private int stock;
 
@@ -37,7 +41,7 @@ public class HistoricStock implements Serializable {
 		super();
 	}
 
-	public HistoricStock(Calendar fecha, int stock, int tipo, SpecificProduct product,
+	public HistoricStock(Calendar fecha, int stock, int cantChange, int precio, int tipo, SpecificProduct product,
 			Store store) {
 		super();
 		this.fecha = fecha;
@@ -45,6 +49,8 @@ public class HistoricStock implements Serializable {
 		this.tipo = tipo;
 		this.product = product;
 		this.store = store;
+		this.cantChange = cantChange;
+		this.precio = precio;
 	}
 
 	public int getId() {
@@ -103,4 +109,20 @@ public class HistoricStock implements Serializable {
 		this.store = store;
 	}
 
+	public int getCantChange() {
+		return cantChange;
+	}
+
+	public void setCantChange(int cantChange) {
+		this.cantChange = cantChange;
+	}
+
+	public int getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(int precio) {
+		this.precio = precio;
+	}
+	
 }

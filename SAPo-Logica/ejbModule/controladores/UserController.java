@@ -19,7 +19,6 @@ import entities.Store;
 import entities.User;
 
 @Stateless
-@WebService
 public class UserController implements IUserController {
 
 	@PersistenceContext(unitName = "SAPo-Logica")

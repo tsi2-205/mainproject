@@ -8,6 +8,7 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -17,7 +18,6 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
-
 import datatypes.DataCategory;
 import datatypes.DataProductAdditionalAttribute;
 import datatypes.DataStock;
@@ -34,9 +34,8 @@ public class NewProductBB implements Serializable {
     private String description;
 	private DataUser user;
 	private DataStore store;
-	private int stockIni;
-	private int precioCompra;
-	private int precioVenta;
+	private Integer stockMin = null;
+	private Integer stockMax = null;
 	
 	private DataStock stockSelected;
 	private boolean isEdition = false;
@@ -65,14 +64,15 @@ public class NewProductBB implements Serializable {
 		this.user = session.getLoggedUser();
 		this.store = session.getStoreSelected();
 		this.stockSelected = session.getStockSelected();
+		this.name = null;
+		this.description = null;
 		if (this.stockSelected != null) {
 			this.isEdition = true;
 			this.name = this.stockSelected.getProduct().getName();
 			this.description = this.stockSelected.getProduct().getDescription();
-			this.stockIni = this.stockSelected.getCantidad();
-			this.precioCompra = this.stockSelected.getPrecioCompra();
-			this.precioVenta = this.stockSelected.getPrecioVenta();
-			this.additionalAttributes = this.stockSelected.getProduct().getAdditionalAttributes(); 
+			this.stockMin = this.stockSelected.getCantidadMin();
+			this.stockMax = this.stockSelected.getCantidadMax();
+			this.additionalAttributes = this.stockSelected.getProduct().getAdditionalAttributes();
 		}
 		this.constructCategoryTree();
 	}
@@ -91,23 +91,51 @@ public class NewProductBB implements Serializable {
 		
 		try {
 			if (!isEdition) {
-				Comunicacion
-						.getInstance()
-						.getIStoreController()
-						.createSpecificProduct(this.name, this.description,
-								this.stockIni, this.precioCompra,
-								this.precioVenta, this.store,
-								this.additionalAttributes,
-								((DataCategory) selectedNode.getData()).getId());
+				if (selectedNode != null) {
+					Comunicacion
+							.getInstance()
+							.getIProductController()
+							.createSpecificProduct(this.name, this.description,
+									this.stockMin, this.stockMax, this.store.getId(),
+									this.additionalAttributes,
+									((DataCategory) selectedNode.getData()).getId());
+				} else {
+					FacesMessage msg = new FacesMessage("Debe seleccionar la categroía en la que se va a incluir el producto");
+			        FacesContext.getCurrentInstance().addMessage(null, msg);
+			        ret = "FailNewProduct";
+				}
 			} else {
-				this.stockSelected.setCantidad(this.stockIni);
-				this.stockSelected.setPrecioCompra(this.precioCompra);
-				this.stockSelected.setPrecioVenta(this.precioVenta);
-				Comunicacion
-						.getInstance()
-						.getIStoreController()
-						.editProductStore(this.stockSelected, store.getId(),
-								((DataCategory) selectedNode.getData()).getId());
+				this.stockSelected.getProduct().setName(this.name);
+				this.stockSelected.getProduct().setDescription(this.description);
+				this.stockSelected.setCantidadMin(this.stockMin);
+				this.stockSelected.setCantidadMax(this.stockMax);
+				this.stockSelected.getProduct().setAdditionalAttributes(this.additionalAttributes);
+				if (this.stockSelected.getProduct().isGeneric()) {
+					if (selectedNode != null) {
+						this.stockSelected.setCantidadMax(this.stockMax);
+						this.stockSelected.setCantidadMin(this.stockMin);
+						Integer idCategory = ((DataCategory) selectedNode.getData()).getId();
+						Comunicacion
+								.getInstance()
+								.getIProductController()
+								.editProductStore(this.stockSelected, store.getId(), idCategory);
+					} else {
+						FacesMessage msg = new FacesMessage("Debe seleccionar la categroía en la que se va a incluir el producto");
+				        FacesContext.getCurrentInstance().addMessage(null, msg);
+				        ret = "FailNewProduct";
+					}
+				} else {
+					this.stockSelected.setCantidadMax(this.stockMax);
+					this.stockSelected.setCantidadMin(this.stockMin);
+					Integer idCategory = null;
+					if (selectedNode != null) {
+						idCategory = ((DataCategory) selectedNode.getData()).getId();
+					}
+					Comunicacion
+							.getInstance()
+							.getIProductController()
+							.editProductStore(this.stockSelected, store.getId(), idCategory);
+				}
 			}
 			
 		} catch (Exception e) {
@@ -138,6 +166,10 @@ public class NewProductBB implements Serializable {
     	for (DataCategory dCatSon: dCat.getSonsCategories()) {
     		constructNodeTree(dCatSon, nodo);
     	}
+    }
+    
+    public String seeGenericProducts() {
+    	return "/pages/ListGenericProducts.xhtml?faces-redirect=true";
     }
 
 	public String getName() {
@@ -172,28 +204,20 @@ public class NewProductBB implements Serializable {
 		this.store = store;
 	}
 
-	public int getStockIni() {
-		return stockIni;
+	public Integer getStockMin() {
+		return stockMin;
 	}
 
-	public void setStockIni(int stockIni) {
-		this.stockIni = stockIni;
+	public void setStockMin(Integer stockMin) {
+		this.stockMin = stockMin;
 	}
 
-	public int getPrecioCompra() {
-		return precioCompra;
+	public Integer getStockMax() {
+		return stockMax;
 	}
 
-	public void setPrecioCompra(int precioCompra) {
-		this.precioCompra = precioCompra;
-	}
-
-	public int getPrecioVenta() {
-		return precioVenta;
-	}
-
-	public void setPrecioVenta(int precioVenta) {
-		this.precioVenta = precioVenta;
+	public void setStockMax(Integer stockMax) {
+		this.stockMax = stockMax;
 	}
 
 	public String getAdditionalAttributeName() {
@@ -243,6 +267,14 @@ public class NewProductBB implements Serializable {
 
 	public void setEdition(boolean isEdition) {
 		this.isEdition = isEdition;
+	}
+
+	public DataStock getStockSelected() {
+		return stockSelected;
+	}
+
+	public void setStockSelected(DataStock stockSelected) {
+		this.stockSelected = stockSelected;
 	}
 	
 }

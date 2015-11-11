@@ -22,8 +22,8 @@ public class BuyList implements Serializable {
     private String description;
     
     private Calendar fecha;
-	
-	@Version
+    
+    @Version
     private int version;
     
     @ManyToOne

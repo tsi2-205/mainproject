@@ -15,6 +15,10 @@ public class Stock implements Serializable {
 	private int id;
 
     private int cantidad;
+    
+    private Integer cantidadMin;
+    
+    private Integer cantidadMax;
 	
     private int precioVenta;
     
@@ -27,7 +31,7 @@ public class Stock implements Serializable {
     @JoinColumn(name = "idStore", referencedColumnName = "id", nullable = false)
     private Store store;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idProduct", referencedColumnName = "id", nullable = false)
     private SpecificProduct product;
     
@@ -36,12 +40,25 @@ public class Stock implements Serializable {
 		super();
 	}
 
-	public Stock(int cantidad, int precioVenta, int precioCompra,
+	@Deprecated
+	public Stock(int cantidad, int precioVenta, int precioCompra, 
 			Store store, SpecificProduct product) {
 		super();
 		this.cantidad = cantidad;
 		this.precioVenta = precioVenta;
 		this.precioCompra = precioCompra;
+		this.store = store;
+		this.product = product;
+	}
+	
+	
+
+	public Stock(int cantidad, Integer cantidadMin, Integer cantidadMax,
+			Store store, SpecificProduct product) {
+		super();
+		this.cantidad = cantidad;
+		this.cantidadMin = cantidadMin;
+		this.cantidadMax = cantidadMax;
 		this.store = store;
 		this.product = product;
 	}
@@ -100,6 +117,22 @@ public class Stock implements Serializable {
 
 	public void setProduct(SpecificProduct product) {
 		this.product = product;
+	}
+
+	public Integer getCantidadMin() {
+		return cantidadMin;
+	}
+
+	public void setCantidadMin(Integer cantidadMin) {
+		this.cantidadMin = cantidadMin;
+	}
+
+	public Integer getCantidadMax() {
+		return cantidadMax;
+	}
+
+	public void setCantidadMax(Integer cantidadMax) {
+		this.cantidadMax = cantidadMax;
 	}
     
 }

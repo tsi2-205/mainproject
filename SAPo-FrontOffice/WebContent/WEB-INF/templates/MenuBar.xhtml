@@ -6,15 +6,16 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:outputStylesheet library="styles" name="menuBar.css" />
+	<h:outputScript library="js" name="menuBar.js" />
 	<h:form prependId="false">
-		<div class="menuoption">
-			<h:commandLink id="linkStoreDetail" action="StoreDetail" value="Productos" />
-		</div>
-		<div class="menuoption">
-			<h:commandLink id="linkStoreMoves" action="StoreMoves" value="Movimientos"  />
-		</div>
-		<div class="menuoption">
-			<h:commandLink id="linkStoreBuyLists" action="StoreBuyLists" value="Listas de compras"  />
+		<div id='cssmenu'>
+			<ul>
+				<li><a href='StoreMoves.xhtml'>Movimientos</a></li>
+				<li><a href='StoreBuyLists.xhtml'>Listas de compras</a></li>
+				<li><a href='StoreProducts.xhtml'>Productos</a></li>
+				<li><a href='CategoryDetail.xhtml'>Categorías</a></li>
+				<li><a href='StoreHistory.xhtml'>Historial</a></li>
+			</ul>
 		</div>
 	</h:form>
 </ui:composition>

@@ -12,9 +12,12 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			
-			<h:outputText value="Nuevo producto" styleClass="title1"/>
+			<h:outputText rendered="#{!newProductBB.edition or newProductBB.stockSelected.product.generic}" value="Nuevo producto" styleClass="title1"/>
+			<h:outputText rendered="#{newProductBB.edition and not newProductBB.stockSelected.product.generic}" value="Editar producto" styleClass="title1"/>
+			<p:commandButton rendered="#{!newProductBB.edition}" value="Ver productos genéricos" action="#{newProductBB.seeGenericProducts}" style="float:right;"></p:commandButton>
 			<p:commandButton rendered="#{!newProductBB.edition}" value="Crear" action="#{newProductBB.create}" style="float:right;"></p:commandButton>
-			<p:commandButton rendered="#{newProductBB.edition}" value="Agregar" action="#{newProductBB.create}" style="float:right;"></p:commandButton>
+			<p:commandButton rendered="#{newProductBB.edition and newProductBB.stockSelected.product.generic}" value="Agregar" action="#{newProductBB.create}" style="float:right;"></p:commandButton>
+			<p:commandButton rendered="#{newProductBB.edition and not newProductBB.stockSelected.product.generic}" value="Guardar" action="#{newProductBB.create}" style="float:right;"></p:commandButton>
 			<p:separator style="clear: both;"></p:separator>
 			<p:panel>
 				<h:outputText value="Debe elegir una categoría" styleClass="title2"/>
@@ -26,23 +29,21 @@
 			    </p:tree>
 		    </p:panel>
 			<p:panel>
-				<h:outputText value="Atributos básicos de su nuevo producto" styleClass="title2"/>
+				<h:outputText value="Atributos básicos" styleClass="title2"/>
 				<p:separator></p:separator>
 				<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
 					<h:outputLabel for="name" value="Nombre:"/>
 					<h:inputText id="name" label="Nombre:" value="#{newProductBB.name}" ></h:inputText>
 					<h:outputLabel for="description" value="Descripción:"/>
 					<h:inputText id="description" label="Descripción:" value="#{newProductBB.description}" ></h:inputText>
-					<h:outputLabel for="stockIni" value="Stock inicial:"/>
-					<h:inputText id="stockIni" label="Stock inicial:" value="#{newProductBB.stockIni}" ></h:inputText>
-					<h:outputLabel for="precioCompra" value="Precio de compra:"/>
-					<h:inputText id="precioCompra" label="Precio de compra:" value="#{newProductBB.precioCompra}" ></h:inputText>
-					<h:outputLabel for="precioVenta" value="Precio de venta:"/>
-					<h:inputText id="precioVenta" label="Precio de venta:" value="#{newProductBB.precioVenta}" ></h:inputText>
+					<h:outputLabel for="stockMin" value="Stock mínimo:"/>
+					<h:inputText id="stockMin" label="Stock mínimo:" value="#{newProductBB.stockMin}" ></h:inputText>
+					<h:outputLabel for="stockMax" value="Stock máximo:"/>
+					<h:inputText id="stockMax" label="Stock máximo:" value="#{newProductBB.stockMax}" ></h:inputText>
 				</p:panelGrid>
 			</p:panel>
 			<p:panel rendered="#{not empty newProductBB.additionalAttributes}">
-				<h:outputText value="Atributos adicionales de su nuevo producto" styleClass="title2"/>
+				<h:outputText value="Atributos adicionales" styleClass="title2"/>
 				<p:separator></p:separator>
 				<p:dataGrid id="AdditionalAttribute" columns="1" value="#{newProductBB.additionalAttributes}" var="attribute" emptyMessage="">
 					<p:panelGrid columns="2" layout="grid">

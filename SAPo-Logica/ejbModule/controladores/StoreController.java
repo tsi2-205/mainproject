@@ -51,7 +51,6 @@ import exceptions.NoDeleteCategoryException;
 import exceptions.ProductNotExistException;
 
 @Stateless
-@WebService
 public class StoreController implements IStoreController {
 	
 	@PersistenceContext(unitName = "SAPo-Logica")
@@ -71,29 +70,6 @@ public class StoreController implements IStoreController {
 		em.persist(c);
 		s.setCustomer(c);
 		em.persist(s);
-	}
-	
-	public void createSpecificProduct(String name, String description, int stockIni, int precioCompra, int precioVenta, DataStore store, List<DataProductAdditionalAttribute> additionalAttributes, int idCategory) {
-		Store s = em.find(Store.class, store.getId());
-		Category cat = em.find(Category.class, idCategory);
-		SpecificProduct p = new SpecificProduct(name, description, s);
-		p.setCategory(cat);
-		for (DataProductAdditionalAttribute dAdAt: additionalAttributes) {
-			ProductAdditionalAttribute newAttribute = new ProductAdditionalAttribute(dAdAt.getNameAttribute(), dAdAt.getValueAttribute());
-			em.persist(newAttribute);
-			p.getAdditionalAttributes().add(newAttribute);
-		}
-		Stock stock = new Stock(stockIni, precioVenta, precioCompra, s, p);
-		em.persist(s);
-		em.persist(p);
-		em.persist(stock);
-		Calendar fechaActual = new GregorianCalendar();
-		HistoricStock hs = new HistoricStock(fechaActual, stockIni, 1, p, s);
-		em.persist(hs);
-		HistoricPrecioCompra hpc = new HistoricPrecioCompra(fechaActual, precioCompra, 1, p, s);
-		em.persist(hpc);
-		HistoricPrecioVenta hpv = new HistoricPrecioVenta(fechaActual, precioVenta, 1, p, s);
-		em.persist(hpv);
 	}
 	
 	public void createSpecificCategory(String name, String description, DataStore store, DataCategory fatherCat) throws ExistStoreException {
@@ -203,6 +179,12 @@ public class StoreController implements IStoreController {
 		return result;
 	}
 	
+	public List<DataProduct> findProductsStoreName(int idStore, String name) {
+		List<DataProduct> result = new LinkedList<DataProduct>();
+		
+		return result;
+	}
+	
 	public List<DataCategory> findSpecificCategoriesStore(int idStore) {
 		Store store = em.find(Store.class, idStore);
 		List<DataCategory> result = new LinkedList<DataCategory>();
@@ -243,12 +225,18 @@ public class StoreController implements IStoreController {
 		
 		if (stk.getCantidad() != stock.getCantidad()) {
 			int tipo;
+			int cant;
+			int precio;
 			if (stk.getCantidad() < stock.getCantidad()) {
 				tipo = 1;
+				cant = stock.getCantidad() - stk.getCantidad();
+				precio = cant * stock.getPrecioCompra();
 			} else {
 				tipo = 0;
+				cant = stk.getCantidad() - stock.getCantidad();
+				precio = cant * stock.getPrecioVenta();
 			}
-			HistoricStock hs = new HistoricStock(fechaActual, stock.getCantidad(), tipo, p, s);
+			HistoricStock hs = new HistoricStock(fechaActual, stock.getCantidad(), cant, precio, tipo, p, s);
 			stk.setCantidad(stock.getCantidad());
 			em.persist(hs);
 		}
@@ -452,6 +440,33 @@ public class StoreController implements IStoreController {
 			em.remove(listRemove.remove(0));
 		}
 		em.merge(buyList);
+	}
+	
+	public DataBuyList findBuyList(int idBuyList) {
+		BuyList bl = em.find(BuyList.class, idBuyList);
+		return new DataBuyList(bl);
+	}
+	
+	public void checkElementBuyList(int idElementBuyList, int idStore, int precio) {
+		ElementBuyList elem = em.find(ElementBuyList.class, idElementBuyList);
+		elem.setChecked(true);
+		em.merge(elem);
+		
+		Store store = em.find(Store.class, idStore);
+		SpecificProduct p = (SpecificProduct) elem.getProduct();
+		Stock stk = p.getStock();
+		Calendar fechaActual = new GregorianCalendar();
+		HistoricStock hs = new HistoricStock(fechaActual, (stk.getCantidad() + elem.getQuantity()), elem.getQuantity(), precio, 1, p, store);
+		HistoricPrecioCompra hpc = new HistoricPrecioCompra(fechaActual, precio/elem.getQuantity(), 1, p, store);
+		em.persist(hs);
+		em.persist(hpc);
+		stk.setCantidad((stk.getCantidad() + elem.getQuantity()));
+		stk.setPrecioVenta(precio/elem.getQuantity());
+		em.merge(stk);
+		
+		if (stk.getCantidad() > stk.getCantidadMax()) {
+			// EVIAR NOTIFICACION A LOS USUARIOS DEL ALMACEN YA QUE PASARON EL STOCK MAXIMO
+		}
 	}
 	
 	public File getCustomizeStore(int id) throws SQLException, IOException{
@@ -696,105 +711,14 @@ public class StoreController implements IStoreController {
 		em.merge(s);
 	}
 
-	public void editProductStore(DataStock stock, int idStore, int idCategory) throws ExistCategoryException {
-		Store store = em.find(Store.class, idStore);
-		Product p = em.find(Product.class, stock.getProduct().getId());
-		String queryStr = "SELECT sp FROM Store s join s.specificsProducts sp WHERE sp.name = :name AND sp.id <> :id";
-		Query query = em.createQuery(queryStr);
-		query.setParameter("name", p.getName());
-		query.setParameter("id", p.getId());
-		if (!query.getResultList().isEmpty()) {
-			throw new ExistCategoryException("Ya existe un producto con nombre " + p.getName());
+	public List<DataHistoricStock> findHistoricStockProductDate(int idStore, int idProduct, Calendar fechaIni, Calendar fechaFin) {
+		List<DataHistoricStock> ret = new LinkedList<DataHistoricStock>();
+		SpecificProduct sp = em.find(SpecificProduct.class, idProduct);
+		for (HistoricStock hs: sp.getHistoricStock()) {
+			if ((!hs.getFecha().before(fechaIni)) && (!hs.getFecha().after(fechaFin))) {
+				ret.add(new DataHistoricStock(hs));
+			}
 		}
-		
-		if (p instanceof GenericProduct) {
-			//esta agregando un producto generico
-			Category cat = em.find(Category.class, idCategory);
-			SpecificProduct sp = new SpecificProduct(stock.getProduct().getName(), stock.getProduct().getDescription(), store);
-			sp.setCategory(cat);
-			for (DataProductAdditionalAttribute dAdAt: stock.getProduct().getAdditionalAttributes()) {
-				ProductAdditionalAttribute newAttribute = new ProductAdditionalAttribute(dAdAt.getNameAttribute(), dAdAt.getValueAttribute());
-				em.persist(newAttribute);
-				sp.getAdditionalAttributes().add(newAttribute);
-			}
-			Stock stk = new Stock(stock.getCantidad(), stock.getPrecioVenta(), stock.getPrecioCompra(), store, sp);
-			em.persist(sp);
-			em.persist(stk);
-			Calendar fechaActual = new GregorianCalendar();
-			HistoricStock hs = new HistoricStock(fechaActual, stk.getCantidad(), 1, sp, store);
-			em.persist(hs);
-			HistoricPrecioCompra hpc = new HistoricPrecioCompra(fechaActual, stk.getPrecioCompra(), 1, sp, store);
-			em.persist(hpc);
-			HistoricPrecioVenta hpv = new HistoricPrecioVenta(fechaActual, stk.getPrecioVenta(), 1, sp, store);
-			em.persist(hpv);
-			
-		} else {
-			//Esta editando un producto especifico
-			if (p.getCategory().getId() != idCategory) {
-				Category category = em.find(Category.class, idCategory);
-				p.setCategory(category);
-			}
-			p.setName(stock.getProduct().getName());
-			p.setDescription(stock.getProduct().getDescription());
-			ProductAdditionalAttribute a = null;
-			for (DataProductAdditionalAttribute data: stock.getProduct().getAdditionalAttributes()) {
-				boolean exist = false;
-				for (ProductAdditionalAttribute atr: p.getAdditionalAttributes()) {
-					if (atr.getId() == data.getId()) {
-						a = atr;
-						exist = true;
-						break;
-					}
-				}
-				if (exist) {
-					a.setNameAttribute(data.getNameAttribute());
-					a.setValueAttribute(data.getValueAttribute());
-					exist = false;
-				} else {
-					p.getAdditionalAttributes().add(new ProductAdditionalAttribute(data.getNameAttribute(), data.getValueAttribute()));
-				}
-			}
-			em.merge(p);
-			Stock stk = em.find(Stock.class, stock.getId());
-			Calendar fechaActual = new GregorianCalendar();
-			if (stk.getCantidad() != stock.getCantidad()) {
-				int tipo;
-				if (stk.getCantidad() < stock.getCantidad()) {
-					tipo = 1;
-				} else {
-					tipo = 0;
-				}
-				HistoricStock hs = new HistoricStock(fechaActual, stock.getCantidad(), tipo, (SpecificProduct)p, store);
-				stk.setCantidad(stock.getCantidad());
-				em.persist(hs);
-			}
-			if (stk.getPrecioCompra() != stock.getPrecioCompra()) {
-				int tipo;
-				if (stk.getPrecioCompra() < stock.getPrecioCompra()) {
-					tipo = 1;
-				} else {
-					tipo = 0;
-				}
-				HistoricPrecioCompra hpc = new HistoricPrecioCompra(fechaActual, stock.getPrecioCompra(), tipo, (SpecificProduct)p, store);
-				stk.setPrecioCompra(stock.getPrecioCompra());
-				em.persist(hpc);
-			}
-			if (stk.getPrecioVenta() != stock.getPrecioVenta()) {
-				int tipo;
-				if (stk.getPrecioVenta() < stock.getPrecioVenta()) {
-					tipo = 1;
-				} else {
-					tipo = 0;
-				}
-				HistoricPrecioVenta hpv = new HistoricPrecioVenta(fechaActual, stock.getPrecioVenta(), tipo, (SpecificProduct)p, store);
-				stk.setCantidad(stock.getCantidad());
-				em.persist(hpv);
-				stk.setPrecioVenta(stock.getPrecioVenta());
-			}
-			em.merge(stk);
-		}
-		
-
+		return ret;
 	}
-	
 }

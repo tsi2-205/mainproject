@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/Layout2.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="Login" />
+		<h:outputStylesheet library="styles" name="storeDetails.css" />
+	</ui:define>
+	<ui:define name="Principal">
+		<h:form id="form" prependId="false">
+			<p:growl id="msgs" showDetail="true" />
+
+			<h:outputText value="Tus productos" styleClass="title1"></h:outputText>
+			<p:commandButton style="float: right"
+				id="buttonCreateProduct" value="Nuevo Producto"
+				action="#{storeProductsBB.createProduct}" />
+			<p:commandButton style="float: right"
+				id="buttonShareStore" value="Compartir"
+				oncomplete="PF('dlgShare').show();" update="dlgShare"
+				rendered="#{storeProductsBB.storeOwner}" />
+			<p:commandButton style="float: right"
+				id="buttonCustomize" value="Customizar"
+				action="#{storeProductsBB.customizeButton}" />
+			<p:separator style="clear: both;"></p:separator>
+
+			<p:panel id="panelCategories">
+				<h:outputText rendered="#{!storeProductsBB.hayCategorias}"
+					value="No hay categorías" styleClass="title2"></h:outputText>
+				<p:tree value="#{storeProductsBB.root}" var="node"
+					selectionMode="single" selection="#{storeProductsBB.selectedNode}">
+					<p:ajax event="select" update="listProducts"
+						listener="#{storeProductsBB.onCategorySelect}" />
+					<p:treeNode>
+						<h:outputText value="#{node.name}" />
+					</p:treeNode>
+				</p:tree>
+			</p:panel>
+
+			<p:panel id="panelProducts">
+				<p:dataTable id="listProducts" var="stock"
+					value="#{storeProductsBB.stocks}"	style="margin-bottom:20px" emptyMessage="No existen productos"
+					sortMode="multiple">
+
+					<p:column headerText="Nombre" sortBy="#{stock.product.name}">
+						<h:outputText value="#{stock.product.name}" />
+					</p:column>
+
+					<p:column headerText="Stock" sortBy="#{stock.cantidad}">
+						<h:outputText value="#{stock.cantidad}" />
+					</p:column>
+
+					<p:column style="width:32px">
+						<p:commandButton id="ShowProductDetail" icon="ui-icon-search"
+							action="#{storeProductsBB.showProduct}" >
+							<f:setPropertyActionListener value="#{stock}" target="#{storeProductsBB.productSelected}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+
+			<p:dialog id="dlgShare" header="Compartir" widgetVar="dlgShare"
+				resizable="false">
+				<h:form>
+					<p:dataTable id="checkboxDT" var="user"
+						value="#{shareStoreBB.users}"
+						selection="#{shareStoreBB.selectedUsers}" rowKey="#{user.id}"
+						style="margin-bottom:0; width:300px;">
+						<p:column selectionMode="multiple"
+							style="width:16px;text-align:center" />
+						<p:column headerText="Nombre">
+							<h:outputText value="#{user.name}" />
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton value="Compartir"
+								oncomplete="PF('dlgShare').hide();"
+								action="#{shareStoreBB.shareStore}" process="checkboxDT" />
+						</f:facet>
+					</p:dataTable>
+				</h:form>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

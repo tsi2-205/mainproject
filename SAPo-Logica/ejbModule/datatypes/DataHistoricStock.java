@@ -13,6 +13,10 @@ public class DataHistoricStock implements Serializable {
 	
 	private Calendar fecha;
 	
+	private int cantChange;
+	
+	private int precio;
+
 	private int stock;
 	
 	private String nameProduct;
@@ -37,6 +41,8 @@ public class DataHistoricStock implements Serializable {
 		this.stock = historic.getStock();
 		this.tipo = historic.getTipo();
 		this.nameProduct = historic.getProduct().getName();
+		this.cantChange = historic.getCantChange();
+		this.precio = historic.getPrecio();
 	}
 
 	public int getId() {
@@ -77,6 +83,22 @@ public class DataHistoricStock implements Serializable {
 
 	public void setNameProduct(String nameProduct) {
 		this.nameProduct = nameProduct;
+	}
+
+	public int getCantChange() {
+		return cantChange;
+	}
+
+	public void setCantChange(int cantChange) {
+		this.cantChange = cantChange;
+	}
+
+	public int getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(int precio) {
+		this.precio = precio;
 	}
 	
 }

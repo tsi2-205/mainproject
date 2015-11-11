@@ -32,26 +32,25 @@ import datatypes.DataUser;
 
 @ManagedBean
 @ViewScoped
-public class StoreDetailBB implements Serializable {
+public class StoreProductsBB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private DataStore store;
 	private DataUser user;
 	private int categorySelected = -1;
-	private int productSelected = -1;
+	private DataStock productSelected;
 	private List<DataStock> stocks = new LinkedList<DataStock>();
 	private List<DataCategory> categories = new LinkedList<DataCategory>();
 //	private List<DataProduct> gemericProducts = null;
 	private List<DataCategory> gemericCategories = new LinkedList<DataCategory>();
-	private List<DataBuyList> buyLists = new LinkedList<DataBuyList>();
 	private TreeNode root;
 	private TreeNode selectedNode;
 	private boolean hayCategorias;
 	private boolean isStoreOwner;
 	
 	
-	public StoreDetailBB() {
+	public StoreProductsBB() {
 		super();
 	}
 	
@@ -68,7 +67,6 @@ public class StoreDetailBB implements Serializable {
 			this.store = session.getStoreSelected();
 			this.isStoreOwner = this.user.getId() == this.store.getOwner().getId();
 			session.setCategorySelected(null);
-			session.setBuyListSelected(null);
 			session.setProductSelected(null);
 			session.setStockSelected(null);
 			try{
@@ -108,72 +106,6 @@ public class StoreDetailBB implements Serializable {
     	}
     }
     
-	
-	public void onRowProductEdit(RowEditEvent event) {
-		DataStock stock = (DataStock) event.getObject();
-		try {
-			Comunicacion.getInstance().getIStoreController().editProductBasic(stock,store.getId());
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-        FacesMessage msg = new FacesMessage("Producto editado", ((DataStock) event.getObject()).getProduct().getName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-     
-    public void onRowProductCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edición cancelada", ((DataStock) event.getObject()).getProduct().getName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-     
-//    public void onCellEdit(CellEditEvent event) {
-//        Object oldValue = event.getOldValue();
-//        Object newValue = event.getNewValue();
-//         
-//        if(newValue != null && !newValue.equals(oldValue)) {
-//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda cambiada", "Vieja: " + oldValue + ", Nueva:" + newValue);
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-//    }
-    
-    public void onRowBuyListEdit(RowEditEvent event) {
-    	DataElementBuyList element = (DataElementBuyList) event.getObject();
-		try {
-			Comunicacion.getInstance().getIStoreController().editElementBuyList(element);
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-        FacesMessage msg = new FacesMessage("Producto editado", ((DataProduct) event.getObject()).getName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-     
-    public void onRowBuyListCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edición cancelada", ((DataElementBuyList) event.getObject()).getProduct().getName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-     
-//    public void onCellEdit(CellEditEvent event) {
-//        Object oldValue = event.getOldValue();
-//        Object newValue = event.getNewValue();
-//         
-//        if(newValue != null && !newValue.equals(oldValue)) {
-//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda cambiada", "Vieja: " + oldValue + ", Nueva:" + newValue);
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-//    }
-    
-    public void editCategory() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ELContext contextoEL = context.getELContext( );
-		Application apli  = context.getApplication( );	
-		ExpressionFactory ef = apli.getExpressionFactory( );
-		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
-		SessionBB session = (SessionBB) ve.getValue(contextoEL);
-//		session.setCategorySelected((DataCategory) this.selectedNode.getData());		
-		FacesContext faces = FacesContext.getCurrentInstance();
-		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
-		configurableNavigationHandler.performNavigation("/pages/CategoryDetail.xhtml?faces-redirect=true");
-    }
-    
     public void onCategorySelect(NodeSelectEvent event) {
     	try {
 			this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), ((DataCategory)selectedNode.getData()).getId());
@@ -184,17 +116,26 @@ public class StoreDetailBB implements Serializable {
     }
     
     public String showProduct() {
-		return "/pages/ProductDetail.xhtml?faces-redirect=true";
+    	String ret = "/pages/ShowProduct.xhtml?faces-redirect=true";
+    	if(this.productSelected != null) {
+    		FacesContext context = FacesContext.getCurrentInstance();
+    		ELContext contextoEL = context.getELContext( );
+    		Application apli  = context.getApplication( );	
+    		ExpressionFactory ef = apli.getExpressionFactory( );
+    		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
+    		SessionBB session = (SessionBB) ve.getValue(contextoEL);
+    		session.setStockSelected(this.productSelected);
+        } else {
+        	ret = "";
+        }
+    	
+		return ret;
 	}
     
 	public String createProduct() {
-		return "/pages/ListGenericProducts.xhtml?faces-redirect=true";
+		return "/pages/NewProduct.xhtml?faces-redirect=true";
 	}
 	
-	public String createCategory() {
-		return "/pages/NewCategory.xhtml?faces-redirect=true";
-	}
-
 	public DataStore getStore() {
 		return store;
 	}
@@ -235,14 +176,6 @@ public class StoreDetailBB implements Serializable {
 		this.categories = categories;
 	}
 
-//	public List<DataProduct> getGemericProducts() {
-//		return gemericProducts;
-//	}
-//
-//	public void setGemericProducts(List<DataProduct> gemericProducts) {
-//		this.gemericProducts = gemericProducts;
-//	}
-
 	public List<DataCategory> getGemericCategories() {
 		return gemericCategories;
 	}
@@ -251,20 +184,12 @@ public class StoreDetailBB implements Serializable {
 		this.gemericCategories = gemericCategories;
 	}
 
-	public int getProductSelected() {
+	public DataStock getProductSelected() {
 		return productSelected;
 	}
 
-	public void setProductSelected(int productSelected) {
+	public void setProductSelected(DataStock productSelected) {
 		this.productSelected = productSelected;
-	}
-
-	public List<DataBuyList> getBuyLists() {
-		return buyLists;
-	}
-
-	public void setBuyLists(List<DataBuyList> buyLists) {
-		this.buyLists = buyLists;
 	}
 
 	public boolean isHayCategorias() {

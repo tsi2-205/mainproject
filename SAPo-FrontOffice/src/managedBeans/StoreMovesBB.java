@@ -1,5 +1,6 @@
 package managedBeans;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,17 +9,20 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
-import comunication.Comunicacion;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.TreeNode;
 
-import datatypes.DataHistoricPrecioCompra;
-import datatypes.DataHistoricPrecioVenta;
-import datatypes.DataHistoricStock;
+import comunication.Comunicacion;
+import datatypes.DataBuyList;
+import datatypes.DataCategory;
 import datatypes.DataProduct;
+import datatypes.DataStock;
 import datatypes.DataStore;
 import datatypes.DataUser;
 
@@ -27,22 +31,19 @@ import datatypes.DataUser;
 public class StoreMovesBB {
 	
 	private DataStore store;
-	
-	private DataProduct product = null;
-	
 	private DataUser user;
+	private String nameProduct;
+	private DataProduct productSelected;
+	private String productNameSelected;
+	private List<DataProduct> products = new LinkedList<DataProduct>();
+	private List<DataProduct> productsFiltered = new LinkedList<DataProduct>();
+	private List<String> productsNamefiltered = new LinkedList<String>();
 	
-	private List<DataHistoricStock> histStock = new LinkedList<DataHistoricStock>();
+	private String movTipo = "Alta";
+	private Integer movCant = null;
+	private Integer movPrecio = null;
 	
-	private List<DataHistoricStock> filteredHistStock = new LinkedList<DataHistoricStock>();
-	
-	private List<DataHistoricPrecioCompra> histPrecioCompra = new LinkedList<DataHistoricPrecioCompra>();
-	
-	private List<DataHistoricPrecioCompra> filteredHistPrecioCompra = new LinkedList<DataHistoricPrecioCompra>();
-	
-	private List<DataHistoricPrecioVenta> histPrecioVenta = new LinkedList<DataHistoricPrecioVenta>();
-	
-	private List<DataHistoricPrecioVenta> filteredHistPrecioVenta = new LinkedList<DataHistoricPrecioVenta>();
+	private String productSelectedName;
 	
 	public StoreMovesBB() {
 		super();
@@ -50,25 +51,73 @@ public class StoreMovesBB {
 	
 	@PostConstruct
 	private void init() {
-		
 		FacesContext context = FacesContext.getCurrentInstance();
 		ELContext contextoEL = context.getELContext( );
 		Application apli  = context.getApplication( );	
 		ExpressionFactory ef = apli.getExpressionFactory( );
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
-		this.user = session.getLoggedUser();
-		this.store = session.getStoreSelected();
-		
-		try {
-			this.histStock = Comunicacion.getInstance().getIStoreController().findHistoricStock(store.getId());
-			this.histPrecioCompra = Comunicacion.getInstance().getIStoreController().findHistoricPrecioCompra(store.getId());
-			this.histPrecioVenta = Comunicacion.getInstance().getIStoreController().findHistoricPrecioVenta(store.getId());
-			
-		} catch (NamingException e) {
-			e.printStackTrace();
+		if (session.chequearAcceso(3)) {
+			this.user = session.getLoggedUser();
+			this.store = session.getStoreSelected();
+			session.setProductSelected(null);
+			try{
+				this.products = Comunicacion.getInstance().getIStoreController().findProductsStore(store.getId(), null);
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
 		}
-		
+	}
+	
+	public List<String> completeName(String query) {
+		this.productsNamefiltered = new LinkedList<String>();
+		this.productsFiltered = new LinkedList<DataProduct>();
+		for (DataProduct dp: this.products) {
+			DataProduct skin = dp;
+			if (skin.getName().toLowerCase().startsWith(query.toLowerCase())) {
+				this.productsNamefiltered.add(skin.getName());
+				this.productsFiltered.add(skin);
+			}
+		}
+		return this.productsNamefiltered;
+	}
+	
+	public void onProductSelect(SelectEvent event) {
+		String name = event.getObject().toString();
+		for (DataProduct dp: this.productsFiltered) {
+			if (name.toLowerCase().equals(dp.getName().toLowerCase())) {
+				this.productSelected = dp;
+				break;
+			}
+		}
+	}
+	
+	public String saveChangeStock() {
+		String ret = "OkChangeStock";
+		if (this.movCant != null && this.movPrecio != null) {
+			int tipo = this.movTipo.equals("Alta") ? 1 : 0;
+			try {
+				Comunicacion.getInstance().getIProductController().changeStockProduct(store.getId(), this.productSelected.getId(), this.movCant, this.movPrecio, tipo);
+				this.movCant = null;
+				this.movPrecio = null;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cambio de stock realizado con éxito"));
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+	
+	public String seeProductMoves() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ELContext contextoEL = context.getELContext( );
+		Application apli  = context.getApplication( );	
+		ExpressionFactory ef = apli.getExpressionFactory( );
+		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
+		SessionBB session = (SessionBB) ve.getValue(contextoEL);
+		session.setProductSelected(this.productSelected);
+		return "/pages/ProductMoves.xhtml?faces-redirect=true";
 	}
 
 	public DataStore getStore() {
@@ -79,14 +128,6 @@ public class StoreMovesBB {
 		this.store = store;
 	}
 
-	public DataProduct getProduct() {
-		return product;
-	}
-
-	public void setProduct(DataProduct product) {
-		this.product = product;
-	}
-
 	public DataUser getUser() {
 		return user;
 	}
@@ -95,54 +136,92 @@ public class StoreMovesBB {
 		this.user = user;
 	}
 
-	public List<DataHistoricStock> getHistStock() {
-		return histStock;
+	public String getNameProduct() {
+		return nameProduct;
 	}
 
-	public void setHistStock(List<DataHistoricStock> histStock) {
-		this.histStock = histStock;
+	public void setNameProduct(String nameProduct) {
+		this.nameProduct = nameProduct;
 	}
 
-	public List<DataHistoricPrecioCompra> getHistPrecioCompra() {
-		return histPrecioCompra;
+	public DataProduct getProductSelected() {
+		return productSelected;
 	}
 
-	public void setHistPrecioCompra(List<DataHistoricPrecioCompra> histPrecioCompra) {
-		this.histPrecioCompra = histPrecioCompra;
+	public void setProductSelected(DataProduct productSelected) {
+		this.productSelected = productSelected;
 	}
 
-	public List<DataHistoricPrecioVenta> getHistPrecioVenta() {
-		return histPrecioVenta;
+	public List<DataProduct> getProducts() {
+		return products;
 	}
 
-	public void setHistPrecioVenta(List<DataHistoricPrecioVenta> histPrecioVenta) {
-		this.histPrecioVenta = histPrecioVenta;
+	public void setProducts(List<DataProduct> products) {
+		this.products = products;
 	}
 
-	public List<DataHistoricStock> getFilteredHistStock() {
-		return filteredHistStock;
+	public List<String> getProductsfiltered() {
+		return productsNamefiltered;
 	}
 
-	public void setFilteredHistStock(List<DataHistoricStock> filteredHistStock) {
-		this.filteredHistStock = filteredHistStock;
+	public void setProductsfiltered(List<String> productsfiltered) {
+		this.productsNamefiltered = productsfiltered;
 	}
 
-	public List<DataHistoricPrecioCompra> getFilteredHistPrecioCompra() {
-		return filteredHistPrecioCompra;
+	public String getProductSelectedName() {
+		return productSelectedName;
 	}
 
-	public void setFilteredHistPrecioCompra(
-			List<DataHistoricPrecioCompra> filteredHistPrecioCompra) {
-		this.filteredHistPrecioCompra = filteredHistPrecioCompra;
+	public void setProductSelectedName(String productSelectedName) {
+		this.productSelectedName = productSelectedName;
 	}
 
-	public List<DataHistoricPrecioVenta> getFilteredHistPrecioVenta() {
-		return filteredHistPrecioVenta;
+	public String getProductNameSelected() {
+		return productNameSelected;
 	}
 
-	public void setFilteredHistPrecioVenta(
-			List<DataHistoricPrecioVenta> filteredHistPrecioVenta) {
-		this.filteredHistPrecioVenta = filteredHistPrecioVenta;
+	public void setProductNameSelected(String productNameSelected) {
+		this.productNameSelected = productNameSelected;
+	}
+
+	public List<String> getProductsNamefiltered() {
+		return productsNamefiltered;
+	}
+
+	public void setProductsNamefiltered(List<String> productsNamefiltered) {
+		this.productsNamefiltered = productsNamefiltered;
+	}
+
+	public List<DataProduct> getProductsFiltered() {
+		return productsFiltered;
+	}
+
+	public void setProductsFiltered(List<DataProduct> productsFiltered) {
+		this.productsFiltered = productsFiltered;
+	}
+
+	public String getMovTipo() {
+		return movTipo;
+	}
+
+	public void setMovTipo(String movTipo) {
+		this.movTipo = movTipo;
+	}
+
+	public Integer getMovCant() {
+		return movCant;
+	}
+
+	public void setMovCant(Integer movCant) {
+		this.movCant = movCant;
+	}
+
+	public Integer getMovPrecio() {
+		return movPrecio;
+	}
+
+	public void setMovPrecio(Integer movPrecio) {
+		this.movPrecio = movPrecio;
 	}
 	
 }
