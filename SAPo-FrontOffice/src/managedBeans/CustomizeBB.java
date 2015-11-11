@@ -1,7 +1,5 @@
 package managedBeans;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -22,6 +20,7 @@ import javax.sql.rowset.serial.SerialException;
 import org.primefaces.model.UploadedFile;
 
 import comunication.Comunicacion;
+
 import datatypes.DataStore;
 
 

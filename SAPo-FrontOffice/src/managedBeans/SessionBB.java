@@ -12,16 +12,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
-import javax.servlet.http.HttpSession;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 
 import comunication.Comunicacion;
+
 import datatypes.DataBuyList;
 import datatypes.DataCategory;
 import datatypes.DataProduct;

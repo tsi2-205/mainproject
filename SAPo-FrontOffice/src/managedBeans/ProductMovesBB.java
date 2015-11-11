@@ -17,12 +17,10 @@ import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
 import comunication.Comunicacion;
-import datatypes.DataHistoricPrecioCompra;
-import datatypes.DataHistoricPrecioVenta;
+
 import datatypes.DataHistoricStock;
 import datatypes.DataProduct;
 import datatypes.DataStore;
-import datatypes.DataUser;
 
 @ManagedBean
 @ViewScoped

@@ -15,9 +15,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
-import org.primefaces.event.SelectEvent;
-
 import comunication.Comunicacion;
+
 import datatypes.DataStore;
 
 

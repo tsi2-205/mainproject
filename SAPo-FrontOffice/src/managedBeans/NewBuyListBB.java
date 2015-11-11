@@ -13,19 +13,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.naming.NamingException;
 
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.DragDropEvent;
 import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
+
 import datatypes.DataCategory;
-import datatypes.DataProduct;
 import datatypes.DataStock;
 import datatypes.DataStore;
 import exceptions.ProductNotExistException;

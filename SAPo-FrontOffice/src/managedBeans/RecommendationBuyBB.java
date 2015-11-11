@@ -14,22 +14,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-
-
-
 import javax.naming.NamingException;
 
-import org.primefaces.event.RowEditEvent;
-
 import comunication.Comunicacion;
+
 import datatypes.DataBuyList;
 import datatypes.DataElementBuyList;
-import datatypes.DataProduct;
 import datatypes.DataStock;
 import datatypes.DataStore;
-import datatypes.DataUser;
-import entities.Registered;
 import exceptions.ProductNotExistException;
 
 
