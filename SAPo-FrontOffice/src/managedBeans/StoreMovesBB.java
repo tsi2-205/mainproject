@@ -1,6 +1,5 @@
 package managedBeans;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,13 +15,11 @@ import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.TreeNode;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 
 import comunication.Comunicacion;
-import datatypes.DataBuyList;
-import datatypes.DataCategory;
 import datatypes.DataProduct;
-import datatypes.DataStock;
 import datatypes.DataStore;
 import datatypes.DataUser;
 
@@ -97,7 +94,18 @@ public class StoreMovesBB {
 		if (this.movCant != null && this.movPrecio != null) {
 			int tipo = this.movTipo.equals("Alta") ? 1 : 0;
 			try {
-				Comunicacion.getInstance().getIProductController().changeStockProduct(store.getId(), this.productSelected.getId(), this.movCant, this.movPrecio, tipo);
+				int result = Comunicacion.getInstance().getIProductController().changeStockProduct(store.getId(), this.productSelected.getId(), this.movCant, this.movPrecio, tipo);
+				if (result > 0) {
+					String message;
+					if (result == 1) {
+						message = "El stock de " + this.productNameSelected + " esta por debajo del minimo.";
+					} else {
+						message = "El stock de " + this.productNameSelected + " esta por encima del maximo.";
+					}
+					Comunicacion.getInstance().getINotificationController().sendStoreNotification(message, this.store.getId(), true);
+					EventBus eventBus = EventBusFactory.getDefault().eventBus();
+			        eventBus.publish("/notify/store/" + this.store.getId(), new FacesMessage("SAPo", message));
+				}
 				this.movCant = null;
 				this.movPrecio = null;
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cambio de stock realizado con éxito"));

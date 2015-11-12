@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -24,7 +23,7 @@ public class NotificationController implements INotificationController {
 	
 	public List<DataNotification> getStoreUserNotifications(int userId, int storeId) {
 		List<DataNotification> result = new LinkedList<DataNotification>();
-		String queryStr = " SELECT n FROM Notification n" + " WHERE n.user.id = :IdUser AND n.store.id = :IdStore";
+		String queryStr = " SELECT n FROM Notification n" + " WHERE n.user.id = :IdUser AND n.store.id = :IdStore Order by n.date desc";
 		Query query = em.createQuery(queryStr, Notification.class);
 		query.setParameter("IdUser", userId);
 		query.setParameter("IdStore", storeId);
@@ -38,7 +37,7 @@ public class NotificationController implements INotificationController {
 	
 	public List<DataNotification> getUserNotifications(int userId) {
 		List<DataNotification> result = new LinkedList<DataNotification>();
-		String queryStr = " SELECT n FROM Notification n" + " WHERE n.user.id = :IdUser AND n.store IS NULL";
+		String queryStr = " SELECT n FROM Notification n" + " WHERE n.user.id = :IdUser AND n.store IS NULL Order by n.date desc";
 		Query query = em.createQuery(queryStr, Notification.class);
 		query.setParameter("IdUser", userId);
 		for (Object o: query.getResultList()) {
@@ -49,11 +48,16 @@ public class NotificationController implements INotificationController {
 		return result;
 	}
 	
-	public void sendStoreNotification(String message, int storeId) {
+	public void sendStoreNotification(String message, int storeId, boolean sendOwner) {
 		Store s = em.find(Store.class, storeId);
 		List<Registered> users = s.getGuests();
 		for (Registered r: users) {
 			Notification not = new Notification(message,false,r,s,new GregorianCalendar());
+			em.persist(not);
+		}
+		if (sendOwner) {
+			Registered owner = s.getOwner();
+			Notification not = new Notification(message,false,owner,s,new GregorianCalendar());
 			em.persist(not);
 		}
 	}

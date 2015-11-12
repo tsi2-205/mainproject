@@ -18,9 +18,9 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
+
 import datatypes.DataCategory;
 import datatypes.DataStore;
-import exceptions.ExistStoreException;
 
 @ManagedBean
 @ViewScoped

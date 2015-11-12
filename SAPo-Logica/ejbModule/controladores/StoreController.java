@@ -2,7 +2,6 @@ package controladores;
 
 import interfaces.IStoreController;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -11,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -270,7 +268,7 @@ public class StoreController implements IStoreController {
 	}
 	
 	public List<DataHistoricStock> findHistoricStockProduct(int idProduct) {
-//		String queryStr = "SELECT hs FROM HistoricStock hs join SpecificProduct p join Store s WHERE s.id = :idStore AND p.id = :idProduct Order by hs.fecha";
+//		String queryStr = "SELECT hs FROM HistoricStock hs join SpecificProduct p join Store s WHERE s.id = :idStore AND p.id = :idProduct Order by hs.fecha desc";
 //		Query query = em.createQuery(queryStr, HistoricStock.class);
 //		query.setParameter("idStore", idStore);
 //		query.setParameter("idProduct", idProduct);
@@ -284,7 +282,7 @@ public class StoreController implements IStoreController {
 	}
 	
 	public List<DataHistoricStock> findHistoricStock(int idStore) {
-		String queryStr = "SELECT hs FROM HistoricStock hs join hs.store s WHERE s.id = :idStore Order by hs.fecha";
+		String queryStr = "SELECT hs FROM HistoricStock hs join hs.store s WHERE s.id = :idStore Order by hs.fecha desc";
 		Query query = em.createQuery(queryStr, HistoricStock.class);
 		query.setParameter("idStore", idStore);
 		
@@ -296,7 +294,7 @@ public class StoreController implements IStoreController {
 	}
 	
 	public List<DataHistoricPrecioCompra> findHistoricPrecioCompraProducto(int idProduct) {
-//		String queryStr = "SELECT hpc FROM HistoricPrecioCompra hpc join hpc.product p join hpc.store s WHERE s.id = :idStore AND p.id = :idProduct Order by hpc.fecha";
+//		String queryStr = "SELECT hpc FROM HistoricPrecioCompra hpc join hpc.product p join hpc.store s WHERE s.id = :idStore AND p.id = :idProduct Order by hpc.fecha desc";
 //		Query query = em.createQuery(queryStr, HistoricPrecioCompra.class);
 //		query.setParameter("idStore", idStore);
 //		query.setParameter("idProduct", idProduct);
@@ -310,7 +308,7 @@ public class StoreController implements IStoreController {
 	}
 	
 	public List<DataHistoricPrecioCompra> findHistoricPrecioCompra(int idStore) {
-		String queryStr = "SELECT hpc FROM HistoricPrecioCompra hpc join hpc.store s WHERE s.id = :idStore Order by hpc.fecha";
+		String queryStr = "SELECT hpc FROM HistoricPrecioCompra hpc join hpc.store s WHERE s.id = :idStore Order by hpc.fecha desc";
 		Query query = em.createQuery(queryStr, HistoricPrecioCompra.class);
 		query.setParameter("idStore", idStore);
 		
@@ -322,7 +320,7 @@ public class StoreController implements IStoreController {
 	}
 	
 	public List<DataHistoricPrecioVenta> findHistoricPrecioVentaProducto(int idProduct) {
-//		String queryStr = "SELECT hpv FROM HistoricPrecioVenta hpv join Product p join Store s WHERE s.id = :idStore AND p.id = :idProduct Order by hpv.fecha";
+//		String queryStr = "SELECT hpv FROM HistoricPrecioVenta hpv join Product p join Store s WHERE s.id = :idStore AND p.id = :idProduct Order by hpv.fecha desc";
 //		Query query = em.createQuery(queryStr, HistoricPrecioVenta.class);
 //		query.setParameter("idStore", idStore);
 //		query.setParameter("idProduct", idProduct);
@@ -335,7 +333,7 @@ public class StoreController implements IStoreController {
 	}
 	
 	public List<DataHistoricPrecioVenta> findHistoricPrecioVenta(int idStore) {
-		String queryStr = "SELECT hpv FROM HistoricPrecioVenta hpv join hpv.store s WHERE s.id = :idStore Order by hpv.fecha";
+		String queryStr = "SELECT hpv FROM HistoricPrecioVenta hpv join hpv.store s WHERE s.id = :idStore Order by hpv.fecha desc";
 		Query query = em.createQuery(queryStr, HistoricPrecioVenta.class);
 		query.setParameter("idStore", idStore);
 		
@@ -442,6 +440,7 @@ public class StoreController implements IStoreController {
 		em.merge(buyList);
 	}
 	
+
 	public DataBuyList findBuyList(int idBuyList) {
 		BuyList bl = em.find(BuyList.class, idBuyList);
 		return new DataBuyList(bl);
@@ -468,30 +467,29 @@ public class StoreController implements IStoreController {
 			// EVIAR NOTIFICACION A LOS USUARIOS DEL ALMACEN YA QUE PASARON EL STOCK MAXIMO
 		}
 	}
-	
-	public File getCustomizeStore(int id) throws SQLException, IOException{
-		String queryStr = " SELECT c FROM Store c" + " WHERE c.id = :id";
+	public String getCustomizeStore(int id) throws SQLException, IOException{
+	/*	String queryStr = " SELECT c FROM Store c" + " WHERE c.id = :id";
+>>>>>>> Stashed changes
 		Query query = em.createQuery(queryStr, Store.class);
 		query.setParameter("id", id);
 		Store s = (Store)query.getSingleResult();
 		Customer c = s.getCustomer();
-		//Blob css=c.getCss();
-//		String ret=null;
-//		if (css!=null){
-//			byte[] bdata = css.getBytes(1, (int) css.length());
-//			ret =  new String(bdata);
-//		}
-		//return ret;
-		return c.getCss();
+		Blob css=c.getCss();
+		String ret=null;
+		if (css!=null){
+			byte[] bdata = css.getBytes(1, (int) css.length());
+			ret =  new String(bdata);
+		}
+		return ret;*/
+		return "aa";
 	}
 	
-	public void setCustomizeStore(int store, File rutaCss) throws SerialException, SQLException{
+	public void setCustomizeStore(int store, byte[] rutaCss) throws SerialException, SQLException{
 		Store s= em.find(Store.class, store);
         Customer c= s.getCustomer();
-        //Blob b = new javax.sql.rowset.serial.SerialBlob(rutaCss);
         c.setCss(rutaCss);
         em.persist(c);
-	}
+	}	
 	
 	public List<DataUser> getShareUsersFromStore(int storeId) {
 		Store s = em.find(Store.class, storeId);
@@ -721,4 +719,35 @@ public class StoreController implements IStoreController {
 		}
 		return ret;
 	}
+
+	public List<DataStock> buyRecommendation(int id, DataBuyList db) {
+		Store store = em.find(Store.class, id);
+		List<DataStock> result = new LinkedList<DataStock>();
+		String queryStr = "SELECT p FROM Stock c, Product p WHERE c.store = :store and c.cantidad<5 and c.product=p";
+		Query query = em.createQuery(queryStr, Product.class);
+		query.setParameter("store", store);
+		BuyList buy = em.find(BuyList.class, db.getId());
+		for (Object o: query.getResultList()) {
+			Product product =(Product)o;
+			DataProduct dataP= new DataProduct (product);
+			String queryStr1 = "SELECT(h.stock - c.cantidad) FROM Stock c, HistoricStock h WHERE c.store = :store and now()>h.fecha and c.cantidad<5 and c.product= :product and h.product= :product and h.store=c.store and h.tipo=1 and h.fecha > all(SELECT j.fecha FROM HistoricStock j where j.store=h.store and j.product=h.product and j.tipo=1 and h.fecha<>j.fecha)";
+			Query query1 = em.createQuery(queryStr1);
+			query1.setParameter("store", store);
+			query1.setParameter("product", product);
+			int i =(int)query1.getSingleResult();
+			boolean noAdd=false;
+			for (ElementBuyList eb: buy.getElements()){
+					if (eb.getProduct()==product){
+						noAdd=true;
+					}
+			}
+			DataStock ds = new DataStock(i, dataP);
+			if (!noAdd){
+				result.add(ds);
+			}
+			
+		}
+		return result;
+	}
+
 }

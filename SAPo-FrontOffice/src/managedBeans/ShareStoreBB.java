@@ -103,7 +103,7 @@ public class ShareStoreBB {
 			storeMessage = storeMessage + "al almacen";
 			try {
 				Comunicacion.getInstance().getIStoreController().shareStore(this.store.getId(), this.selectedUsers);
-				Comunicacion.getInstance().getINotificationController().sendStoreNotification(storeMessage, this.store.getId());
+				Comunicacion.getInstance().getINotificationController().sendStoreNotification(storeMessage, this.store.getId(), false);
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}

@@ -14,11 +14,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
-import org.primefaces.event.SelectEvent;
-
 import comunication.Comunicacion;
+
 import datatypes.DataBuyList;
-import datatypes.DataCategory;
 import datatypes.DataStore;
 import datatypes.DataUser;
 
@@ -77,7 +75,6 @@ public class StoreBuyListsBB {
     		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
     		SessionBB session = (SessionBB) ve.getValue(contextoEL);
     		session.setBuyListSelected(this.buyListSelected);		
-    		FacesContext faces = FacesContext.getCurrentInstance();
     		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
     		configurableNavigationHandler.performNavigation("/pages/BuyListDetail.xhtml?faces-redirect=true");
         }
@@ -105,7 +102,6 @@ public class StoreBuyListsBB {
     		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
     		SessionBB session = (SessionBB) ve.getValue(contextoEL);
     		session.setBuyListSelected(this.buyListSelected);		
-    		FacesContext faces = FacesContext.getCurrentInstance();
     		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
     		configurableNavigationHandler.performNavigation("/pages/BuyListDetail.xhtml?faces-redirect=true");
         }

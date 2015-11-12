@@ -96,7 +96,7 @@ public class StoreNotificationsBB {
 	public void send() {
 		String message = "Store Notification";
 		try {
-			Comunicacion.getInstance().getINotificationController().sendStoreNotification(message, this.storeId);
+			Comunicacion.getInstance().getINotificationController().sendStoreNotification(message, this.storeId, false);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

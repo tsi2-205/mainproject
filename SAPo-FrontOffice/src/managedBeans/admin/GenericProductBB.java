@@ -13,12 +13,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
-import org.primefaces.event.CellEditEvent;
+import managedBeans.SessionBB;
+
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
-import managedBeans.SessionBB;
+
 import datatypes.DataCategory;
 import datatypes.DataProduct;
 import datatypes.DataProductAdditionalAttribute;

@@ -11,9 +11,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.naming.NamingException;
 
 import comunication.Comunicacion;
+
 import datatypes.DataUser;
 import exceptions.ExistStoreException;
 

@@ -1,11 +1,11 @@
 package controladores;
 
+import interfaces.IProductController;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
-
-import interfaces.IProductController;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,7 +14,6 @@ import javax.persistence.Query;
 
 import datatypes.DataProductAdditionalAttribute;
 import datatypes.DataStock;
-import datatypes.DataStore;
 import entities.Category;
 import entities.GenericProduct;
 import entities.HistoricPrecioCompra;
@@ -130,7 +129,7 @@ public class ProductController implements IProductController {
 
 	}
 	
-	public void changeStockProduct(int idStore, int idProduct, int movCant, int movPrecio, int tipo) {
+	public int changeStockProduct(int idStore, int idProduct, int movCant, int movPrecio, int tipo) {
 		Store store = em.find(Store.class, idStore);
 		SpecificProduct p = em.find(SpecificProduct.class, idProduct);
 		Stock stk = p.getStock();
@@ -153,11 +152,14 @@ public class ProductController implements IProductController {
 			em.merge(stk);
 		}
 		if (stk.getCantidad() < stk.getCantidadMin()) {
-			// EVIAR NOTIFICACION A LOS USUARIOS DEL ALMACEN YA QUE PASARON EL STOCK MINIMO
+			// ENVIAR NOTIFICACION A LOS USUARIOS DEL ALMACEN YA QUE PASARON EL STOCK MINIMO
+			return 1;
 		}
 		if (stk.getCantidad() > stk.getCantidadMax()) {
-			// EVIAR NOTIFICACION A LOS USUARIOS DEL ALMACEN YA QUE PASARON EL STOCK MAXIMO
+			// ENVIAR NOTIFICACION A LOS USUARIOS DEL ALMACEN YA QUE PASARON EL STOCK MAXIMO
+			return 2;
 		}
+		return 0;
 	}
 	
 	

@@ -14,18 +14,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.naming.NamingException;
 
-import managedBeans.SessionBB;
-
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
+
 import datatypes.DataCategory;
 import datatypes.DataProduct;
 import datatypes.DataStock;
-import datatypes.DataStore;
-import exceptions.ExistCategoryException;
 
 @ManagedBean
 @ViewScoped

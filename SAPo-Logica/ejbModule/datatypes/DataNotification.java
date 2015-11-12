@@ -88,7 +88,9 @@ public class DataNotification {
 		String end = ".";
 		
 		long diffSeconds = diff / 1000;
-		if (diffSeconds > 1L)
+		if (diffSeconds < 1L)
+			return "En este momento.";
+		if (diffSeconds >= 1L)
 			end = "s.";
 		if (diffSeconds < 60)
 			return "Hace " + diffSeconds + " segundo" + end; 

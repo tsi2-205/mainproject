@@ -12,14 +12,11 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
-import javax.servlet.http.HttpSession;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 
 import comunication.Comunicacion;
 import datatypes.DataBuyList;
@@ -131,7 +128,8 @@ public class SessionBB implements Serializable {
 	public String loginWithFacebook() {
 		String ret = "loginOkRegistered";
 		FacesContext context = FacesContext.getCurrentInstance();
-	    Map map = context.getExternalContext().getRequestParameterMap();
+	    @SuppressWarnings("rawtypes")
+		Map map = context.getExternalContext().getRequestParameterMap();
 	    this.fbId = (String) map.get("fbId");
 	    this.name = (String) map.get("name");
 		try {
@@ -296,13 +294,11 @@ public class SessionBB implements Serializable {
 	}
 	
 	public void paypal() throws IOException {
-		String ret=null;
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 	    try {
 	    	boolean isRegisteredUser = Comunicacion.getInstance().getIUserController().isRegisteredUser(this.email);
 			if (isRegisteredUser) {
 				this.showError = true;
-				ret = "registerError";
 			} else {
 					ec.redirect("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A575ACHN4DXME");
 			}
