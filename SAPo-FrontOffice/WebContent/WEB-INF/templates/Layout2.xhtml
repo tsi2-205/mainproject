@@ -6,6 +6,28 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<style>
+
+.itemSeleccionado { font-weight: 900 !important; font-size: 14px;}
+</style>
+
+<script>
+	$( document ).ready(function() {
+		
+	    $('#cssmenu').find('a').each(function( index, element ) {
+	    	  if ( $(this).attr("href") == document.URL.substring(document.URL.lastIndexOf("/")+1) ){
+	    	  
+	    	     $(this).addClass( "itemSeleccionado" );
+	    	  }
+	    });
+
+	    
+	});
+</script>
+
+
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="styles" name="layout2.css" />
