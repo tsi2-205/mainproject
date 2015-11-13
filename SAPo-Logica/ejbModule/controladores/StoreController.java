@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.sql.Blob;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -66,8 +67,11 @@ public class StoreController implements IStoreController {
 		Store s = new Store(name, addr, tel, city, u);
 		Customer c = new Customer();
 		em.persist(c);
+		em.merge(c);
 		s.setCustomer(c);
 		em.persist(s);
+		em.flush();
+		
 	}
 	
 	public void createSpecificCategory(String name, String description, DataStore store, DataCategory fatherCat) throws ExistStoreException {
@@ -468,8 +472,7 @@ public class StoreController implements IStoreController {
 		}
 	}
 	public String getCustomizeStore(int id) throws SQLException, IOException{
-	/*	String queryStr = " SELECT c FROM Store c" + " WHERE c.id = :id";
->>>>>>> Stashed changes
+		String queryStr = " SELECT c FROM Store c" + " WHERE c.id = :id";
 		Query query = em.createQuery(queryStr, Store.class);
 		query.setParameter("id", id);
 		Store s = (Store)query.getSingleResult();
@@ -480,16 +483,24 @@ public class StoreController implements IStoreController {
 			byte[] bdata = css.getBytes(1, (int) css.length());
 			ret =  new String(bdata);
 		}
-		return ret;*/
-		return "aa";
+		return ret;
+//		return "aa";
 	}
 	
-	public void setCustomizeStore(int store, byte[] rutaCss) throws SerialException, SQLException{
+	/*public void setCustomizeStore(int store,File rutaCss) throws SerialException, SQLException{
 		Store s= em.find(Store.class, store);
         Customer c= s.getCustomer();
         c.setCss(rutaCss);
         em.persist(c);
-	}	
+	}	*/
+	
+	public void setCustomizeStore(int store, byte[] rutaCss) throws SerialException, SQLException{
+		Store s= em.find(Store.class, store);
+        Customer c= s.getCustomer();
+        Blob b = new javax.sql.rowset.serial.SerialBlob(rutaCss);
+        c.setCss(b);
+        em.persist(c);
+	}
 	
 	public List<DataUser> getShareUsersFromStore(int storeId) {
 		Store s = em.find(Store.class, storeId);
@@ -741,8 +752,8 @@ public class StoreController implements IStoreController {
 						noAdd=true;
 					}
 			}
-			DataStock ds = new DataStock(i, dataP);
 			if (!noAdd){
+				DataStock ds = new DataStock(i,dataP);
 				result.add(ds);
 			}
 			

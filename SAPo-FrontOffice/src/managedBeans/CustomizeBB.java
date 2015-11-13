@@ -1,6 +1,8 @@
 package managedBeans;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.sql.SQLException;
 
@@ -64,19 +66,39 @@ public class CustomizeBB implements Serializable{
 		this.store = store;
 	}
     
-    
+	public void upload() throws SerialException, SQLException, NamingException {
+        if(this.file != null) {
+        	byte[] input = this.file.getContents();
+        	Comunicacion.getInstance().getIStoreController().setCustomizeStore(store.getId(), input);
+            FacesMessage message = new FacesMessage("Customización cargada con existo.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+		configurableNavigationHandler.performNavigation("/pages/StoreMoves.xhtml?faces-redirect=true");
+    }
      
-    public void upload() throws SerialException, SQLException, NamingException, IOException {
+   /* public void upload() throws SerialException, SQLException, NamingException, IOException {
     	
             if(this.file != null) {
-            	byte[] input = this.file.getContents();
-            	Comunicacion.getInstance().getIStoreController().setCustomizeStore(store.getId(), input);
+            	InputStream in = file.getInputstream();
+            	OutputStream out = new FileOutputStream(store.getFile());
+            	
+            	int read=0;
+            	byte[] bytes=new byte[1024];
+            	
+            	while ((read = in.read(bytes))!= -1){
+            		out.write(bytes, 0, read);
+            	}
+            	in.close();
+            	out.flush();
+            	out.close();
+            	Comunicacion.getInstance().getIStoreController().setCustomizeStore(store.getId(), store.getFile());
                 FacesMessage message = new FacesMessage("Customización cargada con existo.");
                 FacesContext.getCurrentInstance().addMessage(null, message);
             }
     		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
     		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");
-     
+     */
     	
     /*    if(this.file != null) {
         	String path = CustomizeBB.class.getProtectionDomain().getCodeSource().getLocation().toString();
@@ -104,6 +126,6 @@ public class CustomizeBB implements Serializable{
         }
 		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
 		configurableNavigationHandler.performNavigation("/pages/StoreDetail.xhtml?faces-redirect=true");*/
-    }
+    //}
 	
 }

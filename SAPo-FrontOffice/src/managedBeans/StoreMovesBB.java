@@ -1,5 +1,7 @@
 package managedBeans;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -63,6 +65,12 @@ public class StoreMovesBB {
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
+		}
+		try {
+			session.setCssCustom(Comunicacion.getInstance().getIStoreController().getCustomizeStore(store.getId()));
+		} catch (SQLException | IOException | NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

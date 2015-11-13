@@ -63,6 +63,7 @@ public class NewProductBB implements Serializable {
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.user = session.getLoggedUser();
 		this.store = session.getStoreSelected();
+		//System.out.print(store.getFile().length());
 		this.stockSelected = session.getStockSelected();
 		this.name = null;
 		this.description = null;

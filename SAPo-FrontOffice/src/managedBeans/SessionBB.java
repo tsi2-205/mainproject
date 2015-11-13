@@ -1,6 +1,7 @@
 package managedBeans;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -45,6 +46,7 @@ public class SessionBB implements Serializable {
 	private DataProduct productSelected;
 	private DataUser userSelected;
 	private DataStock stockSelected;
+	private String cssCustom;
 	
 	public SessionBB() {
 		super();
@@ -358,6 +360,13 @@ public class SessionBB implements Serializable {
 	public void setStockSelected(DataStock stockSelected) {
 		this.stockSelected = stockSelected;
 	}
-	
+
+	public String getCssCustom() {
+		return cssCustom;
+	}
+
+	public void setCssCustom(String cssCustom) {
+		this.cssCustom = cssCustom;
+	}
 	
 }
