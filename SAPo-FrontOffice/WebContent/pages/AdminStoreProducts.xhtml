@@ -24,7 +24,7 @@
 		    	</p:tree>
 			</p:panel>
 			
-			<p:panel id="filter" style="float: right;">
+			<p:panel id="filter" style="float: right; background-color: inherit; border: none;">
 				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
 				<h:inputText id="idTextFilter" value="#{adminStoreProductsBB.textFilter}">
 					 <f:ajax event="keyup" execute="@form" listener="#{adminStoreProductsBB.filtered}" render="panelProducts" />
@@ -43,16 +43,11 @@
 					<p:column headerText="Stock" sortBy="#{stock.cantidad}">
 						<h:outputText value="#{stock.cantidad}" />
 					</p:column>
-					<p:column headerText="Precio de compra"
-						sortBy="#{stock.precioCompra}">
-						<h:outputText value="$#{stock.precioCompra}" />
-					</p:column>
-					<p:column headerText="Precio de venta" sortBy="#{stock.precioVenta}">
-						<h:outputText value="$#{stock.precioVenta}" />
-					</p:column>
 					<p:column style="width:32px">
-						<h:commandLink id="ShowProductDetail" value="Info"
-							action="#{adminStoreProductsBB.showProduct}" />
+						<p:commandButton id="ShowProductDetail" icon="ui-icon-search"
+							action="#{adminStoreProductsBB.showProduct}" >
+							<f:setPropertyActionListener value="#{stock}" target="#{adminStoreProductsBB.stockSelected}" />
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</p:panel>

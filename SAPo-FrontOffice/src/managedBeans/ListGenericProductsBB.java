@@ -140,7 +140,7 @@ public class ListGenericProductsBB {
 	}
     
     public String showProduct() {
-    	String ret = "/pages/GenericProduct.xhtml?faces-redirect=true";
+    	String ret = "/pages/ShowGenericProduct.xhtml?faces-redirect=true";
     	if(this.productSelected != null) {
     		FacesContext context = FacesContext.getCurrentInstance();
     		ELContext contextoEL = context.getELContext( );

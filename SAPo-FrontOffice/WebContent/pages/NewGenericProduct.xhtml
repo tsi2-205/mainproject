@@ -44,13 +44,13 @@
 					</p:panelGrid>
 				</p:dataGrid>
 			</p:panel>
-			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes"
-				oncomplete="PF('newAttributeDialog').show()" title="Nuevo atributo">
+			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes1"
+				oncomplete="PF('newAttributeDialog1').show()" title="Nuevo atributo">
 			</p:commandButton>
 
-			<p:dialog header="Nuevo atributo" widgetVar="newAttributeDialog" resizable="false">
+			<p:dialog header="Nuevo atributo" widgetVar="newAttributeDialog1" resizable="false">
 				<p:outputPanel id="newAttributePanel" style="text-align:center;">
-					<p:panelGrid id="AdditionalAttributes" columns="2">
+					<p:panelGrid id="AdditionalAttributes1" columns="2">
 						<h:outputLabel for="nameAdditional" value="Nombre:"/>
 						<h:inputText id="nameAdditional" label="Nombre:" value="#{newGenericProductBB.additionalAttributeName}" ></h:inputText>
 						<h:outputLabel for="valueAdditional" value="Valor:"/>

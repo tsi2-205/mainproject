@@ -19,7 +19,6 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
-
 import datatypes.DataCategory;
 import datatypes.DataProduct;
 import datatypes.DataProductAdditionalAttribute;
@@ -137,6 +136,10 @@ public class GenericProductBB {
 	
 	public String editProduct() {
 		return "/pages/EditGenericProduct.xhtml?faces-redirect=true";
+	}
+	
+	public String volver() {
+		return "/pages/AdminProducts.xhtml?faces-redirect=true";
 	}
 
 	public DataProduct getProduct() {

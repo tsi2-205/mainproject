@@ -31,7 +31,7 @@ public class AdminStoreProductsBB {
 
 	private DataStore store;
 	private int categorySelected = -1;
-	private int productSelected = -1;
+	private DataStock stockSelected = null;
 	private List<DataStock> stocks = new LinkedList<DataStock>();
 	private List<DataCategory> categories = new LinkedList<DataCategory>();
 	private TreeNode root;
@@ -123,7 +123,14 @@ public class AdminStoreProductsBB {
     }
     
     public String showProduct() {
-		return "/pages/ProductDetail.xhtml?faces-redirect=true";
+    	FacesContext context = FacesContext.getCurrentInstance();
+		ELContext contextoEL = context.getELContext( );
+		Application apli  = context.getApplication( );	
+		ExpressionFactory ef = apli.getExpressionFactory( );
+		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
+		SessionBB session = (SessionBB) ve.getValue(contextoEL);
+		session.setStockSelected(this.stockSelected);
+		return "/pages/AdminShowProduct.xhtml?faces-redirect=true";
 	}
     
 	public String createProduct() {
@@ -166,14 +173,14 @@ public class AdminStoreProductsBB {
 		this.categories = categories;
 	}
 	
-	public int getProductSelected() {
-		return productSelected;
+	public DataStock getStockSelected() {
+		return stockSelected;
 	}
-	
-	public void setProductSelected(int productSelected) {
-		this.productSelected = productSelected;
+
+	public void setStockSelected(DataStock stockSelected) {
+		this.stockSelected = stockSelected;
 	}
-	
+
 	public boolean isHayCategorias() {
 		return hayCategorias;
 	}
