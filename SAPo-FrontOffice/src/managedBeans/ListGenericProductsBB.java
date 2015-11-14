@@ -50,7 +50,7 @@ public class ListGenericProductsBB {
 //		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 //		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		try {
-			this.products = Comunicacion.getInstance().getIStoreController().findGenericsProducts(null);
+			this.products = Comunicacion.getInstance().getIProductController().findGenericsProducts(null);
 			this.productsFiltered =this.products; 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -76,7 +76,7 @@ public class ListGenericProductsBB {
     
     public void constructCategoryTree() {
     	try {
-			this.categories= Comunicacion.getInstance().getIStoreController().findGenericCategories();
+			this.categories= Comunicacion.getInstance().getICategoryController().findGenericCategories();
 			if (this.categories.isEmpty()) {
 				this.hayCategorias = false;
 			} else {
@@ -85,12 +85,13 @@ public class ListGenericProductsBB {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-
-    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "", false), null);
+    	this.root = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.root.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.root);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: this.categories) {
-    		constructNodeTree(dCat, this.root);
+    		constructNodeTree(dCat, raiz);
     	}
-    	
     }
     
     public void constructNodeTree(DataCategory dCat, TreeNode nodoPadre) {
@@ -102,7 +103,11 @@ public class ListGenericProductsBB {
     
     public void onCategorySelect(NodeSelectEvent event) {
     	try {
-			this.products = Comunicacion.getInstance().getIStoreController().findGenericsProducts(((DataCategory)selectedNode.getData()).getId());
+    		if (((DataCategory)selectedNode.getData()).getId() == -1) {
+    			this.products = Comunicacion.getInstance().getIProductController().findGenericsProducts(null);
+    		} else {
+    			this.products = Comunicacion.getInstance().getIProductController().findGenericsProducts(((DataCategory)selectedNode.getData()).getId());
+    		}
 			filtrar();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

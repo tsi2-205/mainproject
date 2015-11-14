@@ -49,8 +49,8 @@ public class BuyListDetailBB {
 	
 	public void checkElementBuyList() {
 		try {
-			Comunicacion.getInstance().getIStoreController().checkElementBuyList(this.elemSelected.getId(), this.store.getId(), precio);
-			this.buyListSelected = Comunicacion.getInstance().getIStoreController().findBuyList(this.buyListSelected.getId());
+			Comunicacion.getInstance().getIBuyListController().checkElementBuyList(this.elemSelected.getId(), this.store.getId(), precio);
+			this.buyListSelected = Comunicacion.getInstance().getIBuyListController().findBuyList(this.buyListSelected.getId());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Bien de bien"));
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block

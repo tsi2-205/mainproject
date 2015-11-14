@@ -62,7 +62,7 @@ public class NewBuyListBB implements Serializable {
 		this.store = session.getStoreSelected();
 		this.constructCategoryTree();
 		try {
-			this.productsNoSelected = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), null);
+			this.productsNoSelected = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), null);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -71,17 +71,19 @@ public class NewBuyListBB implements Serializable {
 	
 	public void constructCategoryTree() {
     	try {
-			this.categories= Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
+			this.categories= Comunicacion.getInstance().getICategoryController().findSpecificCategoriesStore(store.getId());
 //			this.gemericCategories = Comunicacion.getInstance().getIStoreController().findGenericCategoriesStore(store.getId());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 
-    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "", false), null);
+    	this.root = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.root.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.root);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: this.categories) {
-    		constructNodeTree(dCat, this.root);
+    		constructNodeTree(dCat, raiz);
     	}
-    	
     }
     
     public void constructNodeTree(DataCategory dCat, TreeNode nodoPadre) {
@@ -93,7 +95,11 @@ public class NewBuyListBB implements Serializable {
 	
 	public void onCategorySelect(NodeSelectEvent event) {
     	try {
-			this.productsNoSelected = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), ((DataCategory)this.selectedNode.getData()).getId());
+    		if (((DataCategory)selectedNode.getData()).getId() == -1) {
+				this.productsNoSelected = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), null);
+    		} else {
+    			this.productsNoSelected = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), ((DataCategory)this.selectedNode.getData()).getId());
+    		}
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -120,7 +126,7 @@ public class NewBuyListBB implements Serializable {
 	public String createBuyList() {
 		String ret = "okNewBuyList";
 		try {
-			Comunicacion.getInstance().getIStoreController().createBuyListStore(store.getId(), this.productsSelected, this.name, this.description);
+			Comunicacion.getInstance().getIBuyListController().createBuyListStore(store.getId(), this.productsSelected, this.name, this.description);
 		} catch (ProductNotExistException enep) {
 			ret = "failNewBuyList";
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", enep.getMessage()));

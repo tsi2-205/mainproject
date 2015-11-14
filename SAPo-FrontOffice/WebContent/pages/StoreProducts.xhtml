@@ -29,19 +29,27 @@
 			<p:panel id="panelCategories">
 				<h:outputText rendered="#{!storeProductsBB.hayCategorias}"
 					value="No hay categorías" styleClass="title2"></h:outputText>
-				<p:tree value="#{storeProductsBB.root}" var="node"
+				<p:tree value="#{storeProductsBB.root}" var="node" animate="true"
 					selectionMode="single" selection="#{storeProductsBB.selectedNode}">
 					<p:ajax event="select" update="listProducts"
 						listener="#{storeProductsBB.onCategorySelect}" />
 					<p:treeNode>
-						<h:outputText value="#{node.name}" />
+						<h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 					</p:treeNode>
 				</p:tree>
 			</p:panel>
 
+			<p:panel id="filter" style="float: right;">
+				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
+				<h:inputText id="idTextFilter" value="#{storeProductsBB.textFilter}">
+					 <f:ajax event="keyup" execute="@form" listener="#{storeProductsBB.filtered}" render="panelProducts" />
+				</h:inputText>
+				<p:watermark for="idTextFilter" value="Ingrese el nombre" />
+			</p:panel>
 			<p:panel id="panelProducts">
 				<p:dataTable id="listProducts" var="stock"
-					value="#{storeProductsBB.stocks}"	style="margin-bottom:20px" emptyMessage="No existen productos"
+					value="#{storeProductsBB.stocksFiltered}"	style="margin-bottom:20px" emptyMessage="No existen productos"
 					sortMode="multiple">
 
 					<p:column headerText="Nombre" sortBy="#{stock.product.name}">

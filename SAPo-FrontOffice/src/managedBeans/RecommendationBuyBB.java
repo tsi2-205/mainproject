@@ -52,7 +52,7 @@ public class RecommendationBuyBB implements Serializable{
 		this.buyList=session.getBuyListSelected();
 		try {
 		System.out.print("llego");
-		this.listRec= Comunicacion.getInstance().getIStoreController().buyRecommendation(this.store.getId(), this.buyList);
+		this.listRec= Comunicacion.getInstance().getIBuyListController().buyRecommendation(this.store.getId(), this.buyList);
 		System.out.print("llego2");
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -89,7 +89,7 @@ public class RecommendationBuyBB implements Serializable{
 			}
 		}
 		try {
-			Comunicacion.getInstance().getIStoreController().editBuyListStore(this.store.getId(), elements, this.buyList.getName(), this.buyList.getDescription(), this.buyList);
+			Comunicacion.getInstance().getIBuyListController().editBuyListStore(this.store.getId(), elements, this.buyList.getName(), this.buyList.getDescription(), this.buyList);
 			FacesMessage msg = new FacesMessage("Los productos han sido agregados a la lista de compras");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	        ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();

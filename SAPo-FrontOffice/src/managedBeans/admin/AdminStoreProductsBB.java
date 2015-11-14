@@ -11,6 +11,7 @@ import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.naming.NamingException;
 
 import managedBeans.SessionBB;
@@ -20,7 +21,6 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
-
 import datatypes.DataCategory;
 import datatypes.DataStock;
 import datatypes.DataStore;
@@ -38,6 +38,10 @@ public class AdminStoreProductsBB {
 	private TreeNode selectedNode;
 	private boolean hayCategorias;
 	
+	// Filtro
+	private List<DataStock> stocksFiltered = new LinkedList<DataStock>();
+	private String textFilter = "";
+	
 	
 	public AdminStoreProductsBB() {
 		super();
@@ -53,28 +57,48 @@ public class AdminStoreProductsBB {
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.store = session.getStoreSelected();
 		try{
-			this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), null);
+			this.stocks = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), null);
+			this.stocksFiltered =this.stocks;
 			this.constructCategoryTree();
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		
 	}
+	
+	public void filtrar() {
+		this.stocksFiltered = new LinkedList<DataStock>();
+		for (DataStock ds: this.stocks) {
+			String name = ds.getProduct().getName();
+			String t = this.textFilter;
+			if (name.toLowerCase().startsWith(t.toLowerCase())) {
+				this.stocksFiltered.add(ds);
+			}
+		}
+	}
+	
+	public void filtered(AjaxBehaviorEvent event) {
+		filtrar();
+	}
     
     public void constructCategoryTree() {
     	try {
-			this.categories = Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
+			this.categories = Comunicacion.getInstance().getICategoryController().findSpecificCategoriesStore(store.getId());
 			if (this.categories.isEmpty()) {
 				this.hayCategorias = false;
 			} else {
 				this.hayCategorias = true;
 			}
+			filtrar();
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "ADFAdf", false), null);
+    	this.root = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.root.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.root);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: this.categories) {
-    		constructNodeTree(dCat, this.root);
+    		constructNodeTree(dCat, raiz);
     	}
     }
     
@@ -87,7 +111,11 @@ public class AdminStoreProductsBB {
 	
     public void onCategorySelect(NodeSelectEvent event) {
     	try {
-			this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), ((DataCategory)selectedNode.getData()).getId());
+    		if (((DataCategory)selectedNode.getData()).getId() == -1) {
+    			this.stocks = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), null);
+    		} else {
+    			this.stocks = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), ((DataCategory)selectedNode.getData()).getId());
+    		}
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -172,6 +200,22 @@ public class AdminStoreProductsBB {
 	
 	public String customizeButton() {
 		return "/pages/Customize.xhtml?faces-redirect=true";
+	}
+
+	public List<DataStock> getStocksFiltered() {
+		return stocksFiltered;
+	}
+
+	public void setStocksFiltered(List<DataStock> stocksFiltered) {
+		this.stocksFiltered = stocksFiltered;
+	}
+
+	public String getTextFilter() {
+		return textFilter;
+	}
+
+	public void setTextFilter(String textFilter) {
+		this.textFilter = textFilter;
 	}
 
 }

@@ -19,7 +19,8 @@
 				<p:separator></p:separator>
 				<p:tree value="#{newGenericProductBB.root}" var="node" selectionMode="single" selection="#{newGenericProductBB.selectedNode}">
 			        <p:treeNode>
-			            <h:outputText value="#{node.name}" />
+			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 			        </p:treeNode>
 			    </p:tree>
 		    </p:panel>

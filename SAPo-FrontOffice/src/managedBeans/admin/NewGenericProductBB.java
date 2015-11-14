@@ -4,15 +4,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
-
 import datatypes.DataCategory;
 import datatypes.DataProductAdditionalAttribute;
 
@@ -53,7 +54,14 @@ public class NewGenericProductBB {
 		String ret = "OkNewProduct";
 		
 		try {
-			Comunicacion.getInstance().getIStoreController().createGenericProduct(this.name, this.description, this.additionalAttributes, ((DataCategory)selectedNode.getData()).getId());
+			if ((selectedNode != null) && (((DataCategory) selectedNode.getData()).getId() != -1)) {
+				Comunicacion.getInstance().getIProductController().createGenericProduct(this.name, this.description, this.additionalAttributes, ((DataCategory)selectedNode.getData()).getId());
+			} else {
+				FacesMessage msg = new FacesMessage("Debe seleccionar la categroía en la que se va a incluir el producto");
+		        FacesContext.getCurrentInstance().addMessage(null, msg);
+		        ret = "FailNewProduct";
+			}
+			
 		} catch (Exception e) {
 			ret = "FailNewProduct";
 			e.printStackTrace();
@@ -65,17 +73,17 @@ public class NewGenericProductBB {
 	public void constructCategoryTree() {
 		List<DataCategory> categories = new LinkedList<DataCategory>();
 		try {
-    		categories = Comunicacion.getInstance().getIStoreController().findGenericCategories();
-//			this.gemericCategories = Comunicacion.getInstance().getIStoreController().findGenericCategoriesStore(store.getId());
+    		categories = Comunicacion.getInstance().getICategoryController().findGenericCategories();
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-
-    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "", false), null);
+    	this.root = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.root.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.root);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: categories) {
-    		constructNodeTree(dCat, this.root);
+    		constructNodeTree(dCat, raiz);
     	}
-    	
     }
     
     public void constructNodeTree(DataCategory dCat, TreeNode nodoPadre) {

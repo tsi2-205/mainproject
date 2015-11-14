@@ -81,7 +81,7 @@ public class GenericProductBB {
 	
 	public void deleteAttributeSelected() {
 		try {
-			Comunicacion.getInstance().getIStoreController().deleteAttributeProduct(this.product.getId(), this.attributeSelected.getId());
+			Comunicacion.getInstance().getIProductController().deleteAttributeProduct(this.product.getId(), this.attributeSelected.getId());
 			this.product.getAdditionalAttributes().remove(this.attributeSelected);
 			this.attributeSelected = null;
 		} catch (NamingException e) {
@@ -95,9 +95,9 @@ public class GenericProductBB {
 		
 		try {
 			if (this.selectedNode == null) {
-				Comunicacion.getInstance().getIStoreController().editGenericProduct(this.product, this.category.getId());
+				Comunicacion.getInstance().getIProductController().editGenericProduct(this.product, this.category.getId());
 			} else {
-				Comunicacion.getInstance().getIStoreController().editGenericProduct(this.product, ((DataCategory)selectedNode.getData()).getId());
+				Comunicacion.getInstance().getIProductController().editGenericProduct(this.product, ((DataCategory)selectedNode.getData()).getId());
 			}
 			
 		} catch (Exception e) {
@@ -111,7 +111,7 @@ public class GenericProductBB {
 	public void constructCategoryTree() {
 		List<DataCategory> categories = new LinkedList<DataCategory>();
 		try {
-    		categories = Comunicacion.getInstance().getIStoreController().findGenericCategories();
+    		categories = Comunicacion.getInstance().getICategoryController().findGenericCategories();
     		
 //			this.gemericCategories = Comunicacion.getInstance().getIStoreController().findGenericCategoriesStore(store.getId());
 		} catch (NamingException e) {

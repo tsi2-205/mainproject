@@ -18,13 +18,23 @@
 				<p:tree value="#{adminStoreProductsBB.root}" var="node" selectionMode="single" selection="#{adminStoreProductsBB.selectedNode}">
 		        	<p:ajax event="select" update="listProducts" listener="#{adminStoreProductsBB.onCategorySelect}" />
 		        	<p:treeNode>
-	        		    <h:outputText value="#{node.name}" />
+	        		    <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 		        	</p:treeNode>
 		    	</p:tree>
 			</p:panel>
+			
+			<p:panel id="filter" style="float: right;">
+				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
+				<h:inputText id="idTextFilter" value="#{adminStoreProductsBB.textFilter}">
+					 <f:ajax event="keyup" execute="@form" listener="#{adminStoreProductsBB.filtered}" render="panelProducts" />
+				</h:inputText>
+				<p:watermark for="idTextFilter" value="Ingrese el nombre" />
+			</p:panel>
+			
 			<p:panel id="panelProducts">
 				<p:dataTable id="listProducts" var="stock"
-					value="#{adminStoreProductsBB.stocks}"
+					value="#{adminStoreProductsBB.stocksFiltered}"
 					style="margin-bottom:20px" emptyMessage="No existen productos"
 					sortMode="multiple">
 					<p:column headerText="Nombre" sortBy="#{stock.product.name}">

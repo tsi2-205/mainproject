@@ -25,7 +25,8 @@
 				<p:tree  style="text-align: left;" rendered="#{categoryDetailBB.hayCategorias}" value="#{categoryDetailBB.root}" var="node" selectionMode="single" selection="#{categoryDetailBB.selectedNode}">
 			        <p:ajax event="select" update="basicAttributes createNewCategoryPanel" listener="#{categoryDetailBB.onCategorySelect}" />
 			        <p:treeNode>
-			            <h:outputText value="#{node.name}" />
+			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 			        </p:treeNode>
 			    </p:tree>
 			</p:panel>

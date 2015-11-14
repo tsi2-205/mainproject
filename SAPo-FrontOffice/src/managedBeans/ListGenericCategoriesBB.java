@@ -58,7 +58,7 @@ public class ListGenericCategoriesBB {
 	
 	public void constructCategoryTreeG() {
 		try {
-			this.categoriesG = Comunicacion.getInstance().getIStoreController().findGenericCategories();
+			this.categoriesG = Comunicacion.getInstance().getICategoryController().findGenericCategories();
 			if (this.categoriesG.isEmpty()) {
 				this.hayCategoriasG = false;
 			} else {
@@ -67,10 +67,12 @@ public class ListGenericCategoriesBB {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-
-    	this.rootG = new DefaultTreeNode(new DataCategory(51, "root", "", false), null);
+		this.rootG = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.rootG.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.rootG);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: this.categoriesG) {
-    		constructNodeTreeG(dCat, this.rootG);
+    		constructNodeTreeG(dCat, raiz);
     	}
     }
 	
@@ -83,7 +85,7 @@ public class ListGenericCategoriesBB {
     
     public void constructCategoryTreeE() {
 		try {
-			this.categoriesE = Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
+			this.categoriesE = Comunicacion.getInstance().getICategoryController().findSpecificCategoriesStore(store.getId());
 			if (this.categoriesE.isEmpty()) {
 				this.hayCategoriasE = false;
 			} else {
@@ -92,10 +94,13 @@ public class ListGenericCategoriesBB {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-
-    	this.rootE = new DefaultTreeNode(new DataCategory(51, "root", "", false), null);
+		
+		this.rootE = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.rootE.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.rootE);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: this.categoriesE) {
-    		constructNodeTreeE(dCat, this.rootE);
+    		constructNodeTreeE(dCat, raiz);
     	}
     }
     
@@ -107,14 +112,14 @@ public class ListGenericCategoriesBB {
     }
     
     public void addCategorySelected() {
-    	if (selectedNodeG == null) {
+    	if ((selectedNodeG == null) && (((DataCategory)selectedNodeG.getData()).getId() == -1)) {
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "No seleccionó ninguna categoría genérica"));
     	} else {
-    		if (selectedNodeE != null) {
+    		if ((selectedNodeE != null) && (((DataCategory)selectedNodeE.getData()).getId() != -1)) {
     			this.categorySelectedG = (DataCategory) selectedNodeG.getData();
             	this.categorySelectedE = (DataCategory) selectedNodeE.getData();
             	try {
-        			Comunicacion.getInstance().getIStoreController().createSpecificCategory(this.categorySelectedG.getName(), this.categorySelectedG.getDescription(), this.store, this.categorySelectedE);
+        			Comunicacion.getInstance().getICategoryController().createSpecificCategory(this.categorySelectedG.getName(), this.categorySelectedG.getDescription(), this.store, this.categorySelectedE);
         			this.constructCategoryTreeE();
         			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Categoría agregada"));
         		} catch (Exception ex) {
@@ -123,7 +128,7 @@ public class ListGenericCategoriesBB {
     		} else {
     			this.categorySelectedG = (DataCategory) selectedNodeG.getData();
     	    	try {
-    				Comunicacion.getInstance().getIStoreController().createSpecificCategory(this.categorySelectedG.getName(), this.categorySelectedG.getDescription(), this.store, null);
+    				Comunicacion.getInstance().getICategoryController().createSpecificCategory(this.categorySelectedG.getName(), this.categorySelectedG.getDescription(), this.store, null);
     				this.constructCategoryTreeE();
     				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Categoría agregada"));
     			} catch (Exception ex) {

@@ -48,7 +48,7 @@ public class AdminCategoriesBB {
 	
 	public void constructCategoryTree() {
     	try {
-			this.categories= Comunicacion.getInstance().getIStoreController().findGenericCategories();
+			this.categories= Comunicacion.getInstance().getICategoryController().findGenericCategories();
 			if (this.categories.isEmpty()) {
 				this.hayCategorias = false;
 			} else {
@@ -58,9 +58,12 @@ public class AdminCategoriesBB {
 			e.printStackTrace();
 		}
 
-    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "", false), null);
+    	this.root = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.root.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.root);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: this.categories) {
-    		constructNodeTree(dCat, this.root);
+    		constructNodeTree(dCat, raiz);
     	}
     	
     }
@@ -73,10 +76,20 @@ public class AdminCategoriesBB {
     }
     
     public void onCategorySelect(NodeSelectEvent event) {
-		this.categorySelected = (DataCategory) selectedNode.getData();
-		this.name = this.categorySelected.getName();
-		this.description = this.categorySelected.getDescription();
-		this.hayCategoriaSeleccionada = true;
+    	if (((DataCategory)selectedNode.getData()).getId() != -1) {
+			this.categorySelected = (DataCategory) selectedNode.getData();
+			this.name = this.categorySelected.getName();
+			this.description = this.categorySelected.getDescription();
+			this.hayCategoriaSeleccionada = true;
+    	} else {
+    		// Limipar
+			this.categorySelected = null;
+			this.name = null;
+			this.description = null;
+			this.hayCategoriaSeleccionada = false;
+			this.seeCreateSubSeleccionada = false;
+			this.seeCreateNewSeleccionada = false;
+		}
     }
 	
     public void seeCreateNew() {
@@ -101,7 +114,7 @@ public class AdminCategoriesBB {
     public String createSub() {
 		String ret = "OkNewCategory";
 		try {
-			Comunicacion.getInstance().getIStoreController().createGenericCategory(this.nameNew, this.descriptionNew, this.categorySelected);
+			Comunicacion.getInstance().getICategoryController().createGenericCategory(this.nameNew, this.descriptionNew, this.categorySelected);
 			this.constructCategoryTree();
 			this.nameNew = null;
 			this.descriptionNew = null;
@@ -117,7 +130,7 @@ public class AdminCategoriesBB {
     public String createNew() {
 		String ret = "OkNewCategory";
 		try {
-			Comunicacion.getInstance().getIStoreController().createGenericCategory(this.nameNew, this.descriptionNew, null);
+			Comunicacion.getInstance().getICategoryController().createGenericCategory(this.nameNew, this.descriptionNew, null);
 			this.constructCategoryTree();
 			this.nameNew = null;
 			this.descriptionNew = null;
@@ -133,7 +146,7 @@ public class AdminCategoriesBB {
     public String editCategorySelect() {
     	String ret = "OkNewCategory";
 		try {
-			Comunicacion.getInstance().getIStoreController().editGenericCategory(this.name, this.description, this.categorySelected);
+			Comunicacion.getInstance().getICategoryController().editGenericCategory(this.name, this.description, this.categorySelected);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Categoria editada"));
 			this.constructCategoryTree();
 		} catch (Exception e) {
@@ -147,7 +160,7 @@ public class AdminCategoriesBB {
     public String deleteCategorySelect() {
     	String ret = "OkNewCategory";
 		try {
-			Comunicacion.getInstance().getIStoreController().deleteGenericCategory(this.categorySelected);
+			Comunicacion.getInstance().getICategoryController().deleteGenericCategory(this.categorySelected);
 			this.constructCategoryTree();
 			this.categorySelected = null;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Categoria borrada"));

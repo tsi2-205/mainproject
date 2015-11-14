@@ -24,7 +24,8 @@
 				<p:separator></p:separator>
 				<p:tree value="#{newProductBB.root}" var="node" selectionMode="single" selection="#{newProductBB.selectedNode}">
 			        <p:treeNode>
-			            <h:outputText value="#{node.name}" />
+			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 			        </p:treeNode>
 			    </p:tree>
 		    </p:panel>
@@ -55,6 +56,18 @@
 			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes"
 				oncomplete="PF('newAttributeDialog').show()" title="Nuevo atributo">
 			</p:commandButton>
+			
+			<p:panel id="formImagen">
+				<p:panel id="conImagen" rendered="#{newProductBB.imagenCargada}" >
+					<p:graphicImage value="#{newProductBB.imagenStream}" ></p:graphicImage>
+					<h:outputText value="La imagen se ha subido correctamente." style="font-size:1.5em"/>
+				</p:panel>
+				<p:panel id="sinImagen" rendered="#{!newProductBB.imagenCargada}" >
+					<p:fileUpload fileUploadListener="#{newProductBB.subirImagen}" mode="advanced"
+						dragDropSupport="true" sizeLimit="200000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+						label="Buscar" uploadLabel="Subir" cancelLabel="Cancelar" update="formImagen"/>
+				</p:panel>
+			</p:panel>
 
 			<p:dialog header="Nuevo atributo" widgetVar="newAttributeDialog" resizable="false">
 				<p:outputPanel id="newAttributePanel" style="text-align:center;">

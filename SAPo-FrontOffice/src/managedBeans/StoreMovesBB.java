@@ -61,7 +61,7 @@ public class StoreMovesBB {
 			this.store = session.getStoreSelected();
 			session.setProductSelected(null);
 			try{
-				this.products = Comunicacion.getInstance().getIStoreController().findProductsStore(store.getId(), null);
+				this.products = Comunicacion.getInstance().getIProductController().findProductsStore(store.getId(), null);
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}

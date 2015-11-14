@@ -1,4 +1,8 @@
 package managedBeans;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,8 +18,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
+import org.primefaces.model.UploadedFile;
 
 import comunication.Comunicacion;
 import datatypes.DataCategory;
@@ -48,6 +56,13 @@ public class NewProductBB implements Serializable {
 	private String additionalAttributeName = null;
 	private String additionalAttributeValue = null;
 	
+	
+	private UploadedFile imagen;
+	private File imagenFile;
+	private boolean imagenCargada;
+	private StreamedContent imagenStream;
+	
+	
 	public NewProductBB() {
 		super();
 	}
@@ -66,6 +81,12 @@ public class NewProductBB implements Serializable {
 		//System.out.print(store.getFile().length());
 		this.stockSelected = session.getStockSelected();
 		this.name = null;
+		
+		this.imagen = null;
+		this.imagenFile = null;
+		this.imagenStream = null;
+    	this.imagenCargada = false;
+    	
 		this.description = null;
 		if (this.stockSelected != null) {
 			this.isEdition = true;
@@ -78,6 +99,63 @@ public class NewProductBB implements Serializable {
 		this.constructCategoryTree();
 	}
 	
+	
+	
+	public void subirImagen(FileUploadEvent event) {
+		try {
+			Comunicacion.getInstance().getIProductController().guardarImagenProducto(event.getFile().getInputstream());
+			this.imagenCargada = true;
+			this.imagenFile = Comunicacion.getInstance().getIProductController().asociarImagen("nombreNuevo");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public UploadedFile getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(UploadedFile imagen) {
+		this.imagen = imagen;
+	}
+	
+	public StreamedContent getImagenStream() {
+		try {
+			if (this.imagenFile != null) {
+				if (this.imagenFile.exists()){
+//					this.imagenStream = new DefaultStreamedContent(new FileInputStream(this.imagenFile));
+					this.imagenStream = new DefaultStreamedContent(new FileInputStream(new File(this.imagenFile.getAbsolutePath())));
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return imagenStream;
+	}
+
+	public void setImagenStream(StreamedContent imagenStream) {
+		this.imagenStream = imagenStream;
+	}
+
+	public boolean isImagenCargada() {
+		return imagenCargada;
+	}
+
+	public void setImagenCargada(boolean imagenCargada) {
+		this.imagenCargada = imagenCargada;
+	}
+	
+	
+	public File getImagenFile() {
+		return imagenFile;
+	}
+
+	public void setImagenFile(File imagenFile) {
+		this.imagenFile = imagenFile;
+	}
+
 	public String addAttribute() {
 		String ret = "OkAddAttribute";
 		DataProductAdditionalAttribute dpaa = new DataProductAdditionalAttribute(this.additionalAttributeName, this.additionalAttributeValue);
@@ -92,7 +170,7 @@ public class NewProductBB implements Serializable {
 		
 		try {
 			if (!isEdition) {
-				if (selectedNode != null) {
+				if ((selectedNode != null) && (((DataCategory) selectedNode.getData()).getId() != -1)) {
 					Comunicacion
 							.getInstance()
 							.getIProductController()
@@ -112,7 +190,7 @@ public class NewProductBB implements Serializable {
 				this.stockSelected.setCantidadMax(this.stockMax);
 				this.stockSelected.getProduct().setAdditionalAttributes(this.additionalAttributes);
 				if (this.stockSelected.getProduct().isGeneric()) {
-					if (selectedNode != null) {
+					if ((selectedNode != null) && (((DataCategory) selectedNode.getData()).getId() != -1)) {
 						this.stockSelected.setCantidadMax(this.stockMax);
 						this.stockSelected.setCantidadMin(this.stockMin);
 						Integer idCategory = ((DataCategory) selectedNode.getData()).getId();
@@ -129,7 +207,7 @@ public class NewProductBB implements Serializable {
 					this.stockSelected.setCantidadMax(this.stockMax);
 					this.stockSelected.setCantidadMin(this.stockMin);
 					Integer idCategory = null;
-					if (selectedNode != null) {
+					if ((selectedNode != null) && (((DataCategory) selectedNode.getData()).getId() != -1)) {
 						idCategory = ((DataCategory) selectedNode.getData()).getId();
 					}
 					Comunicacion
@@ -149,15 +227,16 @@ public class NewProductBB implements Serializable {
 	public void constructCategoryTree() {
 		List<DataCategory> categories = new LinkedList<DataCategory>();
 		try {
-    		categories = Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
-//			this.gemericCategories = Comunicacion.getInstance().getIStoreController().findGenericCategoriesStore(store.getId());
+    		categories = Comunicacion.getInstance().getICategoryController().findSpecificCategoriesStore(store.getId());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-
-    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "", false), null);
+    	this.root = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.root.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.root);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: categories) {
-    		constructNodeTree(dCat, this.root);
+    		constructNodeTree(dCat, raiz);
     	}
     	
     }
