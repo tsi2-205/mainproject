@@ -14,7 +14,21 @@
 </style>
 
 <script>
+
+	function readImage() {
+			var FR = new FileReader();
+			FR.onload = function(e) {
+				 $('#img').attr( "src", e.target.result );
+				 
+				 $('#prev').css( "display", "none" );
+				 $('#img').css( "display", "block" );
+				 $('#imagenDeProducto').val( e.target.result );
+			};       
+			FR.readAsDataURL( this.files[0] );
+	}
+
 	$( document ).ready(function() {
+		$('#imagenDeProducto').val( "" );
 		
 	    $('#cssmenu').find('a').each(function( index, element ) {
 	    	  if ( $(this).attr("href") == document.URL.substring(document.URL.lastIndexOf("/")+1) ){
@@ -23,7 +37,9 @@
 	    	  }
 	    });
 
-	    
+		$("#prev").click( function(){ $("#asd").trigger("click"); });
+		$("#asd").change( readImage );
+		
 	});
 </script>
 

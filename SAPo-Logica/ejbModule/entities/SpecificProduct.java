@@ -3,8 +3,10 @@ package entities;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -36,15 +38,31 @@ public class SpecificProduct extends Product {
     @JoinColumn(name = "idGenericProduct", referencedColumnName = "id")
     private GenericProduct genericProduct;
 
+    
+    @Lob 
+    @Column(name="imageBase64", length=1048576)
+    private String imagenProducto;
+    
 	public SpecificProduct() {
 		super();
 	}
 
-	public SpecificProduct(String name, String description, Store store) {
+	
+	public SpecificProduct(String name, String description, Store store, String img) {
 		super(name, description);
 		this.store = store;
+		this.imagenProducto = img;
 	}
 
+ 
+	public String getImagenProducto() {
+		return imagenProducto;
+	}
+
+	public void setImagenProducto(String imagenProducto) {
+		this.imagenProducto = imagenProducto;
+	}
+	
 	public Store getStore() {
 		return store;
 	}

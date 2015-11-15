@@ -36,6 +36,8 @@ public class NewProductBB implements Serializable {
 	private DataStore store;
 	private Integer stockMin = null;
 	private Integer stockMax = null;
+	private String imagenProducto;
+	
 	
 	private DataStock stockSelected;
 	private boolean isEdition = false;
@@ -98,7 +100,7 @@ public class NewProductBB implements Serializable {
 							.createSpecificProduct(this.name, this.description,
 									this.stockMin, this.stockMax, this.store.getId(),
 									this.additionalAttributes,
-									((DataCategory) selectedNode.getData()).getId());
+									((DataCategory) selectedNode.getData()).getId() , this.imagenProducto);
 				} else {
 					FacesMessage msg = new FacesMessage("Debe seleccionar la categroía en la que se va a incluir el producto");
 			        FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -220,6 +222,14 @@ public class NewProductBB implements Serializable {
 		this.stockMax = stockMax;
 	}
 
+	public String getImagenProducto() {
+		return imagenProducto;
+	}
+	
+	public void setImagenProducto( String imagenProducto) {
+		this.imagenProducto = imagenProducto;
+	}
+	
 	public String getAdditionalAttributeName() {
 		return additionalAttributeName;
 	}

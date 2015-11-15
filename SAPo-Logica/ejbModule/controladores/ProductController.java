@@ -32,10 +32,10 @@ public class ProductController implements IProductController {
 	@PersistenceContext(unitName = "SAPo-Logica")
 	private EntityManager em;
 	
-	public void createSpecificProduct(String name, String description, Integer stockMin, Integer stockMax, int idStore, List<DataProductAdditionalAttribute> additionalAttributes, int idCategory) {
+	public void createSpecificProduct(String name, String description, Integer stockMin, Integer stockMax, int idStore, List<DataProductAdditionalAttribute> additionalAttributes, int idCategory , String imagenProducto ) {
 		Store s = em.find(Store.class, idStore);
 		Category cat = em.find(Category.class, idCategory);
-		SpecificProduct p = new SpecificProduct(name, description, s);
+		SpecificProduct p = new SpecificProduct(name, description, s, imagenProducto);
 		p.setCategory(cat);
 		for (DataProductAdditionalAttribute dAdAt: additionalAttributes) {
 			ProductAdditionalAttribute newAttribute = new ProductAdditionalAttribute(dAdAt.getNameAttribute(), dAdAt.getValueAttribute());
@@ -72,7 +72,15 @@ public class ProductController implements IProductController {
 		
 		if (p instanceof GenericProduct) {
 			//esta agregando un producto generico
-			SpecificProduct sp = new SpecificProduct(stock.getProduct().getName(), stock.getProduct().getDescription(), store);
+			//
+
+			SpecificProduct sp = new SpecificProduct(	stock.getProduct().getName() ,
+														stock.getProduct().getDescription() ,
+														store,
+														stock.getProduct().getImage()
+													);
+			
+			//(String name, String description, Store store, String img)
 			if ((idCategory != null) && (p.getCategory().getId() != idCategory)) {
 				Category cat = em.find(Category.class, idCategory);
 				sp.setCategory(cat);

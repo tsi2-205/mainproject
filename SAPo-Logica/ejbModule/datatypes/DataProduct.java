@@ -20,6 +20,7 @@ public class DataProduct implements Serializable {
     
     private boolean isGeneric;
     
+    private String image;
     
     private List<DataProductAdditionalAttribute> additionalAttributes = new LinkedList<DataProductAdditionalAttribute>();
     
@@ -27,13 +28,14 @@ public class DataProduct implements Serializable {
 		super();
 	}
 	
-	public DataProduct(int id, String name, String description, boolean isGeneric, List<DataProductAdditionalAttribute> additionalAttributes) {
+	public DataProduct(int id, String name, String description, boolean isGeneric, List<DataProductAdditionalAttribute> additionalAttributes , String img) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.isGeneric = isGeneric;
 		this.additionalAttributes = additionalAttributes;
+		this.image = img;
 	}
 
 	public DataProduct(Product prod) {
@@ -47,6 +49,14 @@ public class DataProduct implements Serializable {
 		}
 	}
 
+	public String getImage(){
+		return this.image;
+	}
+	
+	public void setImage( String img){
+		this.image = img;
+	}
+	
 	public int getId() {
 		return id;
 	}
