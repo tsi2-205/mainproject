@@ -47,9 +47,15 @@
 				<h:outputText value="Atributos adicionales" styleClass="title2"/>
 				<p:separator></p:separator>
 				<p:dataGrid id="AdditionalAttribute" columns="1" value="#{newProductBB.additionalAttributes}" var="attribute" emptyMessage="">
-					<p:panelGrid columns="2" layout="grid">
+					<p:panelGrid columns="3" layout="grid">
 						<h:outputLabel value="#{attribute.nameAttribute}:"/>
 						<h:inputText label="#{attribute.nameAttribute}:" value="#{attribute.valueAttribute}" ></h:inputText>
+						<p:commandButton rendered="#{!newProductBB.edition}" action="#{newProductBB.deleteAttributeSelectedCreate}" update=":form" icon="ui-icon-close">
+	                    	<f:setPropertyActionListener value="#{attribute}" target="#{newProductBB.attributeSelected}" />
+	                    </p:commandButton>
+	                    <p:commandButton rendered="#{newProductBB.edition}" action="#{newProductBB.deleteAttributeSelectedEdition}" update=":form" icon="ui-icon-close">
+	                    	<f:setPropertyActionListener value="#{attribute}" target="#{newProductBB.attributeSelected}" />
+	                    </p:commandButton>
 					</p:panelGrid>
 				</p:dataGrid>
 			</p:panel>

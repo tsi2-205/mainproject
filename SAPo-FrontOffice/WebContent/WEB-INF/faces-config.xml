@@ -122,6 +122,21 @@
 			<to-view-id>/pages/NewGenericProduct.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>/EditarProducto</display-name>
+		<from-view-id>/pages/EditGenericProduct.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{genericProductBB.saveChanges}</from-action>
+			<from-outcome>OkEditProduct</from-outcome>
+			<to-view-id>/pages/GenericProduct.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{genericProductBB.saveChanges}</from-action>
+			<from-outcome>FailEditProduct</from-outcome>
+			<to-view-id>/pages/EditGenericProduct.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 
 	<converter>
 		<display-name>DateConverter</display-name>

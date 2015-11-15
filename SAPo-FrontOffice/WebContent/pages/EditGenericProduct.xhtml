@@ -35,35 +35,23 @@
 				</p:panelGrid>
 			</p:panel>
 			<p:panel rendered="#{not empty genericProductBB.product.additionalAttributes}">
+				
 				<h:outputText value="Atributos adicionales de su nuevo producto" styleClass="title2"/>
 				<p:separator></p:separator>
-				<h:outputText value="No tiene atributos adicionales" styleClass="title2"  rendered="#{empty genericProductBB.product.additionalAttributes}"/>
-				<p:dataTable id="AdditionalAttribute" var="attribute" value="#{genericProductBB.product.additionalAttributes}" rendered="#{not empty genericProductBB.product.additionalAttributes}"
-	            	editable="true" editMode="cell" widgetVar="cellAttrib">
-	                
-	                <p:column headerText="Nombre">
-	                	<p:cellEditor>
-							<f:facet name="output"><h:outputText value="#{attribute.nameAttribute}" /></f:facet>
-							<f:facet name="input"><p:inputText value="#{attribute.nameAttribute}"/></f:facet>
-						</p:cellEditor>
-		            </p:column>
-	                <p:column headerText="Valor">
-	                	<p:cellEditor>
-							<f:facet name="output"><h:outputText value="#{attribute.valueAttribute}" /></f:facet>
-							<f:facet name="input"><p:inputText id="modelInput" value="#{attribute.valueAttribute}"/></f:facet>
-						</p:cellEditor>
-		            </p:column>
-	                <p:column style="width:32px">
-	                    <p:commandButton action="#{genericProductBB.deleteAttributeSelected}" update=":form" icon="ui-icon-close">
+				<p:dataGrid id="AdditionalAttribute" columns="1" value="#{genericProductBB.product.additionalAttributes}" var="attribute" emptyMessage="">
+					<p:panelGrid columns="3" layout="grid">
+						<h:outputLabel value="#{attribute.nameAttribute}:"/>
+						<h:inputText label="#{attribute.nameAttribute}:" value="#{attribute.valueAttribute}" ></h:inputText>
+						<p:commandButton action="#{genericProductBB.deleteAttributeSelected}" update=":form" icon="ui-icon-close">
 	                    	<f:setPropertyActionListener value="#{attribute}" target="#{genericProductBB.attributeSelected}" />
 	                    </p:commandButton>
-	                </p:column>
-	            </p:dataTable>
+					</p:panelGrid>
+				</p:dataGrid>
 			</p:panel>
 			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes"
-				oncomplete="PF('newAttributeDialog').show()" title="Nuevo atributo">
+				id="newAt" title="Nuevo atributo">
 			</p:commandButton>
-			<p:dialog header="Nuevo atributo" widgetVar="newAttributeDialog" resizable="false">
+			<p:overlayPanel showCloseIcon="true" my="left bottom" at="left top" for="newAt" header="Nuevo atributo" resizable="false">
 				<p:outputPanel id="newAttributePanel" style="text-align:center;">
 					<p:panelGrid id="AdditionalAttributes" columns="2">
 						<h:outputLabel for="nameAdditional" value="Nombre:"/>
@@ -77,7 +65,7 @@
 						</f:facet>
 					</p:panelGrid>
 				</p:outputPanel>
-			</p:dialog>
+			</p:overlayPanel>
 		</h:form>
 	</ui:define>
 </ui:composition>

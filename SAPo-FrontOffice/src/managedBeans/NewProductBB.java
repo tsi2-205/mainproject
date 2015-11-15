@@ -56,6 +56,7 @@ public class NewProductBB implements Serializable {
 	private String additionalAttributeName = null;
 	private String additionalAttributeValue = null;
 	
+	private DataProductAdditionalAttribute attributeSelected = null;
 	
 	private UploadedFile imagen;
 	private File imagenFile;
@@ -163,6 +164,16 @@ public class NewProductBB implements Serializable {
 		this.additionalAttributeValue = null;
 		this.additionalAttributes.add(dpaa);
 		return ret;
+	}
+	
+	public void deleteAttributeSelectedCreate() {
+		this.additionalAttributes.remove(this.attributeSelected);
+		this.attributeSelected = null;
+	}
+	
+	public void deleteAttributeSelectedEdition() {
+		this.stockSelected.getProduct().getAdditionalAttributes().remove(this.attributeSelected);
+		this.attributeSelected = null;
 	}
 	
 	public String create() {
@@ -355,6 +366,15 @@ public class NewProductBB implements Serializable {
 
 	public void setStockSelected(DataStock stockSelected) {
 		this.stockSelected = stockSelected;
+	}
+
+	public DataProductAdditionalAttribute getAttributeSelected() {
+		return attributeSelected;
+	}
+
+	public void setAttributeSelected(
+			DataProductAdditionalAttribute attributeSelected) {
+		this.attributeSelected = attributeSelected;
 	}
 	
 }

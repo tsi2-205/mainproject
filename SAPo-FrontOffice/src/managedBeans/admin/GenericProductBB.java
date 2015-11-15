@@ -80,7 +80,9 @@ public class GenericProductBB {
 	
 	public void deleteAttributeSelected() {
 		try {
-			Comunicacion.getInstance().getIProductController().deleteAttributeProduct(this.product.getId(), this.attributeSelected.getId());
+			if (this.attributeSelected.getId() > 0) {
+				Comunicacion.getInstance().getIProductController().deleteAttributeProduct(this.product.getId(), this.attributeSelected.getId());
+			}
 			this.product.getAdditionalAttributes().remove(this.attributeSelected);
 			this.attributeSelected = null;
 		} catch (NamingException e) {

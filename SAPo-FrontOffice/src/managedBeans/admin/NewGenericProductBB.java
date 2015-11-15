@@ -32,6 +32,8 @@ public class NewGenericProductBB {
 	private String additionalAttributeName = null;
 	private String additionalAttributeValue = null;
 	
+	private DataProductAdditionalAttribute attributeSelected = null;
+	
 	public NewGenericProductBB() {
 		super();
 	}
@@ -50,16 +52,27 @@ public class NewGenericProductBB {
 		return ret;
 	}
 	
+	public void deleteAttributeSelected() {
+		this.additionalAttributes.remove(this.attributeSelected);
+		this.attributeSelected = null;
+	}
+	
 	public String create() {
 		String ret = "OkNewProduct";
 		
 		try {
 			if ((selectedNode != null) && (((DataCategory) selectedNode.getData()).getId() != -1)) {
-				Comunicacion.getInstance().getIProductController().createGenericProduct(this.name, this.description, this.additionalAttributes, ((DataCategory)selectedNode.getData()).getId());
+				if (this.name == null || this.name.trim().equals("")) {
+					ret = "FailNewProduct";
+					FacesMessage msg = new FacesMessage("Debe seleccionar la categroía en la que se va a incluir el producto");
+			        FacesContext.getCurrentInstance().addMessage(null, msg);
+				} else {
+					Comunicacion.getInstance().getIProductController().createGenericProduct(this.name, this.description, this.additionalAttributes, ((DataCategory)selectedNode.getData()).getId());
+				}
 			} else {
+		        ret = "FailNewProduct";
 				FacesMessage msg = new FacesMessage("Debe seleccionar la categroía en la que se va a incluir el producto");
 		        FacesContext.getCurrentInstance().addMessage(null, msg);
-		        ret = "FailNewProduct";
 			}
 			
 		} catch (Exception e) {
@@ -149,5 +162,14 @@ public class NewGenericProductBB {
 	public void setAdditionalAttributeValue(String additionalAttributeValue) {
 		this.additionalAttributeValue = additionalAttributeValue;
 	}
-    
+
+	public DataProductAdditionalAttribute getAttributeSelected() {
+		return attributeSelected;
+	}
+
+	public void setAttributeSelected(
+			DataProductAdditionalAttribute attributeSelected) {
+		this.attributeSelected = attributeSelected;
+	}
+	
 }

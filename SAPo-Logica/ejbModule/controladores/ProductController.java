@@ -113,8 +113,24 @@ public class ProductController implements IProductController {
 			}
 			p.setName(stock.getProduct().getName());
 			p.setDescription(stock.getProduct().getDescription());
-			ProductAdditionalAttribute a = null;
+			
 			List<ProductAdditionalAttribute> listAux = new LinkedList<ProductAdditionalAttribute>();
+			for (ProductAdditionalAttribute atr: p.getAdditionalAttributes()) {
+				boolean exist = false;
+				for (DataProductAdditionalAttribute data: stock.getProduct().getAdditionalAttributes()) {
+					if (atr.getId() == data.getId()) {
+						exist = true;
+						break;
+					}
+				}
+				if (!exist) {
+					listAux.add(atr);
+				}
+			}
+			p.getAdditionalAttributes().removeAll(listAux);
+			
+			ProductAdditionalAttribute a = null;
+			listAux = new LinkedList<ProductAdditionalAttribute>();
 			for (DataProductAdditionalAttribute data: stock.getProduct().getAdditionalAttributes()) {
 				boolean exist = false;
 				for (ProductAdditionalAttribute atr: p.getAdditionalAttributes()) {
@@ -135,6 +151,7 @@ public class ProductController implements IProductController {
 			for (ProductAdditionalAttribute paa: listAux) {
 				p.getAdditionalAttributes().add(paa);
 			}
+			
 			em.merge(p);
 			Stock stk = em.find(Stock.class, stock.getId());
 			if (stk.getCantidadMax() != stock.getCantidadMax() || stk.getCantidadMin() != stock.getCantidadMin()) {
