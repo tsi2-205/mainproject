@@ -18,6 +18,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
+import notifications.NotifyUserView;
+
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.DefaultTreeNode;
@@ -189,6 +191,15 @@ public class NewProductBB implements Serializable {
 									this.stockMin, this.stockMax, this.store.getId(),
 									this.additionalAttributes,
 									((DataCategory) selectedNode.getData()).getId());
+					if (Comunicacion.getInstance().getIProductController().shouldPromoteProduct(this.name)) {
+						String message = "Se sugiere promover el producto " + this.name + " como producto generico";
+						Comunicacion.getInstance().getINotificationController().sendAdminNotification(message);
+						List<DataUser> administrators = Comunicacion.getInstance().getIUserController().getAdministrators();
+						NotifyUserView notifyView = new NotifyUserView();
+						for (DataUser admin : administrators) {
+							notifyView.sendNotification(admin.getId(), message);
+						}
+					}
 				} else {
 					FacesMessage msg = new FacesMessage("Debe seleccionar la categroía en la que se va a incluir el producto");
 			        FacesContext.getCurrentInstance().addMessage(null, msg);

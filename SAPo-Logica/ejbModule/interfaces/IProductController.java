@@ -36,7 +36,11 @@ public interface IProductController {
 	public void deleteAttributeProduct(int idProduct, int idAttribute);
 	
 	public void guardarImagenProducto(InputStream in);
+	
 	public File asociarImagen(String nombreProducto);
+	
     public File obtenerImagen(int codProduct);
+    
+    public boolean shouldPromoteProduct(String name);
 
 }

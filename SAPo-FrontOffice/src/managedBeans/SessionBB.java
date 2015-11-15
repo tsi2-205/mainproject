@@ -1,7 +1,6 @@
 package managedBeans;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -203,6 +202,7 @@ public class SessionBB implements Serializable {
 		this.password = null;
 		this.showError = false;
 		this.storeSelected = null;
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //		SecurityUtils.getSubject().logout();
 		return "/pages/Login?faces-redirect=true";
 	}

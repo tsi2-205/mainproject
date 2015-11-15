@@ -11,7 +11,7 @@ import org.primefaces.push.impl.JSONEncoder;
 public class NotifyUserResource {
     
 	@PathParam("user")
-    private String userId;
+    private int userId;
 	
     @OnMessage(encoders = {JSONEncoder.class})
     public FacesMessage onMessage(FacesMessage message) {

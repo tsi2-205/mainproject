@@ -16,6 +16,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
+import notifications.NotifyStoreView;
+
 import org.primefaces.event.SelectEvent;
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
@@ -111,8 +113,8 @@ public class StoreMovesBB {
 						message = "El stock de " + this.productNameSelected + " esta por encima del maximo.";
 					}
 					Comunicacion.getInstance().getINotificationController().sendStoreNotification(message, this.store.getId(), true);
-					EventBus eventBus = EventBusFactory.getDefault().eventBus();
-			        eventBus.publish("/notify/store/" + this.store.getId(), new FacesMessage("SAPo", message));
+					NotifyStoreView notifyView = new NotifyStoreView();
+					notifyView.sendNotification(this.store.getId(), message);
 				}
 				this.movCant = null;
 				this.movPrecio = null;

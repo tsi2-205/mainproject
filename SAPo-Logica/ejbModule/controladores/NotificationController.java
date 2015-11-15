@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import datatypes.DataNotification;
+import entities.Administrator;
 import entities.Notification;
 import entities.Registered;
 import entities.Store;
@@ -68,6 +69,16 @@ public class NotificationController implements INotificationController {
 		em.persist(not);
 	}
 	
+	public void sendAdminNotification(String message) {
+		String queryStr = " SELECT a FROM Administrator a";
+		Query query = em.createQuery(queryStr, Administrator.class);
+		for (Object o: query.getResultList()) {
+			Administrator admin = (Administrator)o;
+			Notification not = new Notification(message,false,admin,null,new GregorianCalendar());
+			em.persist(not);
+		}
+	}
+	
 	public void readNotification(int notificationId) {
 		Notification n = em.find(Notification.class, notificationId);
 		if (n == null) {
@@ -76,4 +87,6 @@ public class NotificationController implements INotificationController {
 		n.setRead(true);
 		em.persist(n);
 	}
+	
+	
 }

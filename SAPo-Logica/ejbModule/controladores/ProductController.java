@@ -53,17 +53,13 @@ public class ProductController implements IProductController {
 		em.persist(s);
 		em.persist(p);
 		em.persist(stock);
-		
-//		// Si ya existen mas de 5 productos con las mismas caracteristicas en el
-//		// sistema se le debe enviar una notificacion a los administradores para
-//		// que promuevan dicho producto como generico
-//		String queryStr = "SELECT sp FROM SpecificProduct sp WHERE sp.name = :name";
-//		Query query = em.createQuery(queryStr, SpecificProduct.class);
-//		query.setParameter("name", name);
-//		if (query.getResultList().size() > 5) {
-//			// Aca hacer la notificacion
-//		}
-		
+	}
+	
+	public boolean shouldPromoteProduct(String name) {
+		String queryStr = "SELECT sp FROM SpecificProduct sp WHERE sp.name = :name";
+		Query query = em.createQuery(queryStr, SpecificProduct.class);
+		query.setParameter("name", name);
+		return query.getResultList().size() > 1; 
 	}
 	
 	private List<Category> obtenerAncestros(Category cat) {

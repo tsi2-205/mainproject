@@ -1,4 +1,4 @@
-package managedBeans;
+package managedBeans.admin;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,12 +13,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
+import managedBeans.SessionBB;
 import comunication.Comunicacion;
 import datatypes.DataNotification;
 
 @ManagedBean
 @ViewScoped
-public class UserNotificationsBB {
+public class AdminNotificationsBB {
 
 	private int userId;
 
@@ -26,7 +27,7 @@ public class UserNotificationsBB {
 
 	private DataNotification notificationSelected = null;
 
-	public UserNotificationsBB() {
+	public AdminNotificationsBB() {
 		super();
 	}
 

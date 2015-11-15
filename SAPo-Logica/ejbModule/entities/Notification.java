@@ -26,7 +26,7 @@ public class Notification implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "IdUser")
-	private Registered user;
+	private User user;
 
 	@ManyToOne
 	@JoinColumn(name = "IdStore")
@@ -36,7 +36,7 @@ public class Notification implements Serializable {
 		super();
 	}
 	
-	public Notification(String message, boolean isRead, Registered user, Store store, Calendar date) {
+	public Notification(String message, boolean isRead, User user, Store store, Calendar date) {
 		super();
 		this.message = message;
 		this.isRead = isRead;
@@ -79,11 +79,11 @@ public class Notification implements Serializable {
 		this.isRead = isRead;
 	}
 
-	public Registered getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(Registered user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
