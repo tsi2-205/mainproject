@@ -1,15 +1,21 @@
 package rest;
 
+import java.util.List;
+
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import comunication.Comunicacion;
 import datatypes.DataUser;
+import datatypes.DataStore;
 import response.LoginResponse;
 import request.LoginRequest;
+import response.GetStoresResponse;
 
 @Path("/user")
 public class UserRestService {
@@ -44,4 +50,13 @@ public class UserRestService {
 		
 	}
 	
+	@GET
+	@Path("/{userId}/stores")
+	@Produces("application/json")
+	public GetStoresResponse getStores(@PathParam("userId") int userId) throws NamingException {
+		List<DataStore> myStores = Comunicacion.getInstance().getIUserController().getStoresOwner(userId);
+		List<DataStore> sharedStores = Comunicacion.getInstance().getIUserController().getStoresGuest(userId);
+		GetStoresResponse response = new GetStoresResponse(0,"",myStores,sharedStores);
+		return response;
+	}
 }
