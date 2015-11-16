@@ -1,5 +1,7 @@
 package entities;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -26,6 +28,9 @@ public abstract class User implements Serializable {
     private int version;
     
     private String account; 
+    
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications = new LinkedList<Notification>();
     
     public User() {
 		super();
@@ -95,6 +100,13 @@ public abstract class User implements Serializable {
 	public void setAccount(String account) {
 		this.account = account;
 	}
-	
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
+	}
 	
 }

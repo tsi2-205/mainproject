@@ -19,7 +19,8 @@
 				<p:separator></p:separator>
 				<p:tree value="#{newGenericProductBB.root}" var="node" selectionMode="single" selection="#{newGenericProductBB.selectedNode}">
 			        <p:treeNode>
-			            <h:outputText value="#{node.name}" />
+			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 			        </p:treeNode>
 			    </p:tree>
 		    </p:panel>
@@ -37,19 +38,21 @@
 				<h:outputText value="Atributos adicionales de su nuevo producto" styleClass="title2"/>
 				<p:separator></p:separator>
 				<p:dataGrid id="AdditionalAttribute" columns="1" value="#{newGenericProductBB.additionalAttributes}" var="attribute" emptyMessage="">
-					<p:panelGrid columns="2" layout="grid">
+					<p:panelGrid columns="3" layout="grid">
 						<h:outputLabel value="#{attribute.nameAttribute}:"/>
 						<h:inputText label="#{attribute.nameAttribute}:" value="#{attribute.valueAttribute}" ></h:inputText>
+						<p:commandButton action="#{newGenericProductBB.deleteAttributeSelected}" update=":form" icon="ui-icon-close">
+	                    	<f:setPropertyActionListener value="#{attribute}" target="#{newGenericProductBB.attributeSelected}" />
+	                    </p:commandButton>
 					</p:panelGrid>
 				</p:dataGrid>
 			</p:panel>
-			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes"
-				oncomplete="PF('newAttributeDialog').show()" title="Nuevo atributo">
+			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes1"
+				id="newAt" title="Nuevo atributo">
 			</p:commandButton>
-
-			<p:dialog header="Nuevo atributo" widgetVar="newAttributeDialog" resizable="false">
+			<p:overlayPanel showCloseIcon="true" my="left bottom" at="left top" for="newAt" header="Nuevo atributo" resizable="false">
 				<p:outputPanel id="newAttributePanel" style="text-align:center;">
-					<p:panelGrid id="AdditionalAttributes" columns="2">
+					<p:panelGrid id="AdditionalAttributes1" columns="2">
 						<h:outputLabel for="nameAdditional" value="Nombre:"/>
 						<h:inputText id="nameAdditional" label="Nombre:" value="#{newGenericProductBB.additionalAttributeName}" ></h:inputText>
 						<h:outputLabel for="valueAdditional" value="Valor:"/>
@@ -61,9 +64,7 @@
 						</f:facet>
 					</p:panelGrid>
 				</p:outputPanel>
-			</p:dialog>
-			
-			
+			</p:overlayPanel>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -49,7 +49,7 @@ public class NewCategoryBB implements Serializable {
 		String ret = "OkNewCategory";
 		
 		try {
-			Comunicacion.getInstance().getIStoreController().createSpecificCategory(this.name, this.description, this.store, this.fatherCategory);
+			Comunicacion.getInstance().getICategoryController().createSpecificCategory(this.name, this.description, this.store, this.fatherCategory);
 			session.setCategorySelected(null);
 		} catch (ExistStoreException e) {
 			ret = "FailNewCategory";

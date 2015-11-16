@@ -1,6 +1,8 @@
 package datatypes;
 
+import java.io.File;
 import java.io.Serializable;
+import java.sql.Blob;
 
 import entities.Store;
 
@@ -19,6 +21,8 @@ public class DataStore implements Serializable {
     private String city;
     
     private DataUser owner;
+    
+    private Blob file;
     
     public DataStore() {
 		super();
@@ -42,6 +46,7 @@ public class DataStore implements Serializable {
 		this.telephone = store.getTelephone();
 		this.city = store.getCity();
 		this.owner = new DataUser(store.getOwner());
+		this.file = store.getCustomer().getCss();
     }
 
 	public int getId() {
@@ -91,4 +96,14 @@ public class DataStore implements Serializable {
 	public void setOwner(DataUser owner) {
 		this.owner = owner;
 	}
+
+	public Blob getFile() {
+		return file;
+	}
+
+	public void setFile(Blob file) {
+		this.file = file;
+	}
+	
+	
 }

@@ -11,7 +11,7 @@ import org.primefaces.push.impl.JSONEncoder;
 public class NotifyStoreResource {
     
 	@PathParam("store")
-    private String storeId;
+    private int storeId;
 	
     @OnMessage(encoders = {JSONEncoder.class})
     public FacesMessage onMessage(FacesMessage message) {

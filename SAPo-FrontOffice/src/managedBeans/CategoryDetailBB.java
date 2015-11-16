@@ -65,7 +65,7 @@ public class CategoryDetailBB implements Serializable {
 	
 	public void constructCategoryTree() {
     	try {
-			this.categories= Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
+			this.categories= Comunicacion.getInstance().getICategoryController().findSpecificCategoriesStore(store.getId());
 			if (this.categories.isEmpty()) {
 				this.hayCategorias = false;
 			} else {
@@ -74,10 +74,13 @@ public class CategoryDetailBB implements Serializable {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-
-    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "ADFAdf", false), null);
+    	
+    	this.root = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.root.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.root);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: this.categories) {
-    		constructNodeTree(dCat, this.root);
+    		constructNodeTree(dCat, raiz);
     	}
     	
     }
@@ -90,10 +93,20 @@ public class CategoryDetailBB implements Serializable {
     }
     
     public void onCategorySelect(NodeSelectEvent event) {
-		this.categorySelected = (DataCategory) selectedNode.getData();
-		this.name = this.categorySelected.getName();
-		this.description = this.categorySelected.getDescription();
-		this.hayCategoriaSeleccionada = true;
+		if (((DataCategory) selectedNode.getData()).getId() != -1) {
+			this.categorySelected = (DataCategory) selectedNode.getData();
+			this.name = this.categorySelected.getName();
+			this.description = this.categorySelected.getDescription();
+			this.hayCategoriaSeleccionada = true;
+		} else {
+			// Limipar
+			this.categorySelected = null;
+			this.name = null;
+			this.description = null;
+			this.hayCategoriaSeleccionada = false;
+			this.seeCreateSubSeleccionada = false;
+			this.seeCreateNewSeleccionada = false;
+		}
     }
 	
     public String seeCreateNew() {
@@ -123,7 +136,7 @@ public class CategoryDetailBB implements Serializable {
     public String createSub() {
 		String ret = "OkNewCategory";
 		try {
-			Comunicacion.getInstance().getIStoreController().createSpecificCategory(this.nameNew, this.descriptionNew, this.store, this.categorySelected);
+			Comunicacion.getInstance().getICategoryController().createSpecificCategory(this.nameNew, this.descriptionNew, this.store, this.categorySelected);
 			this.constructCategoryTree();
 			this.nameNew = null;
 			this.descriptionNew = null;
@@ -142,7 +155,7 @@ public class CategoryDetailBB implements Serializable {
     public String createNew() {
 		String ret = "OkNewCategory";
 		try {
-			Comunicacion.getInstance().getIStoreController().createSpecificCategory(this.nameNew, this.descriptionNew, this.store, null);
+			Comunicacion.getInstance().getICategoryController().createSpecificCategory(this.nameNew, this.descriptionNew, this.store, null);
 			this.constructCategoryTree();
 			this.nameNew = null;
 			this.descriptionNew = null;
@@ -161,7 +174,7 @@ public class CategoryDetailBB implements Serializable {
     public String editCategorySelect() {
     	String ret = "OkNewCategory";
 		try {
-			Comunicacion.getInstance().getIStoreController().editSpecificCategory(this.name, this.description, this.categorySelected);
+			Comunicacion.getInstance().getICategoryController().editSpecificCategory(this.name, this.description, this.categorySelected);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Categoria editada"));
 			this.constructCategoryTree();
 		} catch (ExistStoreException e) {
@@ -179,7 +192,7 @@ public class CategoryDetailBB implements Serializable {
     public String deleteCategorySelect() {
     	String ret = "OkNewCategory";
 		try {
-			Comunicacion.getInstance().getIStoreController().deleteSpecificCategory(this.categorySelected);
+			Comunicacion.getInstance().getICategoryController().deleteSpecificCategory(this.categorySelected);
 			this.constructCategoryTree();
 			this.categorySelected = null;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Categoria borrada"));

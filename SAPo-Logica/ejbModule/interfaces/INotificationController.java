@@ -17,6 +17,8 @@ public interface INotificationController {
 	
 	public void sendUserNotification(String message, int userId);
 	
+	public void sendAdminNotification(String message);
+	
 	public void readNotification(int notificationId);
 
 }

@@ -1,6 +1,14 @@
 package managedBeans;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -117,7 +125,37 @@ public class HomeBB {
 		ExpressionFactory ef = apli.getExpressionFactory( );
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
-		session.setStoreSelected(this.storeSelected);		
+		session.setStoreSelected(this.storeSelected);
+		try {
+			session.setCssCustom(Comunicacion.getInstance().getIStoreController().getCustomizeStore(this.storeSelected.getId()));
+		} catch (SQLException | IOException | NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	/*	File f =this.storeSelected.getFile();
+		System.out.println(f.length());
+		OutputStream oos;
+		try {
+			oos = new FileOutputStream("customer"+storeSelected.getId());
+			byte[] buf = new byte[1024];
+			InputStream is = new FileInputStream(f);
+			System.out.println(is.available());
+			int c = 0; 
+			while ((c = is.read(buf, 0, buf.length)) > 0) { 
+				oos.write(buf, 0, c); 
+				System.out.println(buf.toString());
+				oos.flush(); 
+			} 
+			oos.close(); 
+			session.setCssCustom(oos);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
 		return "/pages/StoreMoves.xhtml?faces-redirect=true";
 //		FacesContext faces = FacesContext.getCurrentInstance();
 //		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();

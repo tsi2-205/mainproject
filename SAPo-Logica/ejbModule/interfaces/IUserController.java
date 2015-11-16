@@ -34,4 +34,6 @@ public interface IUserController {
 	
 	public boolean createMoreStores(int id);
 	
+	public List<DataUser> getAdministrators();
+	
 }

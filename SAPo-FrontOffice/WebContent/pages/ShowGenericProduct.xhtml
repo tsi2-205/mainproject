@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition template="/WEB-INF/templates/LayoutBackOffice.xhtml"
+<ui:composition template="/WEB-INF/templates/Layout2.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core" 
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="title">
-		<h:outputText value="SAPo" />
+		<h:outputText value="Login" />
 		<h:outputStylesheet library="styles" name="NewProduct.css" />
 	</ui:define>
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			
-			<h:outputText value="Producto genérico #{genericProductBB.product.name}" styleClass="title1"/>
-			<p:commandButton value="Editar" action="#{genericProductBB.editProduct}" style="float: right;"/>
-			<p:commandButton value="Volver" action="#{genericProductBB.volver}" immediate="true" style="float:right;"></p:commandButton>
+			<h:outputText value="Producto genérico #{showGenericProductBB.product.name}" styleClass="title1"/>
+			<p:commandButton value="Volver" action="#{showGenericProductBB.volver}" immediate="true" style="float:right;"></p:commandButton>
 			<p:separator style="clear: both;"></p:separator>
 			<p:panel>
 				<h:outputText value="Atributos básicos" styleClass="title2"/>
 				<p:separator></p:separator>
 				<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
 					<h:outputLabel for="description" value="Descripción:"/>
-					<h:outputText id="description" label="Descripción:" value="#{genericProductBB.product.description}" ></h:outputText>
+					<h:outputText id="description" label="Descripción:" value="#{showGenericProductBB.product.description}" ></h:outputText>
 					<h:outputLabel for="category" value="Categoría:"/>
-					<h:outputText id="category" label="Categoría:" value="#{genericProductBB.category.name}" ></h:outputText>
+					<h:outputText id="category" label="Categoría:" value="#{showGenericProductBB.category.name}" ></h:outputText>
 				</p:panelGrid>
 			</p:panel>
-			<p:panel rendered="#{not empty genericProductBB.product.additionalAttributes}">
+			<p:panel rendered="#{not empty showGenericProductBB.product.additionalAttributes}">
 				<h:outputText value="Atributos adicionales" styleClass="title2"/>
 				<p:separator></p:separator>
-				<p:dataGrid id="AdditionalAttribute" columns="1" value="#{genericProductBB.product.additionalAttributes}" var="attribute" emptyMessage="">
+				<p:dataGrid id="AdditionalAttribute" columns="1" value="#{showGenericProductBB.product.additionalAttributes}" var="attribute" emptyMessage="">
 					<p:panelGrid columns="2" layout="grid">
 						<h:outputLabel value="#{attribute.nameAttribute}:"/>
 						<h:outputText label="#{attribute.nameAttribute}:" value="#{attribute.valueAttribute}" ></h:outputText>

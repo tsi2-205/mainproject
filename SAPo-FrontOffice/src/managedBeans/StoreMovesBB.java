@@ -1,5 +1,7 @@
 package managedBeans;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +15,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
+
+import notifications.NotifyStoreView;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.push.EventBus;
@@ -59,10 +63,16 @@ public class StoreMovesBB {
 			this.store = session.getStoreSelected();
 			session.setProductSelected(null);
 			try{
-				this.products = Comunicacion.getInstance().getIStoreController().findProductsStore(store.getId(), null);
+				this.products = Comunicacion.getInstance().getIProductController().findProductsStore(store.getId(), null);
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
+		}
+		try {
+			session.setCssCustom(Comunicacion.getInstance().getIStoreController().getCustomizeStore(store.getId()));
+		} catch (SQLException | IOException | NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -103,8 +113,8 @@ public class StoreMovesBB {
 						message = "El stock de " + this.productNameSelected + " esta por encima del maximo.";
 					}
 					Comunicacion.getInstance().getINotificationController().sendStoreNotification(message, this.store.getId(), true);
-					EventBus eventBus = EventBusFactory.getDefault().eventBus();
-			        eventBus.publish("/notify/store/" + this.store.getId(), new FacesMessage("SAPo", message));
+					NotifyStoreView notifyView = new NotifyStoreView();
+					notifyView.sendNotification(this.store.getId(), message);
 				}
 				this.movCant = null;
 				this.movPrecio = null;

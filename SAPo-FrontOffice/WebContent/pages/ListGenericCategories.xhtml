@@ -18,7 +18,8 @@
 				<h:outputText rendered="#{!listGenericCategoriesBB.hayCategoriasG}" value="No hay categorías genéricas" styleClass="title2"></h:outputText>
 				<p:tree  style="text-align: left;" rendered="#{listGenericCategoriesBB.hayCategoriasG}" value="#{listGenericCategoriesBB.rootG}" var="nodeG" selectionMode="single" selection="#{listGenericCategoriesBB.selectedNodeG}">
 			        <p:treeNode>
-			            <h:outputText value="#{nodeG.name}" />
+			            <h:outputText value="#{nodeG.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{nodeG.id == -1}" />
+						<h:outputText value="#{nodeG.name}" rendered="#{nodeG.id != -1}" />
 			        </p:treeNode>
 			    </p:tree>
 			</p:panel>
@@ -34,7 +35,8 @@
 				<h:outputText rendered="#{!listGenericCategoriesBB.hayCategoriasE}" value="No hay categorías específicas" styleClass="title2"></h:outputText>
 				<p:tree  style="text-align: left;" rendered="#{listGenericCategoriesBB.hayCategoriasE}" value="#{listGenericCategoriesBB.rootE}" var="nodeE" selectionMode="single" selection="#{listGenericCategoriesBB.selectedNodeE}">
 			        <p:treeNode>
-			            <h:outputText value="#{nodeE.name}" />
+			            <h:outputText value="#{nodeE.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{nodeE.id == -1}" />
+						<h:outputText value="#{nodeE.name}" rendered="#{nodeE.id != -1}" />
 			        </p:treeNode>
 			    </p:tree>
 			</p:panel>

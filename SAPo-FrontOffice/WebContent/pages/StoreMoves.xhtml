@@ -31,7 +31,7 @@
 			<p:separator style="clear: both;"></p:separator>
 			<p:panel id="panelButtons" rendered="#{storeMovesBB.productSelected != null}">
 				<h:outputText value="Ingrese cambio en el stock del producto #{storeMovesBB.productSelected}" styleClass="title1"></h:outputText>
-				
+				<p:commandButton value="Guardar" update=":form" action="#{storeMovesBB.saveChangeStock}" style="float: right;"></p:commandButton>
 				<p:separator style="clear: both;"></p:separator>
 				<h:panelGrid columns="2" cellpadding="5">
 					<p:outputLabel value="Tipo:" for="idTipo" />
@@ -45,7 +45,6 @@
 					<h:outputLabel value="Precio:" for="idPrecio" />
 					<h:inputText id="idPrecio" value="#{storeMovesBB.movPrecio}" />
 				</h:panelGrid>
-				<p:commandButton value="Guardar" update=":form" action="#{storeMovesBB.saveChangeStock}" style="float: right;"></p:commandButton>
 			</p:panel>
 			
 		</h:form>

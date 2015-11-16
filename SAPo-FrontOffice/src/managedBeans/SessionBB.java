@@ -45,6 +45,7 @@ public class SessionBB implements Serializable {
 	private DataProduct productSelected;
 	private DataUser userSelected;
 	private DataStock stockSelected;
+	private String cssCustom;
 	
 	public SessionBB() {
 		super();
@@ -201,6 +202,7 @@ public class SessionBB implements Serializable {
 		this.password = null;
 		this.showError = false;
 		this.storeSelected = null;
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //		SecurityUtils.getSubject().logout();
 		return "/pages/Login?faces-redirect=true";
 	}
@@ -358,6 +360,13 @@ public class SessionBB implements Serializable {
 	public void setStockSelected(DataStock stockSelected) {
 		this.stockSelected = stockSelected;
 	}
-	
+
+	public String getCssCustom() {
+		return cssCustom;
+	}
+
+	public void setCssCustom(String cssCustom) {
+		this.cssCustom = cssCustom;
+	}
 	
 }

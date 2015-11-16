@@ -41,7 +41,8 @@
 				<p:tree value="#{newBuyListBB.root}" var="node" selectionMode="single" selection="#{newBuyListBB.selectedNode}">
 			        <p:ajax event="select" update="availableProductsField" listener="#{newBuyListBB.onCategorySelect}" />
 			        <p:treeNode>
-			            <h:outputText value="#{node.name}" />
+			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 			        </p:treeNode>
 			    </p:tree>
 		    </p:panel>

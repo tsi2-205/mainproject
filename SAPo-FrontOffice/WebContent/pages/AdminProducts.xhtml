@@ -20,11 +20,12 @@
 				<p:tree value="#{adminProductsBB.root}" var="node" selectionMode="single" selection="#{adminProductsBB.selectedNode}">
 			        <p:ajax event="select" update="listProducts" listener="#{adminProductsBB.onCategorySelect}" />
 			        <p:treeNode>
-			            <h:outputText value="#{node.name}" />
+			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 			        </p:treeNode>
 			    </p:tree>
 			</p:panel>
-			<p:panel id="filter" style="float: right;">
+			<p:panel id="filter" style="float: right; background-color: inherit; border: none;">
 				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
 				<h:inputText id="idTextFilter" value="#{adminProductsBB.textFilter}">
 					 <f:ajax event="keyup" execute="@form" listener="#{adminProductsBB.filtered}" render="listProducts" />
@@ -39,7 +40,7 @@
 					<p:column headerText="Producto" >
 						<h:outputText value="#{prod.name}" />
 					</p:column>
-					<p:column headerText="Tipo">
+					<p:column style="width:32px">
 						<p:commandButton icon="ui-icon-search" action="#{adminProductsBB.showProduct}">
 							<f:setPropertyActionListener value="#{prod}" target="#{adminProductsBB.productSelected}" />
 						</p:commandButton>

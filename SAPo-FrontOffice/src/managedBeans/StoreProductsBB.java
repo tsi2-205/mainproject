@@ -12,6 +12,7 @@ import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.naming.NamingException;
 
 import org.primefaces.event.NodeSelectEvent;
@@ -44,6 +45,10 @@ public class StoreProductsBB implements Serializable {
 	private boolean hayCategorias;
 	private boolean isStoreOwner;
 	
+	// Filtro
+	private List<DataStock> stocksFiltered = new LinkedList<DataStock>();
+	private String textFilter = "";
+	
 	
 	public StoreProductsBB() {
 		super();
@@ -65,8 +70,8 @@ public class StoreProductsBB implements Serializable {
 			session.setProductSelected(null);
 			session.setStockSelected(null);
 			try{
-				this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), null);
-//				this.gemericProducts = Comunicacion.getInstance().getIStoreController().findGenericProductsStore(store.getId());
+				this.stocks = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), null);
+				this.stocksFiltered =this.stocks;
 				this.constructCategoryTree();
 			} catch (NamingException e) {
 				e.printStackTrace();
@@ -74,10 +79,24 @@ public class StoreProductsBB implements Serializable {
 		}
 	}
 	
+	public void filtrar() {
+		this.stocksFiltered = new LinkedList<DataStock>();
+		for (DataStock ds: this.stocks) {
+			String name = ds.getProduct().getName();
+			String t = this.textFilter;
+			if (name.toLowerCase().startsWith(t.toLowerCase())) {
+				this.stocksFiltered.add(ds);
+			}
+		}
+	}
+	
+	public void filtered(AjaxBehaviorEvent event) {
+		filtrar();
+	}
+	
     public void constructCategoryTree() {
     	try {
-			this.categories= Comunicacion.getInstance().getIStoreController().findSpecificCategoriesStore(store.getId());
-//			this.gemericCategories = Comunicacion.getInstance().getIStoreController().findGenericCategoriesStore(store.getId());
+			this.categories= Comunicacion.getInstance().getICategoryController().findSpecificCategoriesStore(store.getId());
 			if (this.categories.isEmpty()) {
 				this.hayCategorias = false;
 			} else {
@@ -87,9 +106,12 @@ public class StoreProductsBB implements Serializable {
 			e.printStackTrace();
 		}
 
-    	this.root = new DefaultTreeNode(new DataCategory(51, "root", "ADFAdf", false), null);
+    	this.root = new DefaultTreeNode(new DataCategory(-2, "root", "", false), null);
+    	this.root.setExpanded(true);
+    	TreeNode raiz = new DefaultTreeNode(new DataCategory(-1, "CATEGORÍAS", "", false), this.root);
+    	raiz.setExpanded(true);
     	for (DataCategory dCat: this.categories) {
-    		constructNodeTree(dCat, this.root);
+    		constructNodeTree(dCat, raiz);
     	}
     	
     }
@@ -103,7 +125,12 @@ public class StoreProductsBB implements Serializable {
     
     public void onCategorySelect(NodeSelectEvent event) {
     	try {
-			this.stocks = Comunicacion.getInstance().getIStoreController().findStockProductsStore(store.getId(), ((DataCategory)selectedNode.getData()).getId());
+    		if (((DataCategory)selectedNode.getData()).getId() == -1) {
+    			this.stocks = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), null);
+    		} else {
+    			this.stocks = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), ((DataCategory)selectedNode.getData()).getId());
+    		}
+    		filtrar();
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -222,4 +249,21 @@ public class StoreProductsBB implements Serializable {
 	public String customizeButton() {
 		return "/pages/Customize.xhtml?faces-redirect=true";
 	}
+
+	public List<DataStock> getStocksFiltered() {
+		return stocksFiltered;
+	}
+
+	public void setStocksFiltered(List<DataStock> stocksFiltered) {
+		this.stocksFiltered = stocksFiltered;
+	}
+
+	public String getTextFilter() {
+		return textFilter;
+	}
+
+	public void setTextFilter(String textFilter) {
+		this.textFilter = textFilter;
+	}
+	
 }

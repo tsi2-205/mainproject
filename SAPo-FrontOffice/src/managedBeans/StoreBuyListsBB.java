@@ -55,7 +55,7 @@ public class StoreBuyListsBB {
 		session.setBuyListSelected(null);
 
 		try {
-			this.buyLists = Comunicacion.getInstance().getIStoreController().findBuyListsStore(store.getId());
+			this.buyLists = Comunicacion.getInstance().getIBuyListController().findBuyListsStore(store.getId());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -84,8 +84,8 @@ public class StoreBuyListsBB {
 	public void deleteBuyList() {
 		if(this.buyListSelected != null) {
 			try {
-				Comunicacion.getInstance().getIStoreController().deleteBuyListsStore(this.buyListSelected.getId(), store.getId());
-				this.buyLists = Comunicacion.getInstance().getIStoreController().findBuyListsStore(store.getId());
+				Comunicacion.getInstance().getIBuyListController().deleteBuyListsStore(this.buyListSelected.getId(), store.getId());
+				this.buyLists = Comunicacion.getInstance().getIBuyListController().findBuyListsStore(store.getId());
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}

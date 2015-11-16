@@ -21,11 +21,12 @@
 				<p:tree value="#{listGenericProductsBB.root}" var="node" selectionMode="single" selection="#{listGenericProductsBB.selectedNode}">
 			        <p:ajax event="select" update="listProducts" listener="#{listGenericProductsBB.onCategorySelect}" />
 			        <p:treeNode>
-			            <h:outputText value="#{node.name}" />
+			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 			        </p:treeNode>
 			    </p:tree>
 			</p:panel>
-			<p:panel id="filter" style="float: right;">
+			<p:panel id="filter" style="float: right; background-color: inherit; border: none;">
 				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
 				<h:inputText id="idTextFilter" value="#{listGenericProductsBB.textFilter}">
 					 <f:ajax event="keyup" execute="@form" listener="#{listGenericProductsBB.filtered}" render="listProducts" />
