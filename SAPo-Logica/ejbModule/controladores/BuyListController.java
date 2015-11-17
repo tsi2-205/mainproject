@@ -76,6 +76,17 @@ public class BuyListController implements IBuyListController {
 		em.remove(buyList);
 	}
 	
+	public void addBuyListStore(int idStore, List<DataElementBuyList> listProducts, String name, String description, DataBuyList dataBuyList) throws ProductNotExistException {
+		BuyList buyList = em.find(BuyList.class, dataBuyList.getId());
+		for (DataElementBuyList elemNew: listProducts) {
+			if (elemNew.getQuantity()>0){
+				Product p = em.find(Product.class, elemNew.getProduct().getId());
+				ElementBuyList de = new ElementBuyList(elemNew.getQuantity(), p );
+				buyList.getElements().add(de);
+			}
+		}
+	}
+	
 	public void editBuyListStore(int idStore, List<DataElementBuyList> listProducts, String name, String description, DataBuyList dataBuyList) throws ProductNotExistException {
 		BuyList buyList = em.find(BuyList.class, dataBuyList.getId());
 		if (buyList == null) {

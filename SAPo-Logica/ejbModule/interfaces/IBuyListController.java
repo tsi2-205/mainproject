@@ -27,5 +27,8 @@ public interface IBuyListController {
 	public void checkElementBuyList(int idElementBuyList, int idStore, int precio);
 	
 	public List<DataStock> buyRecommendation(int id, DataBuyList db);
+	
+	public void addBuyListStore(int idStore, List<DataElementBuyList> listProducts, String name, String description, DataBuyList dataBuyList) throws ProductNotExistException;
+	
 
 }

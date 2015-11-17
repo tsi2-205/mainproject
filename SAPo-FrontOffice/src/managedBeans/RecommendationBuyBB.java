@@ -89,7 +89,7 @@ public class RecommendationBuyBB implements Serializable{
 			}
 		}
 		try {
-			Comunicacion.getInstance().getIBuyListController().editBuyListStore(this.store.getId(), elements, this.buyList.getName(), this.buyList.getDescription(), this.buyList);
+			Comunicacion.getInstance().getIBuyListController().addBuyListStore(this.store.getId(), elements, this.buyList.getName(), this.buyList.getDescription(), this.buyList);
 			FacesMessage msg = new FacesMessage("Los productos han sido agregados a la lista de compras");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	        ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
