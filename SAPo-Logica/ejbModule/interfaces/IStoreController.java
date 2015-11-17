@@ -56,6 +56,8 @@ public interface IStoreController {
 	
 	public DataCategory findCategoryProduct(int idProduct);
 	
+	public String findImageProduct(int idProduct);
+	
 	public List<DataUser> findUsers();
 	
 	public void shareStore(int storeId, List<DataUser> users);

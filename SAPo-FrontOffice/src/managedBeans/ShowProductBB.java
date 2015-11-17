@@ -36,9 +36,10 @@ public class ShowProductBB {
 		ValueExpression ve = ef.createValueExpression(contextoEL, "#{sessionBB}",SessionBB.class);
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.stockSelected = session.getStockSelected();
+		int id = this.stockSelected.getProduct().getId();
 		try {
-			this.category = Comunicacion.getInstance().getIStoreController().findCategoryProduct(this.stockSelected.getProduct().getId());
-			this.prodImage = this.stockSelected.getProduct().getImage();
+			this.category = Comunicacion.getInstance().getIStoreController().findCategoryProduct(id);
+			this.prodImage = Comunicacion.getInstance().getIStoreController().findImageProduct(id);
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

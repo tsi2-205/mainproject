@@ -248,6 +248,10 @@ public class StoreController implements IStoreController {
 		return category;
 	}
 	
+	public String findImageProduct(int idProduct){
+		return em.find(SpecificProduct.class, idProduct).getImagenProducto();
+	}
+	
 	public List<DataUser> findUsers() {
 		List<DataUser> ret = new LinkedList<DataUser>();
 		String queryStr = "SELECT reg FROM Registered reg";
