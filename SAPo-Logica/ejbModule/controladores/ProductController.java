@@ -73,7 +73,7 @@ public class ProductController implements IProductController {
 		return result;
 	}
 	
-	public void editProductStore(DataStock stock, int idStore, Integer idCategory) throws ExistCategoryException {
+	public void editProductStore(DataStock stock, int idStore, Integer idCategory, String laImagen) throws ExistCategoryException {
 		Store store = em.find(Store.class, idStore);
 		Product p = em.find(Product.class, stock.getProduct().getId());
 		String queryStr = "SELECT sp FROM Store s join s.specificsProducts sp WHERE sp.name = :name AND sp.id <> :id";
@@ -117,7 +117,8 @@ public class ProductController implements IProductController {
 			}
 			p.setName(stock.getProduct().getName());
 			p.setDescription(stock.getProduct().getDescription());
-			
+			p = (SpecificProduct)p;
+
 			List<ProductAdditionalAttribute> listAux = new LinkedList<ProductAdditionalAttribute>();
 			for (ProductAdditionalAttribute atr: p.getAdditionalAttributes()) {
 				boolean exist = false;
@@ -156,7 +157,11 @@ public class ProductController implements IProductController {
 				p.getAdditionalAttributes().add(paa);
 			}
 			
-			em.merge(p);
+			SpecificProduct sp = (SpecificProduct)p;
+			sp.setImagenProducto(laImagen);
+			em.merge(sp);
+			
+			
 			Stock stk = em.find(Stock.class, stock.getId());
 			if (stk.getCantidadMax() != stock.getCantidadMax() || stk.getCantidadMin() != stock.getCantidadMin()) {
 				stk.setCantidadMax(stock.getCantidadMax());

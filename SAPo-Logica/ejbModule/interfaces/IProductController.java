@@ -17,7 +17,7 @@ public interface IProductController {
 	
 	public void createSpecificProduct(String name, String description, Integer stockMin, Integer stockMax, int idStore, List<DataProductAdditionalAttribute> additionalAttributes, int idCategory, String imagenProducto);
 	
-	public void editProductStore(DataStock stock, int idStore, Integer idCategory) throws ExistCategoryException;
+	public void editProductStore(DataStock stock, int idStore, Integer idCategory, String laImagen) throws ExistCategoryException;
 	
 	public int changeStockProduct(int idStore, int idProduct, int movCant, int movPrecio, int tipo);
 	
