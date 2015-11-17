@@ -28,6 +28,16 @@ public class DataProduct implements Serializable {
 		super();
 	}
 	
+	
+	public DataProduct(int id, String name, String description, boolean isGeneric, List<DataProductAdditionalAttribute> additionalAttributes ) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.isGeneric = isGeneric;
+		this.additionalAttributes = additionalAttributes;
+	}
+	
 	public DataProduct(int id, String name, String description, boolean isGeneric, List<DataProductAdditionalAttribute> additionalAttributes , String img) {
 		super();
 		this.id = id;

@@ -20,6 +20,7 @@ public class ShowProductBB {
 	
 	private DataStock stockSelected;
 	private DataCategory category;
+	private String prodImage;
 	
 	public ShowProductBB() {
 		super();
@@ -37,11 +38,18 @@ public class ShowProductBB {
 		this.stockSelected = session.getStockSelected();
 		try {
 			this.category = Comunicacion.getInstance().getIStoreController().findCategoryProduct(this.stockSelected.getProduct().getId());
+			this.prodImage = this.stockSelected.getProduct().getImage();
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public String getProdImage() {
+		return prodImage;
+	}
+	
 	
 	public String editProduct() {
 		return "/pages/NewProduct.xhtml?faces-redirect=true";

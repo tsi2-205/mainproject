@@ -27,7 +27,12 @@
 					<h:outputText id="stockMin" label="Stock mínimo:" value="#{showProductBB.stockSelected.cantidadMin}" ></h:outputText>
 					<h:outputLabel for="stockMax" value="Stock máximo:"/>
 					<h:outputText id="stockMax" label="Stock máximo:" value="#{showProductBB.stockSelected.cantidadMax}" ></h:outputText>
+					<h:outputLabel for="retrImagenDeProducto" value="Imagen De Producto"/>					
+					<img alt="aca deberia mostrar la imagen" id="properProductImage" src="#{showProductBB.prodImage}"/>
+						
+					
 				</p:panelGrid>
+				
 			</p:panel>
 			<p:panel rendered="#{not empty showProductBB.stockSelected.product.additionalAttributes}">
 				<h:outputText value="Atributos adicionales" styleClass="title2"/>
