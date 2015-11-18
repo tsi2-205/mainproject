@@ -25,3 +25,13 @@
 	margin-top: 0% !important;
 	min-height: 150px;
 }
+
+#basicInfoPanel .ui-widget-content {
+	border: none !important;
+	background: none !important;
+}
+
+#basicInfoPanel {
+	border: none !important;
+	width: 25%;
+}

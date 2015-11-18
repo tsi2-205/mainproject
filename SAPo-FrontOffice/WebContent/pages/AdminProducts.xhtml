@@ -17,7 +17,7 @@
 			<p:separator style="clear: both;"></p:separator>
 			<p:panel id="panelCategories">
 				<h:outputText rendered="#{!adminProductsBB.hayCategorias}" value="No hay categorías" styleClass="title2"></h:outputText>
-				<p:tree value="#{adminProductsBB.root}" var="node" selectionMode="single" selection="#{adminProductsBB.selectedNode}">
+				<p:tree rendered="#{adminProductsBB.hayCategorias}" value="#{adminProductsBB.root}" var="node" selectionMode="single" selection="#{adminProductsBB.selectedNode}">
 			        <p:ajax event="select" update="listProducts" listener="#{adminProductsBB.onCategorySelect}" />
 			        <p:treeNode>
 			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />

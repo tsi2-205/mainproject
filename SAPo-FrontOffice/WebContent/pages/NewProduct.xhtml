@@ -19,8 +19,9 @@
 			<p:commandButton rendered="#{newProductBB.edition and newProductBB.stockSelected.product.generic}" value="Agregar" action="#{newProductBB.create}" style="float:right;"></p:commandButton>
 			<p:commandButton rendered="#{newProductBB.edition and not newProductBB.stockSelected.product.generic}" value="Guardar" action="#{newProductBB.create}" style="float:right;"></p:commandButton>
 			<p:separator style="clear: both;"></p:separator>
-			<p:panel>
-				<h:outputText value="Debe elegir una categoría" styleClass="title2"/>
+			<p:panel id="idPanelCat">
+				<h:outputText rendered="#{!newProductBB.edition or newProductBB.stockSelected.product.generic}" value="Debe elegir una categoría" styleClass="title2"/>
+				<h:outputText rendered="#{newProductBB.edition and not newProductBB.stockSelected.product.generic}" value="Puede cambiar la categoría" styleClass="title2"/>
 				<p:separator></p:separator>
 				<p:tree value="#{newProductBB.root}" var="node" selectionMode="single" selection="#{newProductBB.selectedNode}">
 			        <p:treeNode>
@@ -65,17 +66,17 @@
 					<p:panelGrid columns="3" layout="grid">
 						<h:outputLabel value="#{attribute.nameAttribute}:"/>
 						<h:inputText label="#{attribute.nameAttribute}:" value="#{attribute.valueAttribute}" ></h:inputText>
-						<p:commandButton rendered="#{!newProductBB.edition}" action="#{newProductBB.deleteAttributeSelectedCreate}" update=":form" icon="ui-icon-close">
+						<p:commandButton title="Eliminar atributo adicional" rendered="#{!newProductBB.edition}" action="#{newProductBB.deleteAttributeSelectedCreate}" update=":form" icon="ui-icon-close">
 	                    	<f:setPropertyActionListener value="#{attribute}" target="#{newProductBB.attributeSelected}" />
 	                    </p:commandButton>
-	                    <p:commandButton rendered="#{newProductBB.edition}" action="#{newProductBB.deleteAttributeSelectedEdition}" update=":form" icon="ui-icon-close">
+	                    <p:commandButton title="Eliminar atributo adicional" rendered="#{newProductBB.edition}" action="#{newProductBB.deleteAttributeSelectedEdition}" update=":form" icon="ui-icon-close">
 	                    	<f:setPropertyActionListener value="#{attribute}" target="#{newProductBB.attributeSelected}" />
 	                    </p:commandButton>
 					</p:panelGrid>
 				</p:dataGrid>
 			</p:panel>
 			<p:commandButton value="Nuevo atributo" update=":form:AdditionalAttributes"
-				oncomplete="PF('newAttributeDialog').show()" title="Nuevo atributo">
+				oncomplete="PF('newAttributeDialog').show()" title="Puede agregar nuevos atributos a su producto">
 			</p:commandButton>
 			
 

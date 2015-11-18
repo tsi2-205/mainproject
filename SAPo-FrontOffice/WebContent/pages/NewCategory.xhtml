@@ -1,22 +1,190 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition template="/WEB-INF/templates/Layout2.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core" 
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
-	<ui:define name="title">
-		<h:outputText value="Login" />
-	</ui:define>
-	<ui:define name="Principal">
-		<h:form id="form" prependId="false">
-			<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
-				<h:outputLabel for="name" value="Nombre:"/>
-				<h:inputText id="name" label="Nombre:" value="#{newCategoryBB.name}" ></h:inputText>
-				<h:outputLabel for="description" value="Descripción:"/>
-				<h:inputText id="description" label="Descripción:" value="#{newCategoryBB.description}" ></h:inputText>
-			</p:panelGrid>
-			<p:commandButton value="Crear" action="#{newCategoryBB.create}"></p:commandButton>
-		</h:form>
-	</ui:define>
-</ui:composition>
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link type="text/css" rel="stylesheet"
+	href="/showcase/javax.faces.resource/theme.css.xhtml?ln=primefaces-aristo" />
+<link type="text/css" rel="stylesheet"
+	href="/showcase/javax.faces.resource/fa/font-awesome.css.xhtml?ln=primefaces&amp;v=5.3" />
+<link type="text/css" rel="stylesheet"
+	href="/showcase/javax.faces.resource/main/css/showcase.css.xhtml" />
+<link type="text/css" rel="stylesheet"
+	href="/showcase/javax.faces.resource/main/css/sh.css.xhtml" />
+<link type="text/css" rel="stylesheet"
+	href="/showcase/javax.faces.resource/primefaces.css.xhtml?ln=primefaces&amp;v=5.3" />
+<link type="text/css" rel="stylesheet"
+	href="/showcase/javax.faces.resource/layout/layout.css.xhtml?ln=primefaces&amp;v=5.3" />
+<script type="text/javascript"
+	src="/showcase/javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces&amp;v=5.3"></script>
+<script type="text/javascript"
+	src="/showcase/javax.faces.resource/jquery/jquery-plugins.js.xhtml?ln=primefaces&amp;v=5.3"></script>
+<script type="text/javascript"
+	src="/showcase/javax.faces.resource/primefaces.js.xhtml?ln=primefaces&amp;v=5.3"></script>
+<script type="text/javascript"
+	src="/showcase/javax.faces.resource/layout/layout.js.xhtml?ln=primefaces&amp;v=5.3"></script>
+<script type="text/javascript"
+	src="/showcase/javax.faces.resource/validation/validation.js.xhtml?ln=primefaces&amp;v=5.3"></script>
+<script type="text/javascript"
+	src="/showcase/javax.faces.resource/validation/beanvalidation.js.xhtml?ln=primefaces&amp;v=5.3"></script>
+<script type="text/javascript">
+	if (window.PrimeFaces) {
+		PrimeFaces.settings.locale = 'en';
+		PrimeFaces.settings.validateEmptyFields = true;
+		PrimeFaces.settings.considerEmptyStringNull = false;
+	}
+</script>
+<style type="text/css">
+body {
+	background-color: #FFFFFF;
+}
+</style>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push([ '_setAccount', 'UA-12200033-1' ]);
+	_gaq.push([ '_trackPageview' ]);
+
+	(function() {
+		var ga = document.createElement('script');
+		ga.type = 'text/javascript';
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+				: 'http://www')
+				+ '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+</head>
+<body>
+	<script id="j_idt7_s" type="text/javascript">
+		$(function() {
+			PrimeFaces.cw("Layout", "widget_j_idt7", {
+				id : "j_idt7",
+				full : true,
+				north : {
+					paneSelector : '#j_idt8',
+					size : "100",
+					resizable : false,
+					closable : false
+				},
+				south : {
+					paneSelector : '#j_idt10',
+					size : "100",
+					resizable : false,
+					closable : false
+				},
+				west : {
+					paneSelector : '#j_idt12',
+					size : "200",
+					resizable : false,
+					closable : false
+				},
+				east : {
+					paneSelector : '#j_idt14',
+					size : "200",
+					resizable : false,
+					closable : false
+				},
+				center : {
+					paneSelector : '#j_idt16',
+					size : "auto",
+					resizable : false,
+					closable : false
+				}
+			}, "layout");
+		});
+	</script>
+	<div id="j_idt8"
+		class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-north">
+		<div class="ui-layout-unit-content ui-widget-content">North unit
+			content.</div>
+	</div>
+	<div id="j_idt10"
+		class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-south">
+		<div class="ui-layout-unit-content ui-widget-content">South unit
+			content.</div>
+	</div>
+	<div id="j_idt12"
+		class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-west">
+		<div class="ui-layout-unit-content ui-widget-content">West unit
+			content.</div>
+	</div>
+	<div id="j_idt14"
+		class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-east">
+		<div class="ui-layout-unit-content ui-widget-content">Right unit
+			content.</div>
+	</div>
+	<div id="j_idt16"
+		class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-center">
+		<script id="j_idt17_s" type="text/javascript">
+			$(function() {
+				PrimeFaces.cw("Layout", "widget_j_idt17", {
+					id : "j_idt17",
+					parent : "j_idt16",
+					north : {
+						paneSelector : '#j_idt18',
+						size : "100",
+						resizable : false,
+						closable : false
+					},
+					south : {
+						paneSelector : '#j_idt20',
+						size : "100",
+						resizable : false,
+						closable : false
+					},
+					west : {
+						paneSelector : '#j_idt22',
+						size : "200",
+						resizable : false,
+						closable : false
+					},
+					east : {
+						paneSelector : '#j_idt24',
+						size : "200",
+						resizable : false,
+						closable : false
+					},
+					center : {
+						paneSelector : '#j_idt26',
+						size : "auto",
+						resizable : false,
+						closable : false
+					}
+				}, "layout");
+			});
+		</script>
+		<div id="j_idt18"
+			class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-north">
+			<div class="ui-layout-unit-content ui-widget-content">Middle
+				top unit content.</div>
+		</div>
+		<div id="j_idt20"
+			class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-south">
+			<div class="ui-layout-unit-content ui-widget-content">Middle
+				south unit content.</div>
+		</div>
+		<div id="j_idt22"
+			class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-west">
+			<div class="ui-layout-unit-content ui-widget-content">Middle
+				left unit content.</div>
+		</div>
+		<div id="j_idt24"
+			class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-east">
+			<div class="ui-layout-unit-content ui-widget-content">Middle
+				right unit content.</div>
+		</div>
+		<div id="j_idt26"
+			class="ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-center">
+			<div class="ui-layout-unit-content ui-widget-content">Middle
+				center unit content.</div>
+		</div>
+	</div>
+
+	<script language="javascript" src="/showcase/resources/main/js/sh.js"></script>
+	<script language="javascript">
+		SyntaxHighlighter.all();
+	</script>
+</body>
+
+
+</html>
