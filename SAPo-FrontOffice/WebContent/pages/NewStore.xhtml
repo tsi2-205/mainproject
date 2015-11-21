@@ -12,7 +12,7 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			<h:panelGrid columns="2">
-				<h:outputLabel for="name" value="Nombre:"/>
+				<h:outputLabel styleClass="etiqOblig" title="Campo obligatorio" for="name" value="Nombre:"/>
 				<h:inputText id="name" label="Nombre:" value="#{newStoreBB.name}" ></h:inputText>
 				<h:outputLabel for="city" value="Ciudad:"/>
 				<h:inputText id="city" label="Ciudad:" value="#{newStoreBB.city}" ></h:inputText>

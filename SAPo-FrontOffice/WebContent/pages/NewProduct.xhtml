@@ -34,13 +34,13 @@
 				<h:outputText value="Atributos básicos" styleClass="title2"/>
 				<p:separator></p:separator>
 				<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
-					<h:outputLabel for="name" value="Nombre:"/>
+					<h:outputLabel styleClass="etiqOblig" title="Campo obligatorio" for="name" value="Nombre:"/>
 					<h:inputText id="name" label="Nombre:" value="#{newProductBB.name}" ></h:inputText>
 					<h:outputLabel for="description" value="Descripción:"/>
-					<h:inputText id="description" label="Descripción:" value="#{newProductBB.description}" ></h:inputText>
-					<h:outputLabel for="stockMin" value="Stock mínimo:"/>
+					<h:inputTextarea id="description" label="Descripción:" value="#{newProductBB.description}" ></h:inputTextarea>
+					<h:outputLabel styleClass="etiqOblig" title="Campo obligatorio" for="stockMin" value="Stock mínimo:"/>
 					<h:inputText id="stockMin" label="Stock mínimo:" value="#{newProductBB.stockMin}" ></h:inputText>
-					<h:outputLabel for="stockMax" value="Stock máximo:"/>
+					<h:outputLabel styleClass="etiqOblig" title="Campo obligatorio" for="stockMax" value="Stock máximo:"/>
 					<h:inputText id="stockMax" label="Stock máximo:" value="#{newProductBB.stockMax}" ></h:inputText>
 				</p:panelGrid>
 				

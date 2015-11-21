@@ -34,10 +34,10 @@
 			<p:panel id="basicAttributes">
 				<h:outputText styleClass="title2" rendered="#{!categoryDetailBB.hayCategoriaSeleccionada}" value="Seleccione una categoria para editar"></h:outputText>
 				<p:panelGrid id="basicAttributesPanel" columns="2" layout="grid" rendered="#{categoryDetailBB.hayCategoriaSeleccionada}">
-					<h:outputLabel for="name1" value="Nombre:"/>
+					<h:outputLabel styleClass="etiqOblig" title="Campo obligatorio" for="name1" value="Nombre:"/>
 					<h:inputText id="name1" label="Nombre:" value="#{categoryDetailBB.name}" ></h:inputText>
 					<h:outputLabel for="description1" value="Descripción:"/>
-					<h:inputText id="description1" label="Descripción:" value="#{categoryDetailBB.description}" ></h:inputText>
+					<h:inputTextarea id="description1" label="Descripción:" value="#{categoryDetailBB.description}" ></h:inputTextarea>
 				</p:panelGrid>
 				<p:panel id="basicAttributesButtoms" rendered="#{categoryDetailBB.hayCategoriaSeleccionada}">
 					<p:commandButton value="Guardar" action="#{categoryDetailBB.editCategorySelect}" update=":form" />
@@ -49,10 +49,10 @@
 				<p:panel id="createSubCategory" rendered="#{categoryDetailBB.seeCreateSubSeleccionada}">
 					<h:outputText styleClass="title2" value="Ingrese aquí la nueva subcategoría de #{categoryDetailBB.categorySelected.name}" />
 					<p:panelGrid id="createSubCategoryData" columns="2" layout="grid">
-						<h:outputLabel for="name2" value="Nombre:"/>
+						<h:outputLabel styleClass="etiqOblig" title="Campo obligatorio" for="name2" value="Nombre:"/>
 						<h:inputText id="name2" label="Nombre:" value="#{categoryDetailBB.nameNew}" ></h:inputText>
 						<h:outputLabel for="description2" value="Descripción:"/>
-						<h:inputText id="description2" label="Descripción:" value="#{categoryDetailBB.descriptionNew}" ></h:inputText>
+						<h:inputTextarea id="description2" label="Descripción:" value="#{categoryDetailBB.descriptionNew}" ></h:inputTextarea>
 					</p:panelGrid>
 					<p:commandButton value="Crear" action="#{categoryDetailBB.createSub}" update=":form" />
 				</p:panel>
@@ -61,10 +61,10 @@
 				<p:panel id="createNewCategory" rendered="#{categoryDetailBB.seeCreateNewSeleccionada}">
 					<h:outputText styleClass="title2" value="Ingrese aquí la nueva categoría" />
 					<p:panelGrid id="createNewCategoryData" columns="2" layout="grid">
-						<h:outputLabel for="name3" value="Nombre:"/>
+						<h:outputLabel styleClass="etiqOblig" title="Campo obligatorio" for="name3" value="Nombre:"/>
 						<h:inputText id="name3" label="Nombre:" value="#{categoryDetailBB.nameNew}" ></h:inputText>
 						<h:outputLabel for="description3" value="Descripción:"/>
-						<h:inputText id="description3" label="Descripción:" value="#{categoryDetailBB.descriptionNew}" ></h:inputText>
+						<h:inputTextarea id="description3" label="Descripción:" value="#{categoryDetailBB.descriptionNew}" ></h:inputTextarea>
 					</p:panelGrid>
 					<p:commandButton value="Crear" action="#{categoryDetailBB.createNew}" update=":form" />
 				</p:panel>

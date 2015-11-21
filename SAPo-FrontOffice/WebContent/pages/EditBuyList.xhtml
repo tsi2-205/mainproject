@@ -28,11 +28,11 @@
 			<p:commandButton style="clear: both; float: right" id="ListRec" value="Recomendar Compra" action="#{editBuyListBB.buyRecommendation}"></p:commandButton>
 			<p:separator style="clear: both;"></p:separator>
 			
-			<p:panelGrid columns="2" styleClass="basicInfoPanel">
-				<h:outputLabel for="name" value="Nombre:"/>
+			<p:panelGrid columns="2" id="basicInfoPanel" layout="grid">
+				<h:outputLabel styleClass="etiqOblig" title="Campo obligatorio" for="name" value="Nombre:"/>
 				<h:inputText id="name" label="Nombre:" value="#{editBuyListBB.name}" ></h:inputText>
 				<h:outputLabel for="description" value="Descripción:"/>
-				<h:inputText id="description" label="Descripción:" value="#{editBuyListBB.description}" ></h:inputText>
+				<h:inputTextarea id="description" label="Descripción:" value="#{editBuyListBB.description}" ></h:inputTextarea>
 		    </p:panelGrid>
 			
 			<p:separator style="clear: both;"></p:separator>
@@ -58,10 +58,10 @@
 		                <p:column headerText="Name">
 			                <h:outputText value="#{prod1.product.name}" />
 			            </p:column>
-		                <p:column  headerText="Cantidad" style="width: 60px; text-align: center;">
+		                <p:column headerText="Cantidad" style="width: 60px; text-align: center;">
 			                <p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{prod1.quantity}" />
+									<h:outputText title="Click aquí para cambiar el precio" value="#{prod1.quantity}" />
 								</f:facet>
 								<f:facet name="input">
 									<p:inputText id="modelInput" value="#{prod1.quantity}" style="width:96%" />

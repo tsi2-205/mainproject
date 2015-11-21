@@ -28,10 +28,10 @@
 				<h:outputText value="Atributos básicos de su nuevo producto" styleClass="title2"/>
 				<p:separator></p:separator>
 				<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
-					<h:outputLabel for="name" value="Nombre:"/>
+					<h:outputLabel styleClass="etiqOblig" title="Campo obligatorio" for="name" value="Nombre:"/>
 					<h:inputText id="name" label="Nombre:" value="#{genericProductBB.product.name}" ></h:inputText>
 					<h:outputLabel for="description" value="Descripción:"/>
-					<h:inputText id="description" label="Descripción:" value="#{genericProductBB.product.description}" ></h:inputText>
+					<h:inputTextarea id="description" label="Descripción:" value="#{genericProductBB.product.description}" ></h:inputTextarea>
 				</p:panelGrid>
 			</p:panel>
 			<p:panel rendered="#{not empty genericProductBB.product.additionalAttributes}">
