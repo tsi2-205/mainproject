@@ -21,7 +21,8 @@ public class BuyList implements Serializable {
 	
     private String description;
     
-    private Calendar fecha;
+    @Temporal(TemporalType.TIMESTAMP)
+	private Calendar fecha;
     
     @Version
     private int version;

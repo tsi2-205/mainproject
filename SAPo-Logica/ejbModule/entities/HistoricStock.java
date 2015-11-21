@@ -18,6 +18,7 @@ public class HistoricStock implements Serializable {
 	@Version
 	private int version;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar fecha;
 	
 	private int cantChange;

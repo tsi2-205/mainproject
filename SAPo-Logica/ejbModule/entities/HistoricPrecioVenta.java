@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
@@ -25,6 +27,7 @@ public class HistoricPrecioVenta implements Serializable {
 	@Version
     private int version;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar fecha;
 	
 	private int precioVenta;

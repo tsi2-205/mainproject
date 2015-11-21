@@ -22,6 +22,7 @@ public class Notification implements Serializable {
 	
 	private boolean isRead;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
 	
 	@ManyToOne
