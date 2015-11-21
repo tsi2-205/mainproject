@@ -9,11 +9,7 @@
 	<h:outputStylesheet library="styles" name="header.css" />
 	<h:form prependId="false">
 		<h:panelGrid id="headerTitle">
-			<h:commandLink rendered="#{sessionBB.storeSelected != null}" action="StoreDetail" value="#{sessionBB.storeSelected.name}" style="font-family: sans-serif;
-				font-size: 30px;
-				color: white;
-				font-weight: 1.5em;
-				font: bold; text-decoration: unset;"/>
+			<h:commandLink id="nombreComercioSuperior" rendered="#{sessionBB.storeSelected != null}" action="StoreDetail" value="#{sessionBB.storeSelected.name}" />
 		</h:panelGrid>
 		<div id="linksHeader">
 			<h:outputText style="width: 70%; float: left; margin-top: 30px;" id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
