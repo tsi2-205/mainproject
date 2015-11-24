@@ -10,12 +10,37 @@
 		<h:outputStylesheet library="styles" name="storeDetails.css" />
 	</ui:define>
 	<ui:define name="Principal">
-	   <h:outputLabel for="name" value="Customizar Almacén"/>
+	   <h:outputLabel for="name" value="Descargar CSS de Ejemplo"/>
+	   
+	   <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+   		 	<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+		</p:dialog>
+ 		<h:form>
+    		<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+        		<p:fileDownload value="#{customizeBB.fileDown}" />
+    		</p:commandButton>
+		</h:form>
+ 
+		<script type="text/javascript">
+			function start() {
+    			PF('statusDialog').show();
+			}
+ 
+			function stop() {
+    			PF('statusDialog').hide();
+			}
+		</script>
+	   
 	   <p:separator></p:separator>
+	   <h:outputLabel for="name" value="Customizar Almacén - Cargar CSS"/>
+	   
 		<h:form enctype="multipart/form-data">
     		<p:growl id="messages" showDetail="true" />
  			<p:fileUpload value="#{customizeBB.file}" mode="simple" skinSimple="true"/>
  			<p:commandButton value="Aceptar" ajax="false" actionListener="#{customizeBB.upload}" />
 		</h:form>
+		
+		
+		
 	</ui:define>
 </ui:composition>

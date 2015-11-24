@@ -1,8 +1,7 @@
 package managedBeans;
 
-import java.io.IOException;
+
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.sql.SQLException;
 
@@ -19,10 +18,11 @@ import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 import javax.sql.rowset.serial.SerialException;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import comunication.Comunicacion;
-
 import datatypes.DataStore;
 
 
@@ -33,6 +33,8 @@ public class CustomizeBB implements Serializable{
 	
 	private UploadedFile file;
 	private DataStore store;
+	private StreamedContent fileDown;
+	
 	
 	public CustomizeBB() {
 		// TODO Auto-generated constructor stub
@@ -48,6 +50,9 @@ public class CustomizeBB implements Serializable{
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.store = session.getStoreSelected();
 		this.file=null;
+		InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/styles/layout2.css");
+		this.fileDown = new DefaultStreamedContent(stream,"text/css", "descargaCSS.css");
+		System.out.print(fileDown.getName());
 	}
 	
 	public UploadedFile getFile() {
@@ -65,7 +70,15 @@ public class CustomizeBB implements Serializable{
 	public void setStore(DataStore store) {
 		this.store = store;
 	}
-    
+	
+	public StreamedContent getFileDown() {
+		return fileDown;
+	}
+
+	public void setFileDown(StreamedContent fileDown) {
+		this.fileDown = fileDown;
+	}
+
 	public void upload() throws SerialException, SQLException, NamingException {
         if(this.file != null) {
         	byte[] input = this.file.getContents();
@@ -76,6 +89,8 @@ public class CustomizeBB implements Serializable{
 		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
 		configurableNavigationHandler.performNavigation("/pages/StoreMoves.xhtml?faces-redirect=true");
     }
+	
+	
      
    /* public void upload() throws SerialException, SQLException, NamingException, IOException {
     	
