@@ -177,22 +177,26 @@ public class BuyListController implements IBuyListController {
 		for (Object o: query.getResultList()) {
 			Product product =(Product)o;
 			DataProduct dataP= new DataProduct (product);
-			String queryStr1 = "SELECT(h.stock - c.cantidad) FROM Stock c, HistoricStock h WHERE c.store = :store and now()>h.fecha and c.cantidad<5 and c.product= :product and h.product= :product and h.store=c.store and h.tipo=1 and h.fecha > all(SELECT j.fecha FROM HistoricStock j where j.store=h.store and j.product=h.product and j.tipo=1 and h.fecha<>j.fecha)";
-			Query query1 = em.createQuery(queryStr1);
-			query1.setParameter("store", store);
-			query1.setParameter("product", product);
-			int i =(int)query1.getSingleResult();
-			boolean noAdd=false;
-			for (ElementBuyList eb: buy.getElements()){
+			String queryStrCond = "SELECT h FROM HistoricStock h WHERE h.product.id = :idProd";
+			Query queryCond = em.createQuery(queryStrCond);
+			queryCond.setParameter("idProd", product.getId());
+			if (!queryCond.getResultList().isEmpty()) {
+				String queryStr1 = "SELECT(h.stock - c.cantidad) FROM Stock c, HistoricStock h WHERE c.store = :store and now()>h.fecha and c.cantidad<5 and c.product= :product and h.product= :product and h.store=c.store and h.tipo=1 and h.fecha > all(SELECT j.fecha FROM HistoricStock j where j.store=h.store and j.product=h.product and j.tipo=1 and h.fecha<>j.fecha)";
+				Query query1 = em.createQuery(queryStr1);
+				query1.setParameter("store", store);
+				query1.setParameter("product", product);
+				int i =(int)query1.getSingleResult();
+				boolean noAdd=false;
+				for (ElementBuyList eb: buy.getElements()){
 					if (eb.getProduct()==product){
 						noAdd=true;
 					}
+				}
+				DataStock ds = new DataStock(i, dataP);
+				if (!noAdd){
+					result.add(ds);
+				}
 			}
-			DataStock ds = new DataStock(i, dataP);
-			if (!noAdd){
-				result.add(ds);
-			}
-			
 		}
 		return result;
 	}
