@@ -25,6 +25,7 @@
 		
 			<h:outputText value="Nueva lista" styleClass="title1"></h:outputText>
 			<p:commandButton style="clear: both; float: right" id="okNewList" value="Crear" action="#{newBuyListBB.createBuyList}"></p:commandButton>
+			<p:commandButton update=":form" style="clear: both; float: right" id="ListRec" value="Recomendar Compra" action="#{newBuyListBB.buyRecommendation}"></p:commandButton>
 			<p:separator style="clear: both;"></p:separator>
 			
 			<p:panelGrid columns="2" id="basicInfoPanel" layout="grid">
