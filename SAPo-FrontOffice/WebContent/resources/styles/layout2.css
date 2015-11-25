@@ -1,22 +1,40 @@
 @CHARSET "ISO-8859-1";
 
-
+#exitButton {
+	border: none !important;
+	background: #3a9979 !important;
+	color: #f2f2f2 !important;
+	padding: 10px !important;
+	font-size: 18px !important;
+	border-radius: 5px !important;
+	position: relative !important;
+	box-sizing: border-box !important;
+	transition: all 500ms ease !important;
+	width: 75px !important;
+	padding-top: 3px !important;
+	padding-bottom: 3px !important;
+	position: absolute !important;
+	margin-left:730px !important;
+	margin-top: 30px !important;
+}
+	
+#exitButton:hover {
+	background: #FFFFFF !important;
+ 	color: #3a9979 !important;
+ 	box-shadow: inset 0 0 0 3px #3a9979 !important;
+}
 .ui-tree {
 	width: 100% !important;
 	border: none !important;
 }
-
 .ui-spinner {
 	width: 100% !important;
 }
-
 .ui-widget-content .ui-inputfield {
 	width: 100% !important;
 }
-
 input[type='text'] { border-color:green; padding:3px; font-size:17px; border-radius:13px; border-width:1px; border-style:solid;  } 
 input[type='text']:focus { outline:none; } 
-
 #linkStoreMoves, #linkStoreDetail, #linkStoreBuyLists { font-size: 16px !important;}
 a { color:green !important; }
 #linkSalir {
@@ -39,7 +57,6 @@ a { color:green !important; }
   text-decoration: none !important;
   
 }
-
 #linkSalir:hover {
   background: #bd0000 !important;
   background-image: -webkit-linear-gradient(top, #bd0000, #520101) !important;
@@ -49,9 +66,6 @@ a { color:green !important; }
   background-image: linear-gradient(to bottom, #bd0000, #520101) !important;
   text-decoration: none;
 }
-
-
-
 #header {
     border-style: solid;
     border-width: 2px;
@@ -63,7 +77,6 @@ a { color:green !important; }
 
 
 }
-
 #footer {
 	background-image: -ms-linear-gradient(top, #E4E4E4 0%, #7BB800 100%); 
 	background-image: -moz-linear-gradient(top, #E4E4E4 0%, #7BB800 100%);
@@ -72,11 +85,9 @@ a { color:green !important; }
 	background-image: -webkit-linear-gradient(top, #E4E4E4 0%, #7BB800 100%);
 	background-image: linear-gradient(to bottom, #E4E4E4 0%, #7BB800 100%);
 }
-
 #menuBar{
 	height: 16px;
 }
-
 a{
 	text-decoration: none !important;
 }
@@ -91,7 +102,6 @@ a:hover {
 	font: bold;
 	text-decoration: unset;"
 }
-
 #center{
     border-style: solid;
 	border-top-width: 0px;
@@ -100,18 +110,13 @@ a:hover {
 	border-right-width: 0px;
     border-color: green;
 }
-
-
 #headerTitle{ margin-left: 50px;}
-
 .ui-datalist-header { color: green !important; }
 .ui-column-title { color: green; }
-
 #nonAjax{
 	float: right;
 	color: green;
 }
-
 input[type='submit'] {
   background: #008900 !important;
   background-image: -webkit-linear-gradient(top, #008900, #7AB800) !important;
@@ -132,7 +137,6 @@ input[type='submit'] {
   padding: 1px 4px 1px 4px !important;
   text-decoration: none !important;
 }
-
 .ui-button {
   background: #008900 !important;
   background-image: -webkit-linear-gradient(top, #008900, #7AB800) !important;
@@ -153,7 +157,6 @@ input[type='submit'] {
   padding: 1px 4px 1px 4px !important;
   text-decoration: none !important;
 }
-
 .ui-button:hover {
   background: #00AA00 !important;
   background-image: -webkit-linear-gradient(top, #00AA00, #008900) !important;
@@ -163,7 +166,6 @@ input[type='submit'] {
   background-image: linear-gradient(to bottom, #00AA00, #008900) !important;
   text-decoration: none;
 }
-
 body,html {
 	height:100%;
 	font-size: 12px;
@@ -171,11 +173,9 @@ body,html {
 	background: no-repeat center center fixed;
 /* 	background-image: url('http://editwallpaper.com/wp-content/uploads/2015/04/Unique-Green-Wallpaper-Picture-High-Quality.jpg'); */
 }
-
 body {
 
 }
-
 #content {
 	clear: both;
 	margin: auto;
@@ -183,7 +183,6 @@ body {
 	height: 100%;
 	min-height: 500px;
 }
-
 #center {
 	float: left;
 	width: 67%;
@@ -197,7 +196,6 @@ body {
 	padding-top: 2%;
 	padding-bottom: 2%;
 }
-
 #right {
 	float: right;
 	width: 21%;
@@ -209,7 +207,6 @@ body {
 	padding-top: 2%;
 	padding-bottom: 2%;
 }
-
 #footer {
 /* 	float: left; */
 	clear: both;
@@ -226,7 +223,6 @@ body {
 	padding-top: 1%;
 	padding-bottom: 1%;
 }
-
 #header {
 	clear: both;
 /* 	float: left; */
@@ -243,7 +239,6 @@ body {
 	padding-top: 1%;
 	padding-bottom: 1%;
 }
-
 #menuBar {
 	clear: both;
 /* 	float: left; */
@@ -260,51 +255,40 @@ body {
 	padding-top: 0%;
 	padding-bottom: 0%;
 }
-
 #idMenu {
 	width: 100%;
 	height: 100%;
 	position: relative;
 }
-
 #linkStoreDetail {
 	float: left;
 	width: 25%;
 	height: 90%;
 	position: relative;
 }
-
 #linkStoreMoves {
 	float: left;
 	width: 25%;
 	height: 90%;
 	position: relative;
 }
-
 #linkStoreBuyLists {
 	float: left;
 	width: 25%;
 	height: 90%;
 	position: relative;
 }
-
-
 /* #menuBarPanel { */
 /* 	width: 100%; */
 /* 	height: 90%; */
 /* 	position: relative; */
 /* } */
-
 .title1 {
 	font-size: 24px;	
 }
-
-
 .title2 {
 	font-size: 18px;
 }
-
 .etiqOblig {
 	font-weight:bold;
 }
-
