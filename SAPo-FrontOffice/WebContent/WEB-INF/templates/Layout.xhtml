@@ -22,36 +22,14 @@
 		}
 		
 		.headerDeLayout1 { margin-top: 45px !important; }
-		
-		#exitButton {
-			border: none !important;
-			background: #3a9979 !important;
-			color: #f2f2f2 !important;
-			padding: 10px !important;
-			font-size: 18px !important;
-			border-radius: 5px !important;
-			position: relative !important;
-			box-sizing: border-box !important;
-			transition: all 500ms ease !important;
-			width: 75px !important;
-			padding-top: 3px !important;
-			padding-bottom: 3px !important;
-			position: absolute !important;
-			margin-left:900px !important;
-			margin-top: 0px !important;
-		}
-			
-		#exitButton:hover {
-			background: #FFFFFF !important;
-		 	color: #3a9979 !important;
-		 	box-shadow: inset 0 0 0 3px #3a9979 !important;
-		}
-		
+		/*
+
+		*/
 	</style>
 	
 </h:head>
 <h:body>
-	<div id="header" class="headerDeLayout1">
+	<div id="header" class="headerDeLayout1" onClick="javascript: window.location.replace('/SAPo-FrontOffice/pages/Home.xhtml');" style="cursor: pointer;">
 		<ui:insert name="Header">
 			<ui:include src="/WEB-INF/templates/Header.xhtml" />
 		</ui:insert>

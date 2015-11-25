@@ -8,10 +8,6 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-<style>
-
-.itemSeleccionado { font-weight: 900 !important; font-size: 14px;}
-</style>
 
 <script>
 
@@ -67,23 +63,10 @@
 	<title>
 		<ui:insert name="title"/>
 	</title>
-	
-	<style id="estiloParaMensajesEnLayout2">
-		.ui-messages{ 
-			position: absolute;
-			margin-top: -66px;
-			margin-left: -53px;
-		}
-		.headerDeLayout2 { margin-top: 45px !important; }
-		
-
-		
-	</style>
-	
 </h:head>
 <h:body>		
 	
-	<div id="header" class="headerDeLayout2">
+	<div id="header" class="headerDeLayout2" onClick="javascript: window.location.replace('/SAPo-FrontOffice/pages/Home.xhtml');" style="cursor: pointer;">
 		<ui:insert name="Header">
 			<ui:include src="/WEB-INF/templates/Header2.xhtml" />
 		</ui:insert>
