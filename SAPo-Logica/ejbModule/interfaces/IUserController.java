@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -35,5 +36,7 @@ public interface IUserController {
 	public boolean createMoreStores(int id);
 	
 	public List<DataUser> getAdministrators();
+	
+	public void addLoggedUser(Calendar fecha);
 	
 }

@@ -2,6 +2,7 @@ package controladores;
 
 import interfaces.IUserController;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,12 +11,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import datatypes.DataProduct;
 import datatypes.DataStore;
 import datatypes.DataUser;
 import entities.Administrator;
+import entities.Product;
 import entities.Registered;
 import entities.Store;
 import entities.User;
+import entities.UserLogCount;
 
 @Stateless
 public class UserController implements IUserController {
@@ -169,5 +173,19 @@ public class UserController implements IUserController {
 		}
 		return result;
 	}
-
+	
+	public void addLoggedUser(Calendar fecha){
+		String queryStr = "SELECT u FROM UserLogCount u WHERE u.fecha = :fecha";
+		Query query = em.createQuery(queryStr, UserLogCount.class);
+		query.setParameter("fecha", fecha);
+		if (query.getResultList().isEmpty()){
+			UserLogCount u = new UserLogCount(fecha);
+			em.persist(u);
+		}
+		else{
+			UserLogCount u = (UserLogCount)query.getSingleResult();
+			u.setCount(u.getCount()+1);
+			em.persist(u);
+		}
+	}
 }
