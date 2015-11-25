@@ -56,6 +56,12 @@ public class UserRestService {
 	public GetStoresResponse getStores(@PathParam("userId") int userId) throws NamingException {
 		List<DataStore> myStores = Comunicacion.getInstance().getIUserController().getStoresOwner(userId);
 		List<DataStore> sharedStores = Comunicacion.getInstance().getIUserController().getStoresGuest(userId);
+		for (DataStore mAux: myStores) {
+			mAux.setFile(null);
+		}
+		for (DataStore sAux: sharedStores) {
+			sAux.setFile(null);
+		}
 		GetStoresResponse response = new GetStoresResponse(0,"",myStores,sharedStores);
 		return response;
 	}
