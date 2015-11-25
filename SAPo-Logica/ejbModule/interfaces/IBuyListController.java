@@ -30,5 +30,5 @@ public interface IBuyListController {
 	
 	public void addBuyListStore(int idStore, List<DataElementBuyList> listProducts, String name, String description, DataBuyList dataBuyList) throws ProductNotExistException;
 	
-
+	public DataElementBuyList getBuyListElement(int idBuyList, int idElementBuyLits);
 }

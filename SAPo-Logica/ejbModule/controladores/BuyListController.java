@@ -191,5 +191,16 @@ public class BuyListController implements IBuyListController {
 		}
 		return result;
 	}
+	
+	public DataElementBuyList getBuyListElement(int idBuyList, int idElementBuyLits) {
+		BuyList b = em.find(BuyList.class, idBuyList);
+		List<ElementBuyList> elements = b.getElements();
+		for (ElementBuyList e: elements) {
+			if (e.getId() == idElementBuyLits) {
+				return new DataElementBuyList(e);
+			}
+		}
+		return null;
+	}
 
 }

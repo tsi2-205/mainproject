@@ -12,17 +12,24 @@ public class DataElementBuyList implements Serializable {
 	private int id;
 	
 	private int quantity;
+	
+	private int price;
     
     private boolean checked;
 	
     private DataProduct product;
     
+	public DataElementBuyList() {
+		super();
+	}
+
 	public DataElementBuyList(int id, int quantity, DataProduct product) {
 		super();
 		this.id = id;
 		this.quantity = quantity;
 		this.product = product;
 		this.checked = false;
+		this.price = 0;
 	}
 	
 	public DataElementBuyList(int quantity, DataProduct product) {
@@ -30,6 +37,7 @@ public class DataElementBuyList implements Serializable {
 		this.quantity = quantity;
 		this.product = product;
 		this.checked = false;
+		this.price = 0;
 	}
 	
 	public DataElementBuyList(ElementBuyList element) {
@@ -38,6 +46,7 @@ public class DataElementBuyList implements Serializable {
 		this.quantity = element.getQuantity();
 		this.product = new DataProduct(element.getProduct());
 		this.checked = element.isChecked();
+		this.price = 0;
 	}
 
 	public int getId() {
@@ -71,5 +80,12 @@ public class DataElementBuyList implements Serializable {
 	public void setChecked(boolean checked) {
 		this.checked = checked;
 	}
-	
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
 }
