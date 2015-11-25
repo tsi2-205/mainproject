@@ -240,9 +240,5 @@ public class EditBuyListBB implements Serializable {
 		this.categories = categories;
 	}
 	
-	public void buyRecommendation() throws NamingException{
-		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
-		configurableNavigationHandler.performNavigation("/pages/RecommendationBuy.xhtml?faces-redirect=true");
-	}
 	
 }

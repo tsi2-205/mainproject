@@ -167,13 +167,12 @@ public class BuyListController implements IBuyListController {
 		}
 	}
 
-	public List<DataStock> buyRecommendation(int id, DataBuyList db) {
+	public List<DataStock> buyRecommendation(int id) {
 		Store store = em.find(Store.class, id);
 		List<DataStock> result = new LinkedList<DataStock>();
 		String queryStr = "SELECT p FROM Stock c, Product p WHERE c.store = :store and c.cantidad<5 and c.product=p";
 		Query query = em.createQuery(queryStr, Product.class);
 		query.setParameter("store", store);
-		BuyList buy = em.find(BuyList.class, db.getId());
 		for (Object o: query.getResultList()) {
 			Product product =(Product)o;
 			DataProduct dataP= new DataProduct (product);
@@ -186,19 +185,22 @@ public class BuyListController implements IBuyListController {
 				query1.setParameter("store", store);
 				query1.setParameter("product", product);
 				int i =(int)query1.getSingleResult();
-				boolean noAdd=false;
-				for (ElementBuyList eb: buy.getElements()){
-					if (eb.getProduct()==product){
-						noAdd=true;
-					}
-				}
 				DataStock ds = new DataStock(i, dataP);
-				if (!noAdd){
-					result.add(ds);
-				}
+				result.add(ds);
 			}
 		}
 		return result;
+	}
+	
+	public DataElementBuyList getBuyListElement(int idBuyList, int idElementBuyLits) {
+		BuyList b = em.find(BuyList.class, idBuyList);
+		List<ElementBuyList> elements = b.getElements();
+		for (ElementBuyList e: elements) {
+			if (e.getId() == idElementBuyLits) {
+				return new DataElementBuyList(e);
+			}
+		}
+		return null;
 	}
 
 }

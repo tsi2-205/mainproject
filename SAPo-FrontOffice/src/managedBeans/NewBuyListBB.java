@@ -9,6 +9,7 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -21,7 +22,6 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import comunication.Comunicacion;
-
 import datatypes.DataCategory;
 import datatypes.DataStock;
 import datatypes.DataStore;
@@ -108,7 +108,13 @@ public class NewBuyListBB implements Serializable {
 	
 	public void onProductDrop(DragDropEvent ddEvent) {
 		DataStock p = ((DataStock) ddEvent.getData());
-		if (!productsSelected.contains(p)) {
+		boolean add=true;
+		for (DataStock ds:productsSelected){
+			if (ds.getProduct().getId()==p.getProduct().getId()){
+				add= false;
+			}
+		}
+		if (add) {
 			p.setCantidad(1);
 			productsSelected.add(p);
 //			productsNoSelected.remove(p);
@@ -207,6 +213,10 @@ public class NewBuyListBB implements Serializable {
 
 	public void setSelectedNode(TreeNode selectedNode) {
 		this.selectedNode = selectedNode;
+	}
+	
+	public void buyRecommendation() throws NamingException{
+		this.productsSelected= Comunicacion.getInstance().getIBuyListController().buyRecommendation(this.store.getId());
 	}
 	
 }
