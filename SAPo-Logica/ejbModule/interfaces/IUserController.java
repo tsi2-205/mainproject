@@ -1,12 +1,14 @@
 package interfaces;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
 
 import datatypes.DataStore;
 import datatypes.DataUser;
+import datatypes.DataUserLogged;
 
 @Local
 public interface IUserController {
@@ -37,6 +39,8 @@ public interface IUserController {
 	
 	public List<DataUser> getAdministrators();
 	
-	public void addLoggedUser(Calendar fecha);
+	public void addLoggedUser(Date fecha);
+	
+	public List<DataUserLogged> getLoggedUser();
 	
 }

@@ -2,12 +2,9 @@ package managedBeans;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.Date;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -131,16 +128,17 @@ public class SessionBB implements Serializable {
 		}
 		
 		try {
-			Calendar fechaAux = new GregorianCalendar();
-			DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-			Calendar cal  = Calendar.getInstance();
+			Date dNow = new Date();
+			SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
+			String mdy = ft.format(dNow);
 			try {
-				cal.setTime(df.parse(fechaAux.DAY_OF_MONTH+"."+fechaAux.DAY_OF_MONTH+"."+fechaAux.YEAR));
+				Date res = ft.parse(mdy);
+				Comunicacion.getInstance().getIUserController().addLoggedUser(res);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Comunicacion.getInstance().getIUserController().addLoggedUser(cal);
+			
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -166,9 +164,12 @@ public class SessionBB implements Serializable {
 		}
 		
 		try {
-			Calendar fechaAux = new GregorianCalendar();
-			System.out.print(fechaAux.toString());
-			Comunicacion.getInstance().getIUserController().addLoggedUser(fechaAux);
+			Date dNow = new Date();
+			SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
+			ft.format(dNow);
+			System.out.print(ft.toString());
+			System.out.print(dNow.toString());
+			Comunicacion.getInstance().getIUserController().addLoggedUser(dNow);
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
