@@ -58,7 +58,7 @@ public class AdminStoreDetailBB {
 	}
 	
 	public String showHistorics() {
-		return "/pages/AdminStoreHistorics.xhtml?faces-redirect=true";
+		return "/pages/ChartValorizationStore.xhtml?faces-redirect=true";
 	}
 
 	public List<DataStore> getStores() {

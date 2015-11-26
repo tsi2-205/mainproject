@@ -2,6 +2,7 @@ package entities;
 
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class Store implements Serializable {
     private String name;
 	
     private String address;
+    
+    @Temporal(TemporalType.DATE)
+    private Calendar dateToCreate;
 	
     private String telephone;
 	
@@ -70,12 +74,13 @@ public class Store implements Serializable {
     public Store() {
 		super();
 	}
-	public Store(String name, String addr, String tel, String city, Registered user) {
+	public Store(String name, String addr, String tel, String city, Calendar dateToCreate, Registered user) {
 		super();
 		this.name = name;
 		this.address = addr;
 		this.telephone = tel;
 		this.city = city;
+		this.dateToCreate = dateToCreate;
 		this.owner = user;
 	}
 	
@@ -208,7 +213,11 @@ public class Store implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
+	public Calendar getDateToCreate() {
+		return dateToCreate;
+	}
+	public void setDateToCreate(Calendar dateToCreate) {
+		this.dateToCreate = dateToCreate;
+	}
 	
 }

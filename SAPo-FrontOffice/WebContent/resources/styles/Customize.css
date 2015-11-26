@@ -1,0 +1,11 @@
+#PanelCompartir {
+	margin-bottom: 30px;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+	text-align: center !important;
+}
+
+.ui-fileupload-simple .ui-button {
+	overflow: visible !important;
+}

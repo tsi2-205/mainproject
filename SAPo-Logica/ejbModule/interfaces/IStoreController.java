@@ -64,6 +64,8 @@ public interface IStoreController {
 
 
 	public List<DataHistoricStock> findHistoricStockProductDate(int idStore, int idProduct, Calendar fechaIni, Calendar fechaFin);
+	
+	public List<Integer> getValorizationHistoricStore(int idStore);
 
 
 }

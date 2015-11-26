@@ -17,13 +17,6 @@
 			<p:commandButton style="float: right"
 				id="buttonCreateProduct" value="Nuevo Producto"
 				action="#{storeProductsBB.createProduct}" />
-			<p:commandButton style="float: right"
-				id="buttonShareStore" value="Compartir"
-				oncomplete="PF('dlgShare').show();" update="dlgShare"
-				rendered="#{storeProductsBB.storeOwner}" />
-			<p:commandButton style="float: right"
-				id="buttonCustomize" value="Customizar"
-				action="#{storeProductsBB.customizeButton}" />
 			<p:separator style="clear: both;"></p:separator>
 
 			<p:panel id="panelCategories">
@@ -69,26 +62,7 @@
 				</p:dataTable>
 			</p:panel>
 
-			<p:dialog id="dlgShare" header="Compartir" widgetVar="dlgShare"
-				resizable="false">
-				<h:form>
-					<p:dataTable id="checkboxDT" var="user"
-						value="#{shareStoreBB.users}"
-						selection="#{shareStoreBB.selectedUsers}" rowKey="#{user.id}"
-						style="margin-bottom:0; width:300px;">
-						<p:column selectionMode="multiple"
-							style="width:16px;text-align:center" />
-						<p:column headerText="Nombre">
-							<h:outputText value="#{user.name}" />
-						</p:column>
-						<f:facet name="footer">
-							<p:commandButton value="Compartir"
-								oncomplete="PF('dlgShare').hide();"
-								action="#{shareStoreBB.shareStore}" process="checkboxDT" />
-						</f:facet>
-					</p:dataTable>
-				</h:form>
-			</p:dialog>
+			
 
 		</h:form>
 	</ui:define>

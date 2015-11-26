@@ -1,46 +1,94 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ui:composition template="/WEB-INF/templates/Layout2.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="title">
 		<h:outputText value="SAPo" />
-		<h:outputStylesheet library="styles" name="storeDetails.css" />
+		<h:outputStylesheet library="styles" name="Customize.css" />
 	</ui:define>
 	<ui:define name="Principal">
-	   <h:outputLabel for="name" value="Descargar CSS de Ejemplo"/>
-	   
-	   <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
-   		 	<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+
+		<p:panel id="PanelCompartir">
+			<h:outputText styleClass="title2"
+				value="Haga click en Compartir para invitar a otros usuarios a su almacen"></h:outputText>
+			<p:commandButton style="margin-left: 20px;" id="buttonShareStore"
+				value="Compartir" oncomplete="PF('dlgShare').show();"
+				update="dlgShare" rendered="#{storeProductsBB.storeOwner}" />
+		</p:panel>
+		<p:dialog id="dlgShare" header="Compartir" widgetVar="dlgShare"
+			resizable="false">
+			<h:form>
+				<p:dataTable id="checkboxDT" var="user"
+					value="#{shareStoreBB.users}"
+					selection="#{shareStoreBB.selectedUsers}" rowKey="#{user.id}"
+					style="margin-bottom:0; width:300px;">
+					<p:column selectionMode="multiple"
+						style="width:16px;text-align:center" />
+					<p:column headerText="Nombre">
+						<h:outputText value="#{user.name}" />
+					</p:column>
+					<f:facet name="footer">
+						<p:commandButton value="Compartir"
+							oncomplete="PF('dlgShare').hide();"
+							action="#{shareStoreBB.shareStore}" process="checkboxDT" />
+					</f:facet>
+				</p:dataTable>
+			</h:form>
 		</p:dialog>
- 		<h:form>
-    		<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-        		<p:fileDownload value="#{customizeBB.fileDown}" />
-    		</p:commandButton>
-		</h:form>
- 
-		<script type="text/javascript">
-			function start() {
-    			PF('statusDialog').show();
-			}
- 
-			function stop() {
-    			PF('statusDialog').hide();
-			}
-		</script>
-	   
-	   <p:separator></p:separator>
-	   <h:outputLabel for="name" value="Customizar Almacén - Cargar CSS"/>
-	   
-		<h:form enctype="multipart/form-data">
-    		<p:growl id="messages" showDetail="true" />
- 			<p:fileUpload value="#{customizeBB.file}" mode="simple" skinSimple="true"/>
- 			<p:commandButton value="Aceptar" ajax="false" actionListener="#{customizeBB.upload}" />
-		</h:form>
-		
-		
-		
+		<p:panel id="PanelCustom">
+			<h:outputLabel for="name" styleClass="title2"
+				value="Descargar CSS de Ejemplo" />
+
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+			</p:dialog>
+			<h:form>
+				<p:commandButton value="Download" ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="ui-icon-arrowthick-1-s">
+					<p:fileDownload value="#{customizeBB.fileDown}" />
+				</p:commandButton>
+			</h:form>
+
+			<script type="text/javascript">
+				function start() {
+					PF('statusDialog').show();
+				}
+
+				function stop() {
+					PF('statusDialog').hide();
+				}
+			</script>
+
+			<p:separator style="margin: 20px 0"></p:separator>
+			<h:outputLabel style="margin-b" for="name" styleClass="title2"
+				value="Customizar Almacén - Cargar CSS" />
+
+			<h:form enctype="multipart/form-data">
+				<p:growl id="messages" showDetail="true" />
+				<p:fileUpload style="margin-right: 25px;" value="#{customizeBB.file}" mode="simple"
+					skinSimple="true" />
+				<p:commandButton value="Aceptar" ajax="false"
+					actionListener="#{customizeBB.upload}">
+					<p:confirm header="Cuidado!"
+						message="Cambiará el estilo de todas las páginas de su almacén. ¿Está seguro?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+				<p:confirmDialog id="dialogConfirmCustom" style="text-algin: center;" global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</h:form>
+		</p:panel>
+
+
+
+
 	</ui:define>
 </ui:composition>

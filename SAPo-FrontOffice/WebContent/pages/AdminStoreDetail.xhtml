@@ -7,12 +7,13 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="title">
 		<h:outputText value="SAPo" />
+		<h:outputStylesheet library="styles" name="AdminStoreDetail.css" />
 	</ui:define>
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			
 			<p:panel>
-				<p:panelGrid columns="2">
+				<p:panelGrid id="PanelDetailStore" columns="2">
 					<h:outputText value="Nombre:"/>
 					<h:outputText value="#{adminStoreDetailBB.store.name}"/>
 					
@@ -28,6 +29,9 @@
 					<h:outputText rendered="#{adminStoreDetailBB.store.telephone != null}" value="#{adminStoreDetailBB.store.telephone}"/>
 					<h:outputText rendered="#{adminStoreDetailBB.store.telephone == null}" value="---"/>
 					
+					<h:outputText value="Fecha de creación:"/>
+					<h:outputText value="#{adminStoreDetailBB.store.dateToCreate}" converter="DateConverter"/>
+					
 					<h:outputText value="Dueño:"/>
 					<h:outputText value="#{adminStoreDetailBB.ownerStore.name} (#{adminStoreDetailBB.ownerStore.email})" rendered="#{adminStoreDetailBB.ownerStore.email != null}"/>
 					<h:outputText value="#{adminStoreDetailBB.ownerStore.name} (#{adminStoreDetailBB.ownerStore.fbId})" rendered="#{adminStoreDetailBB.ownerStore.fbId != null}" />
@@ -35,7 +39,6 @@
 					<h:outputText value="Invitados:"/>
 					<h:outputText rendered="#{empty adminStoreDetailBB.guestsStore}" value="---"/>
 					<p:panel rendered="#{not empty adminStoreDetailBB.guestsStore}">
-						<h:outputText rendered="#{not empty adminStoreDetailBB.guestsStore}" value="#{adminStoreDetailBB.guestsStore.size}"/>
 						<p:dataList value="#{adminStoreDetailBB.guestsStore}" var="userGuest">
 							<h:outputText value="#{userGuest.name} (#{userGuest.email})" rendered="#{userGuest.email != null}"/>
 							<h:outputText value="#{userGuest.name} (#{userGuest.fbId})" rendered="#{userGuest.fbId != null}" />

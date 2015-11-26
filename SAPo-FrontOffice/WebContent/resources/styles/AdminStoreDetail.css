@@ -1,0 +1,7 @@
+#PanelDetailStore .ui-widget-content {
+	border: none medium !important;
+}
+
+#PanelDetailStore .ui-datalist-data {
+	padding-left: 0 !important;
+}

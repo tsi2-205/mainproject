@@ -15,6 +15,8 @@
 				<li><a href='StoreProducts.xhtml'>Productos</a></li>
 				<li><a href='CategoryDetail.xhtml'>Categorías</a></li>
 				<li><a href='StoreHistory.xhtml'>Historial</a></li>
+				<li hidden="#{sessionBB.loggedUser.id == sessionBB.storeSelected.owner.id}"><a href='Customize.xhtml'>Ajustes</a></li>
+				
 			</ul>
 		</div>
 	</h:form>

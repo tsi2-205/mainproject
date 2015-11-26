@@ -3,6 +3,7 @@ package datatypes;
 import java.io.File;
 import java.io.Serializable;
 import java.sql.Blob;
+import java.util.Calendar;
 
 import entities.Store;
 
@@ -19,6 +20,8 @@ public class DataStore implements Serializable {
     private String telephone;
 	
     private String city;
+    
+    private Calendar dateToCreate;
     
     private DataUser owner;
     
@@ -45,6 +48,7 @@ public class DataStore implements Serializable {
 		this.address = store.getAddress();
 		this.telephone = store.getTelephone();
 		this.city = store.getCity();
+		this.dateToCreate = store.getDateToCreate();
 		this.owner = new DataUser(store.getOwner());
 		this.file = store.getCustomer().getCss();
     }
@@ -104,6 +108,13 @@ public class DataStore implements Serializable {
 	public void setFile(Blob file) {
 		this.file = file;
 	}
-	
+
+	public Calendar getDateToCreate() {
+		return dateToCreate;
+	}
+
+	public void setDateToCreate(Calendar dateToCreate) {
+		this.dateToCreate = dateToCreate;
+	}
 	
 }

@@ -5,6 +5,7 @@ import interfaces.IStoreController;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.sql.Blob;
@@ -48,7 +49,8 @@ public class StoreController implements IStoreController {
 			throw new ExistStoreException("Ya tiene un almacen asociado con nombre " + name);
 		}
 		Registered u = em.find(Registered.class, dUser.getId());
-		Store s = new Store(name, addr, tel, city, u);
+		Calendar fechaActual = new GregorianCalendar();
+		Store s = new Store(name, addr, tel, city, fechaActual, u);
 		Customer c = new Customer();
 		em.persist(c);
 		em.merge(c);
@@ -281,6 +283,46 @@ public class StoreController implements IStoreController {
 			}
 		}
 		return ret;
+	}
+	
+	public List<Integer> getValorizationHistoricStore(int idStore) {
+		Calendar fechaActual = new GregorianCalendar();
+		int year = fechaActual.get(Calendar.YEAR);
+		int month = fechaActual.get(Calendar.MONTH);
+		Calendar fechaMin = new GregorianCalendar(year, month, 1);
+		Calendar fechaMax = new GregorianCalendar(year, month, 1);
+		fechaMax.add(Calendar.MONTH, 1);
+		Store str = em.find(Store.class, idStore);
+		int valor = 0;
+		for (Stock stk: str.getStocks()) {
+			valor += stk.getCantidad() * stk.getPrecioVenta();
+		}
+		List<Integer> valores = new LinkedList<Integer>();
+		valores.add(valor);
+		int stockMes = valor;
+		for (int i = 0; i < 12; i++) {
+			Calendar fechaMinAux = (Calendar) fechaMin.clone();
+			Calendar fechaMaxAux = (Calendar) fechaMax.clone();
+			fechaMinAux.add(Calendar.MONTH, (-1*i));
+			fechaMaxAux.add(Calendar.MONTH, (-1*i));
+			String queryStr = "SELECT hs FROM HistoricStock hs WHERE hs.store.id = :idStore AND hs.fecha >= :fechaMin AND hs.fecha < :fechaMax";
+			Query query = em.createQuery(queryStr, HistoricStock.class);
+			query.setParameter("idStore", idStore);
+			query.setParameter("fechaMin", fechaMinAux);
+			query.setParameter("fechaMax", fechaMaxAux);
+			for (Object o: query.getResultList()) {
+				HistoricStock hs = (HistoricStock)o;
+				if (hs.getTipo() == 0) {
+					stockMes += hs.getCantChange() * hs.getPrecio();
+				} else {
+					stockMes -= hs.getCantChange() * hs.getPrecio();
+				}
+			}
+			if (i != 0) {
+				valores.add(stockMes);
+			}
+		}
+		return valores;
 	}
 
 }
