@@ -29,6 +29,9 @@
 					<p:column headerText="Nombre" sortBy="#{store.name}">
 						<h:outputText value="#{store.name}" styleClass="title2" />
 					</p:column>
+					<p:column headerText="Fecha de creación" sortBy="#{store.dateToCreate}">
+						<h:outputText value="#{store.dateToCreate}" styleClass="title2" converter="DateConverter" />
+					</p:column>
 					<p:column style="width:32px">
 						<p:commandButton id="ShowStoreDetail" icon="ui-icon-search"
 							action="#{adminStoresBB.seeStore}">
