@@ -133,7 +133,10 @@ public class SessionBB implements Serializable {
 			String mdy = ft.format(dNow);
 			try {
 				Date res = ft.parse(mdy);
-				Comunicacion.getInstance().getIUserController().addLoggedUser(res);
+				if (loggedUser.getTipo()==1){
+					Comunicacion.getInstance().getIUserController().addLoggedUser(res);
+				}
+				
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -166,10 +169,15 @@ public class SessionBB implements Serializable {
 		try {
 			Date dNow = new Date();
 			SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
-			ft.format(dNow);
-			System.out.print(ft.toString());
-			System.out.print(dNow.toString());
-			Comunicacion.getInstance().getIUserController().addLoggedUser(dNow);
+			String mdy = ft.format(dNow);
+			try {
+				Date res = ft.parse(mdy);
+				Comunicacion.getInstance().getIUserController().addLoggedUser(res);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

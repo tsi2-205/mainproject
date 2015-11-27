@@ -1,6 +1,9 @@
 package managedBeans;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +13,7 @@ import javax.naming.NamingException;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
@@ -22,57 +26,58 @@ import datatypes.DataUserLogged;
 public class ReportsPageBB implements Serializable {
 	
 	private static final long serialVersionUID = 1L; 
-	private LineChartModel zoomModel;
+	private LineChartModel dateModel;
 	 
-	 @PostConstruct
-	 public void init() {
-	        createZoomModel();
-	 }
+    @PostConstruct
+    public void init() {
+        createDateModel();
+    }
+ 
+    public LineChartModel getDateModel() {
+        return dateModel;
+    }
 	 
 	 public ReportsPageBB() {
 			// TODO Auto-generated constructor stub
 		}
 	 
-	 public LineChartModel getZoomModel() {
-	        return zoomModel;
-	    }
 	 
-	 private void createZoomModel() {
-	        zoomModel = initLinearModel();
-	        zoomModel.setTitle("Uusarios logueados por fecha");
-	        zoomModel.setZoom(true);
-	        zoomModel.setLegendPosition("e");
-	       // Axis yAxis = zoomModel.getAxis(AxisType.Y);
-	       // yAxis.setMin(0);
-	       // yAxis.setMax(100);
-	 }
-	     
-	    private LineChartModel initLinearModel() {
-	        LineChartModel model = new LineChartModel();
 	 
+	 public void setDateModel(LineChartModel dateModel) {
+		this.dateModel = dateModel;
+	}
+
+	private void createDateModel() {
+	        dateModel = new LineChartModel();
 	        LineChartSeries series1 = new LineChartSeries();
-	        series1.setLabel("Usuarios logueados");
-	        
+	        series1.setLabel("Series 1");
+	        String fec=null;
 	        try {
 				List<DataUserLogged> userLog = Comunicacion.getInstance().getIUserController().getLoggedUser();
 				for (Object o : userLog) {
 					DataUserLogged u = (DataUserLogged)o;
-					series1.set(u.getFecha(), u.getCount());
+					fec= u.getFecha().toString();
+					series1.set(fec,(Number) u.getCount());
 				}
 			} catch (NamingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	        
-	       
-	        model.addSeries(series1);
-	       
-	        return model;
+	 
+	        dateModel.addSeries(series1);
+	         
+	        dateModel.setTitle("Usuarios Logueados por Fecha");
+	        dateModel.setZoom(true);
+	        dateModel.getAxis(AxisType.Y).setLabel("Cantidad Usarios");
+	        DateAxis axis = new DateAxis("Fechas");
+	        axis.setTickAngle(-50);
+			axis.setMax(fec);
+			axis.setTickFormat("%b %#d, %y");
+	         
+	        dateModel.getAxes().put(AxisType.X, axis);
 	    }
-
-		public void setZoomModel(LineChartModel zoomModel) {
-			this.zoomModel = zoomModel;
-		}
+	     
 	
 	    
 	
