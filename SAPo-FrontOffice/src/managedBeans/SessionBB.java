@@ -109,6 +109,25 @@ public class SessionBB implements Serializable {
 				if (this.loggedUser.getTipo() == 0) {
 					ret = "loginOkAdmin";
 				}
+				try {
+					Date dNow = new Date();
+					SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
+					String mdy = ft.format(dNow);
+					try {
+						Date res = ft.parse(mdy);
+						if (loggedUser.getTipo()==1){
+							Comunicacion.getInstance().getIUserController().addLoggedUser(res);
+						}
+						
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				} catch (NamingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 		} catch (NamingException e) {
@@ -127,25 +146,7 @@ public class SessionBB implements Serializable {
 			ex.printStackTrace();
 		}
 		
-		try {
-			Date dNow = new Date();
-			SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
-			String mdy = ft.format(dNow);
-			try {
-				Date res = ft.parse(mdy);
-				if (loggedUser.getTipo()==1){
-					Comunicacion.getInstance().getIUserController().addLoggedUser(res);
-				}
-				
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		return ret;
 	}
 	
@@ -166,22 +167,7 @@ public class SessionBB implements Serializable {
 			e.printStackTrace();
 		}
 		
-		try {
-			Date dNow = new Date();
-			SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
-			String mdy = ft.format(dNow);
-			try {
-				Date res = ft.parse(mdy);
-				Comunicacion.getInstance().getIUserController().addLoggedUser(res);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		//fechaAux.add(Calendar.MONTH, -1);
 		//Calendar fecha = fechaAux.getTime();
 		return ret;
@@ -198,6 +184,22 @@ public class SessionBB implements Serializable {
 			} else {
 				Comunicacion.getInstance().getIUserController().registerUser(this.email, this.password, this.name, "F");
 				this.loggedUser = Comunicacion.getInstance().getIUserController().getUserData(this.email);
+				try {
+					Date dNow = new Date();
+					SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
+					String mdy = ft.format(dNow);
+					try {
+						Date res = ft.parse(mdy);
+						Comunicacion.getInstance().getIUserController().addLoggedUser(res);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				} catch (NamingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
