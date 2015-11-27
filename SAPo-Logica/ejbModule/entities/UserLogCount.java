@@ -10,7 +10,7 @@ import javax.persistence.Version;
 
 
 @Entity
-@Table(name = "userLogCount")
+@Table(name = "userlogcount")
 public class UserLogCount implements Serializable {
 
 	private static final long serialVersionUID = 1L;
