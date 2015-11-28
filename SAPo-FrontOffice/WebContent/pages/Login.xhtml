@@ -13,160 +13,83 @@
 	<title>SAPo</title>
 </h:head>
 <h:body background-color="#f1f1f1">
-	<script>
-		
-		window.fbAsyncInit = function() {
-			  FB.init({
-			    appId      : '594059164067193',
-			    cookie     : true,  // enable cookies to allow the server to access 
-			                        // the session
-			    xfbml      : true,  // parse social plugins on this page
-			    version    : 'v2.4' // use version 2.4
-			  });
-	
-	/* 		  FB.getLoginStatus(function(response) {
-			    statusChangeCallback(response);
-			  }); */
-		  };
-	
-		  // Load the SDK asynchronously
-		  (function(d, s, id) {
-		    var js, fjs = d.getElementsByTagName(s)[0];
-		    if (d.getElementById(id)) return;
-		    js = d.createElement(s); js.id = id;
-		    js.src = "//connect.facebook.net/en_US/sdk.js";
-		    fjs.parentNode.insertBefore(js, fjs);
-		  }(document, 'script', 'facebook-jssdk'));
-	
-		  function checkLoginState() {
-			    FB.getLoginStatus(function(response) {
-			      statusChangeCallback(response);
-			    });
-		  }
-	
-		  function statusChangeCallback(response) {
-			    if (response.status === 'connected') {
-			      // Logged into your app and Facebook.
-			      fetchUserInfo();
-			    } else if (response.status === 'not_authorized') {
-			      // The person is logged into Facebook, but not your app.
-			    } else {
-			      // The person is not logged into Facebook, so we're not sure if
-			      // they are logged into this app or not.
-			    }
-		  }
-	
-		  function fetchUserInfo() {
-			    FB.api('/me', function(response) {
-			    	fbRemoteCommand([{name: 'fbId', value: response.id}, {name: 'name', value: response.name}]);
-			    });
-		  }
 
-		  function validateEmail(email) {
-			    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-			    return re.test(email);
-		  }
+<script>
+	
+	window.fbAsyncInit = function() {
+		  FB.init({
+		    appId      : '594059164067193',
+		    cookie     : true,  // enable cookies to allow the server to access 
+		                        // the session
+		    xfbml      : true,  // parse social plugins on this page
+		    version    : 'v2.4' // use version 2.4
+		  });
 
-		  $( document ).ready(function() {
-				$( ".loginBTN" ).click(function( event ) {
-					var email = $("input[type='text']").val().toLowerCase();
+/* 		  FB.getLoginStatus(function(response) {
+		    statusChangeCallback(response);
+		  }); */
+	  };
 
-					if (email != "admin"){
+	  // Load the SDK asynchronously
+	  (function(d, s, id) {
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) return;
+	    js = d.createElement(s); js.id = id;
+	    js.src = "//connect.facebook.net/en_US/sdk.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	  }(document, 'script', 'facebook-jssdk'));
 
-						if ( !validateEmail ( email )  ){
-							window.alert("e-mail invalido");
-							event.preventDefault();
-							return false;
-						}
-						
-					}
+	  function checkLoginState() {
+		    FB.getLoginStatus(function(response) {
+		      statusChangeCallback(response);
+		    });
+	  }
 
-					
-					if ( $("input[type='password']").val() == "" ){
-						window.alert("password no puede ser vacio");
+	  function statusChangeCallback(response) {
+		    if (response.status === 'connected') {
+		      // Logged into your app and Facebook.
+		      fetchUserInfo();
+		    } else if (response.status === 'not_authorized') {
+		      // The person is logged into Facebook, but not your app.
+		    } else {
+		      // The person is not logged into Facebook, so we're not sure if
+		      // they are logged into this app or not.
+		    }
+	  }
+
+	  function fetchUserInfo() {
+		    FB.api('/me', function(response) {
+		    	fbRemoteCommand([{name: 'fbId', value: response.id}, {name: 'name', value: response.name}]);
+		    });
+	  }
+
+	  function validateEmail(email) {
+		    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		    return re.test(email);
+	  }
+
+	  $( document ).ready(function() {
+			$( ".loginBTN" ).click(function( event ) {
+				var email = $("input[type='text']").val().toLowerCase();
+
+				if (email != "admin"){
+
+					if ( !validateEmail ( email )  ){
+						window.alert("e-mail invalido");
 						event.preventDefault();
 						return false;
 					}
-				});
-		  });
-		  
-		</script>
-		
-		<style>
-	
-			
-			.loginBTN {
-			 background:url('https://dh3vbjnk0bnfa.cloudfront.net/static/centralauth/images/btn-login.png') no-repeat 5px 5px #484B4F;
-			  width: 120px;
-			  cursor:pointer;
-			  border-radius:50px;
-			  padding:10px 20px 10px 0;
-			  color:White;
-			  font-size:12px;
-			  text-align:left;
-			  text-indent:40px;
-			  display:block;
-			  margin:0 auto;
-			 
-			  /* Animations: */
-			  -webkit-transition-timing-function: ease-in-out;
-			  -webkit-transition-duration: .4s;
-			  -webkit-transition-property: all;
-			  
-			  -moz-transition-timing-function: ease-in-out;
-			  -moz-transition-duration: .4s;
-			  -moz-transition-property: all;
-			}
-			
-			.loginBTN:hover {
-			  background-image: url('https://dh3vbjnk0bnfa.cloudfront.net/static/centralauth/images/btn-login-hover.png');
-			  background-position: 75px 5px;
-			  text-indent: 20px;  
-			}
-			
-			.PassInput { 
-				border-color:#cccccc; 
-				padding:6px; 
-				font-size:17px;
-				width: 200px;
-				text-align:center; 
-				border-width:3px;
-				border-radius:16px;
-				border-style:solid; 
-				text-shadow:0px 1px 2px rgba(42,42,42,.75);
-				font-style:none; font-family:fantasy; 
-			} 
-			.PassInput:focus { outline:none; }
-						
-.btnRegister {
-  background: #34d947;
-  background-image: -webkit-linear-gradient(top, #34d947, #0d7313);
-  background-image: -moz-linear-gradient(top, #34d947, #0d7313);
-  background-image: -ms-linear-gradient(top, #34d947, #0d7313);
-  background-image: -o-linear-gradient(top, #34d947, #0d7313);
-  background-image: linear-gradient(to bottom, #34d947, #0d7313);
-  -webkit-border-radius: 60;
-  -moz-border-radius: 60;
-  border-radius: 60px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 23px;
-  padding: 5px 32px 5px 32px;
-  border: solid #1f8c3c 2px;
-  text-decoration: none;
-}
-
-.btnRegister:hover {
-  background: #09ad09;
-  background-image: -webkit-linear-gradient(top, #09ad09, #023602);
-  background-image: -moz-linear-gradient(top, #09ad09, #023602);
-  background-image: -ms-linear-gradient(top, #09ad09, #023602);
-  background-image: -o-linear-gradient(top, #09ad09, #023602);
-  background-image: linear-gradient(to bottom, #09ad09, #023602);
-  text-decoration: none;
-}
-
-		</style>
+					
+				}
+				if ( $("input[type='password']").val() == "" ){
+					window.alert("password no puede ser vacio");
+					event.preventDefault();
+					return false;
+				}
+			});
+	  });
+	  
+	</script>
 	<h:form>
 		<div id="container">
 			<div id="header-container">
