@@ -11,15 +11,13 @@
 	</ui:define>
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
-			
-			
 			<p:commandButton value="Nuevo Categoria" style="float: right;" action="#{adminCategoriesBB.seeCreateNew}" update="createNewCategoryPanel" />
 			<p:commandButton value="Limpiar" action="#{adminCategoriesBB.clearCategorySelect}" update=":form" style="float: right;"/>
 			<h:outputText value="Categorías genéricas" styleClass="title1"></h:outputText>
 			
 			<p:separator style="clear: both;"></p:separator>
 			
-			<p:panel id="panelCategories">
+			<p:panel id="panelCategories" style="max-height: 180px;">
 				<h:outputText rendered="#{!adminCategoriesBB.hayCategorias}" value="No hay categorías" styleClass="title2"></h:outputText>
 				<p:tree  style="text-align: left;" rendered="#{adminCategoriesBB.hayCategorias}" value="#{adminCategoriesBB.root}" var="node" selectionMode="single" selection="#{adminCategoriesBB.selectedNode}">
 			        <p:ajax event="select" update="basicAttributes createNewCategoryPanel" listener="#{adminCategoriesBB.onCategorySelect}" />

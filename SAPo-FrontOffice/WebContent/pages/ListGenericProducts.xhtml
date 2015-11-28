@@ -36,7 +36,8 @@
 			<p:panel style="clear: both;" id="listProducts">
 				<p:dataTable var="prod" value="#{listGenericProductsBB.productsFiltered}"
 					widgetVar="prod"
-					emptyMessage="No hay productos">
+					emptyMessage="No hay productos" paginator="true" rows="10"
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
 
 					<p:column headerText="Producto" >
 						<h:outputText value="#{prod.name}" />

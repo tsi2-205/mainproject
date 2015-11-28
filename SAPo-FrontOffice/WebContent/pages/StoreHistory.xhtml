@@ -25,7 +25,9 @@
 			<p:panel id="panelHistory" style="clear: both;">
 				<p:dataTable var="stock" value="#{storeHistoryBB.filteredHistStock}"
 					widgetVar="movsStock"
-					emptyMessage="No hay registros de movimientos de stock">
+					emptyMessage="No hay registros de movimientos de stock"
+					paginator="true" rows="10"
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
 	
 					<p:column headerText="Producto" >
 						<h:outputText value="#{stock.nameProduct}" />

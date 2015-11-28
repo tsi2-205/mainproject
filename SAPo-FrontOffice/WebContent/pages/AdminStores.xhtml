@@ -25,7 +25,8 @@
 				<p:dataTable rendered="#{not empty adminStoresBB.storesFiltered}" id="listStores" var="store"
 					value="#{adminStoresBB.storesFiltered}"
 					style="margin-bottom:20px" emptyMessage="No hay almacenes"
-					sortMode="multiple">
+					sortMode="multiple" paginator="true" rows="10"
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
 					<p:column headerText="Nombre" sortBy="#{store.name}">
 						<h:outputText value="#{store.name}" styleClass="title2" />
 					</p:column>

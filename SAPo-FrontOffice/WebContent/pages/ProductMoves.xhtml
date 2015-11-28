@@ -30,7 +30,9 @@
 			
 			<p:panel id="idPanelListMoves">
 				<p:dataTable var="stock" value="#{productMovesBB.histStock}"
-					emptyMessage="No hay registros de movimientos de stock">
+					emptyMessage="No hay registros de movimientos de stock"
+					paginator="true" rows="10"
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
 	
 					<p:column headerText="Fecha">
 						<h:outputText value="#{stock.fecha}" converter="DateConverter" />

@@ -24,7 +24,8 @@
 			<p:panel style="clear: both;" id="listUsers">
 				<p:dataTable var="user" value="#{adminUsersBB.usersFiltered}"
 					widgetVar="user"
-					emptyMessage="No hay usuarios">
+					emptyMessage="No hay usuarios" paginator="true" rows="10"
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
 					<p:column headerText="Identificador" >
 						<h:outputText rendered="#{user.email != null}" value="#{user.email}" />
 						<h:outputText rendered="#{user.email == null}" value="#{user.fbId}" />

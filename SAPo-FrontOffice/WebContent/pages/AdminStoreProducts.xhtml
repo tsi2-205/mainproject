@@ -36,7 +36,8 @@
 				<p:dataTable id="listProducts" var="stock"
 					value="#{adminStoreProductsBB.stocksFiltered}"
 					style="margin-bottom:20px" emptyMessage="No existen productos"
-					sortMode="multiple">
+					sortMode="multiple" paginator="true" rows="10"
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
 					<p:column headerText="Nombre" sortBy="#{stock.product.name}">
 						<h:outputText value="#{stock.product.name}" />
 					</p:column>

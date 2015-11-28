@@ -52,3 +52,6 @@
 /* 	padding-bottom: 2%; */
 }
 
+#panelCategories .ui-tree .ui-tree-container {
+	max-height: 162px !important;
+}

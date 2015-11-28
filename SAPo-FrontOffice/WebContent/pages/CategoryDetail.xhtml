@@ -20,9 +20,9 @@
 			
 			<p:separator style="clear: both;"></p:separator>
 			
-			<p:panel id="panelCategories">
+			<p:panel id="panelCategories" style="max-height: 180px;">
 				<h:outputText rendered="#{!categoryDetailBB.hayCategorias}" value="No hay categorías" styleClass="title2"></h:outputText>
-				<p:tree  style="text-align: left;" rendered="#{categoryDetailBB.hayCategorias}" value="#{categoryDetailBB.root}" var="node" selectionMode="single" selection="#{categoryDetailBB.selectedNode}">
+				<p:tree style="text-align: left;" rendered="#{categoryDetailBB.hayCategorias}" value="#{categoryDetailBB.root}" var="node" selectionMode="single" selection="#{categoryDetailBB.selectedNode}">
 			        <p:ajax event="select" update="basicAttributes createNewCategoryPanel" listener="#{categoryDetailBB.onCategorySelect}" />
 			        <p:treeNode>
 			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />

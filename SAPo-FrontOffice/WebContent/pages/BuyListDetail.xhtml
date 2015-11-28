@@ -16,7 +16,8 @@
 			<p:separator></p:separator>
 			<h:outputText value="La lista #{buyListDetailBB.buyListSelected.name} esta vacía" rendered="#{empty buyListDetailBB.buyListSelected.elements}"></h:outputText>
 			<p:dataTable id="productsList" var="elem" value="#{buyListDetailBB.buyListSelected.elements}" rendered="#{not empty buyListDetailBB.buyListSelected.elements}"
-             editable="true"  editMode="cell" widgetVar="cellProd">
+             editable="true"  editMode="cell" widgetVar="cellProd" paginator="true" rows="10"
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
                 <p:column style="width:32px">
                     <p:commandButton id="checkBtn" rendered="#{!elem.checked}" icon="ui-icon-check" title="Dar de alta" />
 					<p:overlayPanel id="checkPanel" for="checkBtn" hideEffect="fade" dynamic="true" style="text-align:center; width:300px;" showCloseIcon="true">

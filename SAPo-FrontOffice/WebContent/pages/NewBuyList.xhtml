@@ -50,28 +50,36 @@
 		    	<p:separator style="clear: both;"></p:separator>
 		        <p:outputPanel id="dropArea">
 		            <h:outputText value="Arrastre sus productos hacia aqui!" rendered="#{empty newBuyListBB.productsSelected}" style="font-size:24px;" />
-		            <p:dataTable id="selectedProducts" var="prod1" value="#{newBuyListBB.productsSelected}" rendered="#{not empty newBuyListBB.productsSelected}"
-		             editable="true" editMode="cell" widgetVar="cellCars">
-		                <p:column headerText="Name">
-			                <h:outputText value="#{prod1.product.name}" />
-			            </p:column>
-		                <p:column  headerText="Cantidad" style="width: 60px; text-align: center;">
-			                <p:cellEditor>
+					<p:dataTable id="selectedProducts" var="prod1"
+						value="#{newBuyListBB.productsSelected}"
+						rendered="#{not empty newBuyListBB.productsSelected}"
+						editable="true" editMode="cell" widgetVar="cellCars"
+						scrollable="true" scrollHeight="320">
+						<p:column headerText="Name">
+							<h:outputText value="#{prod1.product.name}" />
+						</p:column>
+						<p:column headerText="Cantidad"
+							style="width: 60px; text-align: center;">
+							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText title="Click aquí para cambiar el precio" value="#{prod1.cantidad}" />
+									<h:outputText title="Click aquí para cambiar el precio"
+										value="#{prod1.cantidad}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText id="modelInput" value="#{prod1.cantidad}" style="width:96%" />
+									<p:inputText id="modelInput" value="#{prod1.cantidad}"
+										style="width:96%" />
 								</f:facet>
 							</p:cellEditor>
-		                </p:column>
+						</p:column>
 						<p:column style="width:32px">
-		                    <p:commandButton action="#{newBuyListBB.remove}" update=":form" icon="ui-icon-close">
-		                        <f:setPropertyActionListener value="#{prod1}" target="#{newBuyListBB.selectedProduct}" />
-		                    </p:commandButton>
-		                </p:column>
-		            </p:dataTable>
-		        </p:outputPanel>
+							<p:commandButton action="#{newBuyListBB.remove}" update=":form"
+								icon="ui-icon-close">
+								<f:setPropertyActionListener value="#{prod1}"
+									target="#{newBuyListBB.selectedProduct}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
 		    </p:panel>
 		    <p:droppable for="selectedProductsField" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="availableProducts" onDrop="handleDrop">
 		        <p:ajax listener="#{newBuyListBB.onProductDrop}" update="dropArea availableProducts" />
@@ -81,17 +89,20 @@
 		        <h:outputText value="Productos del almacen" styleClass="title2" />
 		        <p:separator style="clear: both;"></p:separator>
 		        <h:outputText value="No hay productos" rendered="#{empty newBuyListBB.productsNoSelectedFiltered}" style="font-size:24px;" />
-		        <p:dataTable id="availableProducts" rendered="#{not empty newBuyListBB.productsNoSelectedFiltered}" var="prod" value="#{newBuyListBB.productsNoSelectedFiltered}">
-		            <p:column style="width:20px">
-		                <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
-		                <p:draggable for="dragIcon" revert="true" helper="clone"/>
-		            </p:column>
-		 
-		            <p:column headerText="Name">
-		                <h:outputText value="#{prod.product.name}" />
-		            </p:column>
-		        </p:dataTable>
-		    </p:panel>
+				<p:dataTable id="availableProducts"
+					rendered="#{not empty newBuyListBB.productsNoSelectedFiltered}"
+					var="prod" value="#{newBuyListBB.productsNoSelectedFiltered}"
+					scrollable="true" scrollHeight="320">
+					<p:column style="width:20px">
+						<h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
+						<p:draggable for="dragIcon" revert="true" helper="clone" />
+					</p:column>
+
+					<p:column headerText="Name">
+						<h:outputText value="#{prod.product.name}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
 		    
 			
 		</h:form>

@@ -13,37 +13,43 @@
 		<h:form id="form" prependId="false">
 			<p:growl id="msgs" showDetail="true" />
 
-			<h:outputText value="Tus productos" styleClass="title1"></h:outputText>
-			<p:commandButton style="float: right"
-				id="buttonCreateProduct" value="Nuevo Producto"
-				action="#{storeProductsBB.createProduct}" />
+			<h:outputText value="Productos" styleClass="title1"></h:outputText>
+			<p:commandButton style="float: right" id="buttonCreateProduct"
+				value="Nuevo Producto" action="#{storeProductsBB.createProduct}" />
 			<p:separator style="clear: both;"></p:separator>
 
 			<p:panel id="panelCategories">
 				<h:outputText rendered="#{!storeProductsBB.hayCategorias}"
 					value="No hay categorías" styleClass="title2"></h:outputText>
-				<p:tree rendered="#{storeProductsBB.hayCategorias}" value="#{storeProductsBB.root}" var="node" animate="true"
+				<p:tree rendered="#{storeProductsBB.hayCategorias}"
+					value="#{storeProductsBB.root}" var="node" animate="true"
 					selectionMode="single" selection="#{storeProductsBB.selectedNode}">
 					<p:ajax event="select" update="listProducts"
 						listener="#{storeProductsBB.onCategorySelect}" />
 					<p:treeNode>
-						<h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
+						<h:outputText value="#{node.name}"
+							style="text-decoration: underline; font-size: 18px;"
+							rendered="#{node.id == -1}" />
 						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
 					</p:treeNode>
 				</p:tree>
 			</p:panel>
 
-			<p:panel id="filter" style="float: right; background-color: inherit; border: none;">
+			<p:panel id="filter"
+				style="float: right; background-color: inherit; border: none;">
 				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
 				<h:inputText id="idTextFilter" value="#{storeProductsBB.textFilter}">
-					 <f:ajax event="keyup" execute="@form" listener="#{storeProductsBB.filtered}" render="panelProducts" />
+					<f:ajax event="keyup" execute="@form"
+						listener="#{storeProductsBB.filtered}" render="panelProducts" />
 				</h:inputText>
 				<p:watermark for="idTextFilter" value="Ingrese el nombre" />
 			</p:panel>
 			<p:panel id="panelProducts">
 				<p:dataTable id="listProducts" var="stock"
-					value="#{storeProductsBB.stocksFiltered}"	style="margin-bottom:20px" emptyMessage="No existen productos"
-					sortMode="multiple">
+					value="#{storeProductsBB.stocksFiltered}"
+					style="margin-bottom:20px" emptyMessage="No existen productos"
+					sortMode="multiple" paginator="true" rows="10"
+					paginatorPosition="bottom" paginatorAlwaysVisible="false">
 
 					<p:column headerText="Nombre" sortBy="#{stock.product.name}">
 						<h:outputText value="#{stock.product.name}" />
@@ -55,14 +61,15 @@
 
 					<p:column style="width:32px">
 						<p:commandButton id="ShowProductDetail" icon="ui-icon-search"
-							action="#{storeProductsBB.showProduct}" >
-							<f:setPropertyActionListener value="#{stock}" target="#{storeProductsBB.productSelected}" />
+							action="#{storeProductsBB.showProduct}">
+							<f:setPropertyActionListener value="#{stock}"
+								target="#{storeProductsBB.productSelected}" />
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</p:panel>
 
-			
+
 
 		</h:form>
 	</ui:define>
