@@ -10,17 +10,18 @@
 }
 
 #availableProductsField {
-	float: right;
+	float: left;
 	position: relative;
-	width: 38%;
+	width: 48%;
 /* 	height: 50%; */
 	min-height: 150px;
 }
 
 #selectedProductsField {
+	clear: both;
 	float: right;
 	position: relative;
-	width: 38%;
+	width: 48%;
 /* 	height: 50%; */
 	margin-top: 0% !important;
 	min-height: 150px;

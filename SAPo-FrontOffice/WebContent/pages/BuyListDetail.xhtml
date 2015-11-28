@@ -18,7 +18,7 @@
 			<p:dataTable id="productsList" var="elem" value="#{buyListDetailBB.buyListSelected.elements}" rendered="#{not empty buyListDetailBB.buyListSelected.elements}"
              editable="true"  editMode="cell" widgetVar="cellProd">
                 <p:column style="width:32px">
-                    <p:commandButton id="checkBtn" rendered="#{!elem.checked}" icon="ui-icon-check" />
+                    <p:commandButton id="checkBtn" rendered="#{!elem.checked}" icon="ui-icon-check" title="Dar de alta" />
 					<p:overlayPanel id="checkPanel" for="checkBtn" hideEffect="fade" dynamic="true" style="text-align:center; width:300px;" showCloseIcon="true">
 						<h:outputText value="¿Confirma el alta del producto #{elem.product.name} en su almacen?" style="float: left;"></h:outputText>
 						<p:panelGrid style="clear: both;" columns="2">

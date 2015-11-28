@@ -11,14 +11,15 @@ import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.naming.NamingException;
 
 import comunication.Comunicacion;
-
 import datatypes.DataHistoricPrecioCompra;
 import datatypes.DataHistoricPrecioVenta;
 import datatypes.DataHistoricStock;
 import datatypes.DataProduct;
+import datatypes.DataStock;
 import datatypes.DataStore;
 import datatypes.DataUser;
 
@@ -36,13 +37,7 @@ public class StoreHistoryBB {
 	
 	private List<DataHistoricStock> filteredHistStock = new LinkedList<DataHistoricStock>();
 	
-	private List<DataHistoricPrecioCompra> histPrecioCompra = new LinkedList<DataHistoricPrecioCompra>();
-	
-	private List<DataHistoricPrecioCompra> filteredHistPrecioCompra = new LinkedList<DataHistoricPrecioCompra>();
-	
-	private List<DataHistoricPrecioVenta> histPrecioVenta = new LinkedList<DataHistoricPrecioVenta>();
-	
-	private List<DataHistoricPrecioVenta> filteredHistPrecioVenta = new LinkedList<DataHistoricPrecioVenta>();
+	private String textFilter = "";
 	
 	public StoreHistoryBB() {
 		super();
@@ -62,13 +57,27 @@ public class StoreHistoryBB {
 		
 		try {
 			this.histStock = Comunicacion.getInstance().getIStoreController().findHistoricStock(store.getId());
-			this.histPrecioCompra = Comunicacion.getInstance().getIStoreController().findHistoricPrecioCompra(store.getId());
-			this.histPrecioVenta = Comunicacion.getInstance().getIStoreController().findHistoricPrecioVenta(store.getId());
+			this.filteredHistStock = this.histStock;
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void filtrar() {
+		this.filteredHistStock = new LinkedList<DataHistoricStock>();
+		for (DataHistoricStock dhs: this.histStock) {
+			String name = dhs.getNameProduct();
+			String t = this.textFilter;
+			if (name.toLowerCase().startsWith(t.toLowerCase())) {
+				this.filteredHistStock.add(dhs);
+			}
+		}
+	}
+	
+	public void filtered(AjaxBehaviorEvent event) {
+		filtrar();
 	}
 
 	public DataStore getStore() {
@@ -103,22 +112,6 @@ public class StoreHistoryBB {
 		this.histStock = histStock;
 	}
 
-	public List<DataHistoricPrecioCompra> getHistPrecioCompra() {
-		return histPrecioCompra;
-	}
-
-	public void setHistPrecioCompra(List<DataHistoricPrecioCompra> histPrecioCompra) {
-		this.histPrecioCompra = histPrecioCompra;
-	}
-
-	public List<DataHistoricPrecioVenta> getHistPrecioVenta() {
-		return histPrecioVenta;
-	}
-
-	public void setHistPrecioVenta(List<DataHistoricPrecioVenta> histPrecioVenta) {
-		this.histPrecioVenta = histPrecioVenta;
-	}
-
 	public List<DataHistoricStock> getFilteredHistStock() {
 		return filteredHistStock;
 	}
@@ -127,22 +120,12 @@ public class StoreHistoryBB {
 		this.filteredHistStock = filteredHistStock;
 	}
 
-	public List<DataHistoricPrecioCompra> getFilteredHistPrecioCompra() {
-		return filteredHistPrecioCompra;
+	public String getTextFilter() {
+		return textFilter;
 	}
 
-	public void setFilteredHistPrecioCompra(
-			List<DataHistoricPrecioCompra> filteredHistPrecioCompra) {
-		this.filteredHistPrecioCompra = filteredHistPrecioCompra;
-	}
-
-	public List<DataHistoricPrecioVenta> getFilteredHistPrecioVenta() {
-		return filteredHistPrecioVenta;
-	}
-
-	public void setFilteredHistPrecioVenta(
-			List<DataHistoricPrecioVenta> filteredHistPrecioVenta) {
-		this.filteredHistPrecioVenta = filteredHistPrecioVenta;
+	public void setTextFilter(String textFilter) {
+		this.textFilter = textFilter;
 	}
 	
 }

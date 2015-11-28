@@ -14,6 +14,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.naming.NamingException;
 
 import org.primefaces.event.DragDropEvent;
@@ -48,6 +49,9 @@ public class EditBuyListBB implements Serializable {
 	private TreeNode root;
 	private TreeNode selectedNode;
 	private List<DataCategory> categories = new LinkedList<DataCategory>();
+	
+	private List<DataStock> productsNoSelectedFiltered = new LinkedList<DataStock>();
+	private String textFilter = "";
     
 	public EditBuyListBB() {
 		super();
@@ -67,6 +71,7 @@ public class EditBuyListBB implements Serializable {
 		this.constructCategoryTree();
 		try {
 			this.productsNoSelected = Comunicacion.getInstance().getIProductController().findStockProductsStore(store.getId(), null);
+			this.productsNoSelectedFiltered = this.productsNoSelected;
 			this.productsSelected = this.buyListSelected.getElements();
 			this.name = this.buyListSelected.getName();
 			this.description = this.buyListSelected.getDescription();
@@ -74,6 +79,21 @@ public class EditBuyListBB implements Serializable {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void filtrar() {
+		this.productsNoSelectedFiltered = new LinkedList<DataStock>();
+		for (DataStock ds: this.productsNoSelected) {
+			String name = ds.getProduct().getName();
+			String t = this.textFilter;
+			if (name.toLowerCase().startsWith(t.toLowerCase())) {
+				this.productsNoSelectedFiltered.add(ds);
+			}
+		}
+	}
+	
+	public void filtered(AjaxBehaviorEvent event) {
+		filtrar();
 	}
 	
 	public void constructCategoryTree() {
@@ -240,5 +260,21 @@ public class EditBuyListBB implements Serializable {
 		this.categories = categories;
 	}
 	
+	public List<DataStock> getProductsNoSelectedFiltered() {
+		return productsNoSelectedFiltered;
+	}
+
+	public void setProductsNoSelectedFiltered(
+			List<DataStock> productsNoSelectedFiltered) {
+		this.productsNoSelectedFiltered = productsNoSelectedFiltered;
+	}
+
+	public String getTextFilter() {
+		return textFilter;
+	}
+
+	public void setTextFilter(String textFilter) {
+		this.textFilter = textFilter;
+	}
 	
 }

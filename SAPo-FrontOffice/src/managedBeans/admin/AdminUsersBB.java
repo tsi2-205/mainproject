@@ -83,6 +83,10 @@ public class AdminUsersBB {
 	public void filtered(AjaxBehaviorEvent event) {
 		filtrar();
 	}
+	
+	public String showReport() {
+		return "/pages/ReportsPage.xhtml?faces-redirect=true";
+	}
 
 	public DataUser getUserSelected() {
 		return userSelected;

@@ -104,7 +104,7 @@ public class StoreMovesBB {
 		if (this.movCant != null && this.movPrecio != null) {
 			int tipo = this.movTipo.equals("Alta") ? 1 : 0;
 			try {
-				int result = Comunicacion.getInstance().getIProductController().changeStockProduct(store.getId(), this.productSelected.getId(), this.movCant, this.movPrecio, tipo);
+				int result = Comunicacion.getInstance().getIProductController().changeStockProduct(store.getId(), this.productSelected.getId(), this.user.getId(), this.movCant, this.movPrecio, tipo);
 				if (result > 0) {
 					String message;
 					if (result == 1) {

@@ -24,7 +24,7 @@ public interface IBuyListController {
 
 	public DataBuyList findBuyList(int idBuyList);
 	
-	public void checkElementBuyList(int idElementBuyList, int idStore, int precio);
+	public void checkElementBuyList(int idElementBuyList, int idStore, int precio, int idUser);
 	
 	public List<DataStock> buyRecommendation(int id);
 	

@@ -49,7 +49,7 @@ public class AdminStoresBB {
 		for (DataStore ds: this.stores) {
 			String name = ds.getName();
 			String t = this.textFilter;
-			if (name.toLowerCase().contains(t.toLowerCase())) {
+			if (name.toLowerCase().startsWith(t.toLowerCase())) {
 				this.storesFiltered.add(ds);
 			}
 		}

@@ -11,89 +11,47 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			
-			<h:outputText value="Movimientos" styleClass="title1"></h:outputText>
+			<h:outputText value="Historial de movimientos" styleClass="title1"></h:outputText>
 			<p:separator style="clear: both;"></p:separator>
 			
-			<p:tabView orientation="left">
-				<p:tab title="Stock">
-					<p:dataTable var="stock" value="#{storeHistoryBB.histStock}"
-						widgetVar="movsStock"
-						emptyMessage="No hay registros de movimientos de stock"
-						filteredValue="#{storeHistoryBB.filteredHistStock}">
-
-						<p:column headerText="Producto" filterBy="#{stock.nameProduct}" filterMatchMode="contains" >
-							<h:outputText value="#{stock.nameProduct}" />
-						</p:column>
-
-						<p:column headerText="Fecha">
-							<h:outputText value="#{stock.fecha}" converter="DateConverter" />
-						</p:column>
-
-						<p:column headerText="Stock">
-							<h:outputText value="#{stock.stock}" />
-						</p:column>
-
-						<p:column headerText="Tipo">
-							<h:outputText value="#{stock.tipo == 1 ? 'Sube': 'Baja'}" />
-						</p:column>
-					</p:dataTable>
-				</p:tab>
-				<p:tab title="Precio de compra">
-					<p:dataTable var="precioCompra"
-						value="#{storeHistoryBB.histPrecioCompra}"
-						widgetVar="movsPrecioCompra"
-						emptyMessage="No hay registros de movimientos de precios de compra"
-						filteredValue="#{storeHistoryBB.filteredHistPrecioCompra}">
-
-						<p:column headerText="Producto" filterBy="#{precioCompra.nameProduct}" filterMatchMode="contains">
-							<h:outputText value="#{precioCompra.nameProduct}" />
-						</p:column>
-
-						<p:column headerText="Fecha">
-							<h:outputText value="#{precioCompra.fecha}"
-								converter="DateConverter" />
-						</p:column>
-
-						<p:column headerText="Precio de compra">
-							<h:outputText value="#{precioCompra.precioCompra}">
-								<f:convertNumber currencySymbol="$" type="currency" />
-							</h:outputText>
-						</p:column>
-
-						<p:column headerText="Tipo">
-							<h:outputText value="#{precioCompra.tipo == 1 ? 'Sube': 'Baja'}" />
-						</p:column>
-					</p:dataTable>
-				</p:tab>
-				<p:tab title="Precio de venta">
-
-					<p:dataTable var="precioVenta"
-						value="#{storeHistoryBB.histPrecioVenta}"
-						widgetVar="movsPrecioVenta"
-						emptyMessage="No hay registros de movimientos de precios de venta"
-						filteredValue="#{storeHistoryBB.filteredHistPrecioVenta}">
-
-						<p:column headerText="Producto" filterBy="#{precioVenta.nameProduct}" filterMatchMode="contains">
-							<h:outputText value="#{precioVenta.nameProduct}" />
-						</p:column>
-
-						<p:column headerText="Fecha">
-							<h:outputText value="#{precioVenta.fecha}"
-								converter="DateConverter" />
-						</p:column>
-
-						<p:column headerText="Precio de venta">
-							<h:outputText value="#{precioVenta.precioVenta}">
-								<f:convertNumber currencySymbol="$" type="currency" />
-							</h:outputText>
-						</p:column>
-
-						<p:column headerText="Tipo">
-							<h:outputText value="#{precioVenta.tipo == 1 ? 'Sube': 'Baja'}" />
-						</p:column>
-					</p:dataTable>
-				</p:tab>
-			</p:tabView>
+			<p:panel id="filter" style="float: right; background-color: inherit; border: none;">
+				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
+				<h:inputText id="idTextFilter" value="#{storeHistoryBB.textFilter}">
+					 <f:ajax event="keyup" execute="@form" listener="#{storeHistoryBB.filtered}" render="panelHistory" />
+				</h:inputText>
+				<p:watermark for="idTextFilter" value="Ingrese el nombre" />
+			</p:panel>
+			
+			<p:panel id="panelHistory" style="clear: both;">
+				<p:dataTable var="stock" value="#{storeHistoryBB.filteredHistStock}"
+					widgetVar="movsStock"
+					emptyMessage="No hay registros de movimientos de stock">
+	
+					<p:column headerText="Producto" >
+						<h:outputText value="#{stock.nameProduct}" />
+					</p:column>
+	
+					<p:column headerText="Fecha">
+						<h:outputText value="#{stock.fecha}" converter="DateConverter" />
+					</p:column>
+	
+					<p:column headerText="Movimiento">
+						<h:outputText value="#{stock.tipo == 1 ? '+': '-'} #{stock.cantChange}" />
+					</p:column>
+					
+					<p:column headerText="Precio">
+						<h:outputText value="$ #{stock.precio}" />
+					</p:column>
+					
+					<p:column headerText="Usuario">
+						<h:outputText value="#{stock.user.name}" />
+					</p:column>
+					
+					<p:column headerText="Stock actual">
+						<h:outputText value="#{stock.stock}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

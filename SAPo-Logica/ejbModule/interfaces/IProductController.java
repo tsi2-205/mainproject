@@ -19,9 +19,9 @@ public interface IProductController {
 	
 	public void editProductStore(DataStock stock, int idStore, Integer idCategory, String laImagen) throws ExistCategoryException;
 	
-	public int changeStockProduct(int idStore, int idProduct, int movCant, int movPrecio, int tipo);
+	public int changeStockProduct(int idStore, int idProduct, int idUser, int movCant, int movPrecio, int tipo);
 	
-	public void editProductBasic(DataStock stock, int idStore);
+//	public void editProductBasic(DataStock stock, int idStore);
 	
 	public List<DataProduct> findGenericsProducts(Integer idCategory) throws CategoryNotExistException;
 	

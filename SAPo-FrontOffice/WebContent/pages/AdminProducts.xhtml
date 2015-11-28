@@ -35,10 +35,14 @@
 			<p:panel style="clear: both;" id="listProducts">
 				<p:dataTable var="prod" value="#{adminProductsBB.productsFiltered}"
 					widgetVar="prod"
-					emptyMessage="No hay productos">
+					emptyMessage="No hay productos"
+					sortMode="multiple">
 
-					<p:column headerText="Producto" >
+					<p:column headerText="Producto" sortBy="#{prod.name}">
 						<h:outputText value="#{prod.name}" />
+					</p:column>
+					<p:column headerText="Usado por (Cant. almacenes)" sortBy="#{prod.name}">
+						<h:outputText value="#{prod.coutUseGeneric}" />
 					</p:column>
 					<p:column style="width:32px">
 						<p:commandButton icon="ui-icon-search" action="#{adminProductsBB.showProduct}">

@@ -19,6 +19,8 @@ public class DataHistoricStock implements Serializable {
 
 	private int stock;
 	
+	private DataUser user;
+	
 	private String nameProduct;
 	
 	//cambiar por enum - 0: Baja; 1: Sube;
@@ -43,6 +45,7 @@ public class DataHistoricStock implements Serializable {
 		this.nameProduct = historic.getProduct().getName();
 		this.cantChange = historic.getCantChange();
 		this.precio = historic.getPrecio();
+		this.user = new DataUser(historic.getUser());
 	}
 
 	public int getId() {
@@ -99,6 +102,14 @@ public class DataHistoricStock implements Serializable {
 
 	public void setPrecio(int precio) {
 		this.precio = precio;
+	}
+
+	public DataUser getUser() {
+		return user;
+	}
+
+	public void setUser(DataUser user) {
+		this.user = user;
 	}
 	
 }

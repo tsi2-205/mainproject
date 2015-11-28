@@ -22,6 +22,8 @@ public class DataProduct implements Serializable {
     
     private String image;
     
+    private int coutUseGeneric;
+    
     private List<DataProductAdditionalAttribute> additionalAttributes = new LinkedList<DataProductAdditionalAttribute>();
     
 	public DataProduct() {
@@ -108,6 +110,14 @@ public class DataProduct implements Serializable {
 		this.additionalAttributes = additionalAttributes;
 	}
 	
+	public int getCoutUseGeneric() {
+		return coutUseGeneric;
+	}
+
+	public void setCoutUseGeneric(int coutUseGeneric) {
+		this.coutUseGeneric = coutUseGeneric;
+	}
+
 	@Override
     public String toString() {
         return this.name;

@@ -65,7 +65,7 @@ public class AdminProductsBB {
 		for (DataProduct dp: this.products) {
 			String name = dp.getName();
 			String t = this.textFilter;
-			if (name.toLowerCase().contains(t.toLowerCase())) {
+			if (name.toLowerCase().startsWith(t.toLowerCase())) {
 				this.productsFiltered.add(dp);
 			}
 		}

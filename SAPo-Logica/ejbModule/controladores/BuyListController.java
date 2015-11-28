@@ -21,6 +21,7 @@ import entities.ElementBuyList;
 import entities.HistoricPrecioCompra;
 import entities.HistoricStock;
 import entities.Product;
+import entities.Registered;
 import entities.SpecificProduct;
 import entities.Stock;
 import entities.Store;
@@ -145,16 +146,17 @@ public class BuyListController implements IBuyListController {
 		return new DataBuyList(bl);
 	}
 	
-	public void checkElementBuyList(int idElementBuyList, int idStore, int precio) {
+	public void checkElementBuyList(int idElementBuyList, int idStore, int precio, int idUser) {
 		ElementBuyList elem = em.find(ElementBuyList.class, idElementBuyList);
 		elem.setChecked(true);
 		em.merge(elem);
 		
 		Store store = em.find(Store.class, idStore);
+		Registered reg = em.find(Registered.class, idUser);
 		SpecificProduct p = (SpecificProduct) elem.getProduct();
 		Stock stk = p.getStock();
 		Calendar fechaActual = new GregorianCalendar();
-		HistoricStock hs = new HistoricStock(fechaActual, (stk.getCantidad() + elem.getQuantity()), elem.getQuantity(), precio, 1, p, store);
+		HistoricStock hs = new HistoricStock(fechaActual, (stk.getCantidad() + elem.getQuantity()), elem.getQuantity(), precio, 1, p, store, reg);
 		HistoricPrecioCompra hpc = new HistoricPrecioCompra(fechaActual, precio/elem.getQuantity(), 1, p, store);
 		em.persist(hs);
 		em.persist(hpc);

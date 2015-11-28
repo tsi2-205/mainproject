@@ -11,6 +11,8 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			<h:outputText value="Usuarios del sistema" styleClass="title1"></h:outputText>
+			<p:commandButton style="clear: both; float: right" id="buttonCreateProduct" value="Estadísticas"
+						action="#{adminUsersBB.showReport}" />
 			<p:separator style="clear: both;"></p:separator>
 			<p:panel id="filter" style="float: right; background-color: inherit; border: none;">
 				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>

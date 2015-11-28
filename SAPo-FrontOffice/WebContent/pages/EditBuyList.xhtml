@@ -35,17 +35,13 @@
 		    </p:panelGrid>
 			
 			<p:separator style="clear: both;"></p:separator>
-			<p:panel styleClass="categPanel">
-				<h:outputText value="Categorías" styleClass="title2" />
-				<p:separator style="clear: both;"></p:separator>
-				<p:tree value="#{editBuyListBB.root}" var="node" selectionMode="single" selection="#{editBuyListBB.selectedNode}">
-			        <p:ajax event="select" update="availableProductsField" listener="#{editBuyListBB.onCategorySelect}" />
-			        <p:treeNode>
-			            <h:outputText value="#{node.name}" style="text-decoration: underline; font-size: 18px;" rendered="#{node.id == -1}" />
-						<h:outputText value="#{node.name}" rendered="#{node.id != -1}" />
-			        </p:treeNode>
-			    </p:tree>
-		    </p:panel>
+			<p:panel id="filter" style="float: left; background-color: inherit; border: none;">
+				<h:outputText style="margin-right: 4px;" value="Filtrar por nombre"></h:outputText>
+				<h:inputText id="idTextFilter" value="#{editBuyListBB.textFilter}">
+					 <f:ajax event="keyup" execute="@form" listener="#{editBuyListBB.filtered}" render="availableProductsField" />
+				</h:inputText>
+				<p:watermark for="idTextFilter" value="Ingrese el nombre" />
+			</p:panel>
 		 
 		    <p:panel id="selectedProductsField" style="margin-top:20px">
 		    	<h:outputText value="Productos de la lista" styleClass="title2" />
@@ -82,8 +78,8 @@
 			<p:panel id="availableProductsField">
 		        <h:outputText value="Productos del almacen" styleClass="title2" />
 		        <p:separator style="clear: both;"></p:separator>
-		        <h:outputText value="No hay productos" rendered="#{empty editBuyListBB.productsNoSelected}" style="font-size:24px;" />
-		        <p:dataTable id="availableProducts" rendered="#{not empty editBuyListBB.productsNoSelected}" var="prod" value="#{editBuyListBB.productsNoSelected}">
+		        <h:outputText value="No hay productos" rendered="#{empty editBuyListBB.productsNoSelectedFiltered}" style="font-size:24px;" />
+		        <p:dataTable id="availableProducts" rendered="#{not empty editBuyListBB.productsNoSelectedFiltered}" var="prod" value="#{editBuyListBB.productsNoSelectedFiltered}">
 		            <p:column style="width:20px">
 		                <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
 		                <p:draggable for="dragIcon" revert="true" helper="clone"/>

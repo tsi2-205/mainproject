@@ -15,6 +15,7 @@ import comunication.Comunicacion;
 import datatypes.DataBuyList;
 import datatypes.DataElementBuyList;
 import datatypes.DataStore;
+import datatypes.DataUser;
 
 @ManagedBean
 @ViewScoped
@@ -27,6 +28,8 @@ public class BuyListDetailBB {
 	private DataElementBuyList elemSelected;
 	
 	private int precio;
+	
+	private DataUser user;
 	
 	public BuyListDetailBB() {
 		super();
@@ -43,13 +46,12 @@ public class BuyListDetailBB {
 		SessionBB session = (SessionBB) ve.getValue(contextoEL);
 		this.store = session.getStoreSelected();
 		this.buyListSelected = session.getBuyListSelected();
-		
-		
+		this.user = session.getLoggedUser();
 	}
 	
 	public void checkElementBuyList() {
 		try {
-			Comunicacion.getInstance().getIBuyListController().checkElementBuyList(this.elemSelected.getId(), this.store.getId(), precio);
+			Comunicacion.getInstance().getIBuyListController().checkElementBuyList(this.elemSelected.getId(), this.store.getId(), precio, this.user.getId());
 			this.buyListSelected = Comunicacion.getInstance().getIBuyListController().findBuyList(this.buyListSelected.getId());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Bien de bien"));
 		} catch (NamingException e) {

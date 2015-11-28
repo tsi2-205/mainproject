@@ -83,7 +83,7 @@ public class CustomizeBB implements Serializable{
         if(this.file != null) {
         	byte[] input = this.file.getContents();
         	Comunicacion.getInstance().getIStoreController().setCustomizeStore(store.getId(), input);
-            FacesMessage message = new FacesMessage("Customización cargada con existo.");
+            FacesMessage message = new FacesMessage("Customización cargada con éxito.");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
 		ConfigurableNavigationHandler configurableNavigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
