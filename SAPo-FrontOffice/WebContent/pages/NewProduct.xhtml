@@ -14,10 +14,10 @@
 			
 			<h:outputText rendered="#{!newProductBB.edition or newProductBB.stockSelected.product.generic}" value="Nuevo producto" styleClass="title1"/>
 			<h:outputText rendered="#{newProductBB.edition and not newProductBB.stockSelected.product.generic}" value="Editar producto" styleClass="title1"/>
-			<p:commandButton rendered="#{!newProductBB.edition}" value="Ver productos genéricos" action="#{newProductBB.seeGenericProducts}" style="float:right;"></p:commandButton>
 			<p:commandButton rendered="#{!newProductBB.edition}" value="Crear" action="#{newProductBB.create}" style="float:right;"></p:commandButton>
 			<p:commandButton rendered="#{newProductBB.edition and newProductBB.stockSelected.product.generic}" value="Agregar" action="#{newProductBB.create}" style="float:right;"></p:commandButton>
 			<p:commandButton rendered="#{newProductBB.edition and not newProductBB.stockSelected.product.generic}" value="Guardar" action="#{newProductBB.create}" style="float:right;"></p:commandButton>
+			<p:commandButton rendered="#{!newProductBB.edition}" value="Ver productos genéricos" action="#{newProductBB.seeGenericProducts}" style="float:right;"></p:commandButton>
 			<p:separator style="clear: both;"></p:separator>
 			<p:panel id="idPanelCat">
 				<h:outputText rendered="#{!newProductBB.edition or newProductBB.stockSelected.product.generic}" value="Debe elegir una categoría" styleClass="title2"/>

@@ -11,18 +11,18 @@
 	<ui:define name="Principal">
 		<h:form id="form" prependId="false">
 			<p:commandButton id="createStore" value="Nuevo almacen"
-				action="#{homeBB.createStore}" />
+				action="#{homeBB.createStore}" style="float: right; margin-bottom: 5px;"/>
 			<p:commandLink rendered="#{sessionBB.loggedUser.account eq 'F'}"
 				id="nonAjax" actionListener="#{sessionBB.changeAccount}"
-				ajax="false">
+				ajax="false" style="float: left;">
 				<h:outputText value="Premium" />
 			</p:commandLink>
-			<p:separator></p:separator>
-			<h:outputText value="Almacenes de los que es dueño"
+			<p:separator style="clear: both;"></p:separator>
+			<h:outputText value="Mis almacenes"
 				styleClass="title1"></h:outputText>
 			<p:separator style="clear: both;"></p:separator>
 			<p:panel id="panelStoresOwner">
-				<h:outputText value="No tiene almacenes"
+				<h:outputText value="No tienes almacenes"
 					rendered="#{empty homeBB.storesOwner}" styleClass="title2" />
 				<p:dataTable rendered="#{not empty homeBB.storesOwner}"
 					id="listStoresOwner" var="store" value="#{homeBB.storesOwner}"
@@ -41,11 +41,11 @@
 					</p:column>
 				</p:dataTable>
 			</p:panel>
-			<h:outputText value="Almacenes a los que está invitado"
+			<h:outputText value="Compartidos"
 				styleClass="title1"></h:outputText>
 			<p:separator style="clear: both;"></p:separator>
 			<p:panel id="panelStoresGuests">
-				<h:outputText value="No tiene almacenes"
+				<h:outputText value="No tienes almacenes"
 					rendered="#{empty homeBB.storesGuest}" styleClass="title2" />
 				<p:dataTable rendered="#{not empty homeBB.storesGuest}"
 					id="listStoresGuests" var="store" value="#{homeBB.storesGuest}"
