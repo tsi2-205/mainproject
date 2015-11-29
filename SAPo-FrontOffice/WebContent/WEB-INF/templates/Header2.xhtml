@@ -10,12 +10,12 @@
 	<h:form prependId="false">
 		<h:panelGrid id="headerTitle">
 			<h:commandLink id="nombreComercioSuperior" rendered="#{sessionBB.storeSelected != null}" action="StoreDetail" value="#{sessionBB.storeSelected.name}" />
+			<h:outputText style="font-size: 12px; color:black; float: left; font-weight: bold;" id="idNameName" value="#{sessionBB.loggedUser.name}"/>
 		</h:panelGrid>
+		
 		<div id="linksHeader">
-			<h:outputText style="width: 70%; float: left; margin-top: 30px;" id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
-	
-			
 		</div>
+		
 		<p:growl id="messages" showDetail="true" sticky="true" autoUpdate="true"/>
 		<h:commandButton id="exitButton"  value="Cerrar Sesión" action="#{sessionBB.logoutUser}"/>
 	</h:form>

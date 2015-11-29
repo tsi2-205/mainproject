@@ -42,9 +42,10 @@
 	
 	</script>
 	
-<div id="welcomeMSJ" style="font-family: sans-serif; padding-left:50px; font-size: 30px; color: black; font-weight: 1.5em; font: bold; text-decoration: unset;">Bienvenido a SAPo</div>
-
-
+<div id="welcomeMSJ" style="width: 35%;">
+	<span style="font-family: sans-serif; padding-left:50px; font-size: 30px; color: black; font-weight: 1.5em; font: bold; text-decoration: unset;">Bienvenido a SAPo</span><br/>
+	<h:outputText style="width: 70%; float: right; font-weight: bold;" id="idNameName" value="#{sessionBB.loggedUser.name}"/>
+</div>
 
 	<div id="izquierda" onclick="location.href = 'Home.xhtml';" style="cursor:pointer; cursor: hand" >
 		
@@ -53,7 +54,7 @@
 			<h:panelGrid id="headerTitle">
 			</h:panelGrid>
 			<div id="linksHeader">
-				<h:outputText style="width: 70%; float: left;" id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>
+				<!-- <h:outputText style="width: 70%; float: left;" id="idNameHeader" value="#{sessionBB.loggedUser.name}"/>  -->
 				<div class="buttons"></div>
 				
 			</div>
