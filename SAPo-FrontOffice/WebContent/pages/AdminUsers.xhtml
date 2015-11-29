@@ -33,7 +33,7 @@
 					<p:column headerText="Nombre" >
 						<h:outputText value="#{user.name}" />
 					</p:column>
-					<p:column headerText="Tipo" >
+					<p:column headerText="Cuenta" >
 						<h:outputText rendered="#{user.account.equals('F')}" value="Free" />
 						<h:outputText rendered="#{user.account.equals('P')}" value="Premium" />
 					</p:column>
