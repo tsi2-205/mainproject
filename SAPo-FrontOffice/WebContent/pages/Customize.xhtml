@@ -71,19 +71,10 @@
 			<h:form enctype="multipart/form-data">
 				<p:growl id="messages" showDetail="true" />
 				<p:fileUpload style="margin-right: 25px;" value="#{customizeBB.file}" mode="simple"
-					skinSimple="true" />
-				<p:commandButton value="Aceptar"
-					actionListener="#{customizeBB.upload}">
-					<p:confirm header="Cuidado!"
-						message="Cambiará el estilo de todas las páginas de su almacén. ¿Está seguro?"
-						icon="ui-icon-alert" />
+					skinSimple="true"/>
+				<p:commandButton title="Cambiarán los estilos de de las páginas" value="Aceptar"
+					actionListener="#{customizeBB.upload}" ajax="false">
 				</p:commandButton>
-				<p:confirmDialog id="dialogConfirmCustom" style="text-algin: center;" global="true" showEffect="fade" hideEffect="fade">
-					<p:commandButton value="Yes" type="button" ajax="false"
-						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-				</p:confirmDialog>
 			</h:form>
 		</p:panel>
 	</ui:define>
