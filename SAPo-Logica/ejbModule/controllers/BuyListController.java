@@ -1,4 +1,4 @@
-package controladores;
+package controllers;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

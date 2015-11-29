@@ -1,4 +1,4 @@
-package controladores;
+package controllers;
 
 import interfaces.IUserController;
 
