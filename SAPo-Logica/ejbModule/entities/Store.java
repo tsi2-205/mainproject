@@ -53,9 +53,6 @@ public class Store implements Serializable {
     @OneToMany(mappedBy="store")
     private List<BuyList> buylists = new LinkedList<BuyList>();
     
-    @OneToMany(mappedBy="store")
-    private List<Comment> comments = new LinkedList<Comment>();
-    
     @ManyToMany(mappedBy = "stores")
     private List<Category> categories = new LinkedList<Category>();
     
@@ -162,14 +159,6 @@ public class Store implements Serializable {
 	
 	public void setBuylists(List<BuyList> buylists) {
 		this.buylists = buylists;
-	}
-	
-	public List<Comment> getComments() {
-		return comments;
-	}
-	
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 	
 	public List<Category> getCategories() {

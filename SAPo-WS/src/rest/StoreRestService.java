@@ -38,7 +38,7 @@ public class StoreRestService {
 			if (e.isChecked()) {
 				DataElementBuyList auxElement = Comunicacion.getInstance().getIBuyListController().getBuyListElement(request.getBuyList().getId(), e.getId());
 				if (!auxElement.isChecked()) {
-					Comunicacion.getInstance().getIBuyListController().checkElementBuyList(e.getId(), request.getStoreId(), e.getPrice());
+					Comunicacion.getInstance().getIBuyListController().checkElementBuyList(e.getId(), request.getStoreId(), e.getPrice(), request.getUserId());
 				}
 			}
 		}

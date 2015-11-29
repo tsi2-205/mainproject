@@ -5,13 +5,10 @@
 		<class>entities.Administrator</class>
 		<class>entities.BuyList</class>
 		<class>entities.Category</class>
-		<class>entities.Chat</class>
-		<class>entities.Comment</class>
 		<class>entities.Customer</class>
 		<class>entities.GenericCategory</class>
 		<class>entities.GenericProduct</class>
 		<class>entities.HistoricStock</class>
-		<class>entities.Message</class>
 		<class>entities.Notification</class>
 		<class>entities.Product</class>
 		<class>entities.Registered</class>

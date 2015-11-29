@@ -10,9 +10,6 @@ import javax.persistence.*;
 public class Registered extends User {
     
 	private static final long serialVersionUID = 1L;
-
-	@OneToMany(mappedBy="registered")
-    private List<Comment> comments = new LinkedList<Comment>();
     
     @OneToMany(mappedBy="owner")
     private List<Store> storeOwner = new LinkedList<Store>();
@@ -20,27 +17,12 @@ public class Registered extends User {
     @ManyToMany(mappedBy = "guests")
     private List<Store> storesGuest = new LinkedList<Store>();
     
-    @OneToMany
-    @JoinColumn(name="idRegistered", referencedColumnName="id")
-    private List<Message> messages = new LinkedList<Message>();
-    
-    @ManyToMany(mappedBy = "participants")
-    private List<Chat> chats = new LinkedList<Chat>();
-    
 	public Registered() {
 		super();
 	}
 
 	public Registered(String email, String password, String fbId, String name, String acc) {
 		super(email, password, fbId, name, acc);
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	public List<Store> getStoreOwner() {
@@ -58,21 +40,4 @@ public class Registered extends User {
 	public void setStoresGuest(List<Store> storesGuest) {
 		this.storesGuest = storesGuest;
 	}
-
-	public List<Message> getMessages() {
-		return messages;
-	}
-
-	public void setMessages(List<Message> messages) {
-		this.messages = messages;
-	}
-
-	public List<Chat> getChats() {
-		return chats;
-	}
-
-	public void setChats(List<Chat> chats) {
-		this.chats = chats;
-	}
-    
 }

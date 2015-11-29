@@ -12,3 +12,6 @@
 	border: none !important;
 }
 
+#idPanelCat .ui-tree .ui-tree-container {
+	max-height: 110px !important;
+}

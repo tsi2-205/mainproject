@@ -18,7 +18,7 @@
 			<p:panel>
 				<h:outputText value="Atributos básicos" styleClass="title2"/>
 				<p:separator></p:separator>
-				<p:panelGrid id="BasicAttributes" columns="2" layout="grid" >
+				<p:panelGrid id="BasicAttributes" columns="2" layout="grid" style="width: 320px; margin-right: 250px; float: right;">
 					<h:outputLabel for="description" value="Descripción:"/>
 					<h:outputText id="description" label="Descripción:" value="#{showProductBB.stockSelected.product.description}" ></h:outputText>
 					<h:outputLabel for="category" value="Categoría:"/>
@@ -27,12 +27,10 @@
 					<h:outputText id="stockMin" label="Stock mínimo:" value="#{showProductBB.stockSelected.cantidadMin}" ></h:outputText>
 					<h:outputLabel for="stockMax" value="Stock máximo:"/>
 					<h:outputText id="stockMax" label="Stock máximo:" value="#{showProductBB.stockSelected.cantidadMax}" ></h:outputText>
-					<h:outputLabel for="retrImagenDeProducto" value="Imagen De Producto"/>					
-					<img width="175" height="175"  alt="aca deberia mostrar la imagen" id="properProductImage" src="#{showProductBB.prodImage}"/>
-						
-					
 				</p:panelGrid>
-				
+				<div style="width: 176px;" id="lalala">
+					<img width="175" height="175" alt="aca deberia mostrar la imagen" id="properProductImage" src="#{showProductBB.prodImage}"/>
+				</div>
 			</p:panel>
 			<p:panel rendered="#{not empty showProductBB.stockSelected.product.additionalAttributes}">
 				<h:outputText value="Atributos adicionales" styleClass="title2"/>

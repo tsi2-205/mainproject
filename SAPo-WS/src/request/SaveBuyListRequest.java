@@ -4,6 +4,7 @@ import datatypes.DataBuyList;
 
 public class SaveBuyListRequest {
 
+	int userId;
 	int storeId;
 	DataBuyList buyList;
 
@@ -11,10 +12,11 @@ public class SaveBuyListRequest {
 		super();
 	}
 
-	public SaveBuyListRequest(DataBuyList buyList, int storeId) {
+	public SaveBuyListRequest(DataBuyList buyList, int storeId, int userId) {
 		super();
 		this.buyList = buyList;
 		this.storeId = storeId;
+		this.userId = userId;
 	}
 	
 	public int getStoreId() {
@@ -31,5 +33,13 @@ public class SaveBuyListRequest {
 
 	public void setBuyList(DataBuyList buyList) {
 		this.buyList = buyList;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 }
