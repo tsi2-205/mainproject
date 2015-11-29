@@ -53,7 +53,7 @@ public class BuyListDetailBB {
 		try {
 			Comunicacion.getInstance().getIBuyListController().checkElementBuyList(this.elemSelected.getId(), this.store.getId(), precio, this.user.getId());
 			this.buyListSelected = Comunicacion.getInstance().getIBuyListController().findBuyList(this.buyListSelected.getId());
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Bien de bien"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Producto dado de alta con éxito"));
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

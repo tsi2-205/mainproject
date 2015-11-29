@@ -128,7 +128,7 @@
 							value="#{newProductBB.additionalAttributeValue}"></h:inputText>
 						<f:facet name="footer">
 							<p:commandButton style="float: right;" id="addAdditionalButton"
-								value="Agregar" update="panelAdditionalAttribute"
+								value="Agregar" update="panelAdditionalAttribute" oncomplete="PF('newAttributeDialog').hide();"
 								action="#{newProductBB.addAttribute}"></p:commandButton>
 						</f:facet>
 					</p:panelGrid>
