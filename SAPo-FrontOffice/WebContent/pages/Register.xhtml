@@ -4,8 +4,11 @@
 <html 	xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:f="http://java.sun.com/jsf/core" 
 		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:fb="http://www.facebook.com/2008/fbml"
 		>
 <h:head>
+<h:outputStylesheet library="styles" name="login.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>SAPo</title>
 
@@ -74,18 +77,35 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', end
 .externo{
 	margin-left: 20%;
 	margin-top: 5%;
-	
 	width: 315px;
 	height: 260px;
 	border-radius:16px;
 	padding: 10px;
 	border: 2px solid green;
 }
+
 .inner{
 	float: left;
 }
+
+#password-container2{
+	padding-bottom: 0px !important;
+}
+
+#email-container2, #nombre-container2, #password-container2{
+	padding-left: 40px !important;
+	padding-right: 40px !important;
+}
+
+.inner{
+	padding-left: 30px !important;
+	padding-bottom: 10px !important;
+}
 </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	
+	
+	
 	<script>
 		  function validateEmail(email) {
 			    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -117,33 +137,48 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', end
 	
 </h:head>
 <h:body>
-	<div class="todo">
-		<div class="externo">
-			<h3>Registrarse como usuario SAPo</h3>
-			<h:form>
-				<h:panelGrid columns="2">
-						<h:outputText value="Nombre:"></h:outputText>
-						<h:inputText data-name="name" class="inputs" id="nombre" value="#{sessionBB.name}" ></h:inputText>
-						<h:outputText value="Email:"></h:outputText>
-						<h:inputText data-name="mail" class="inputs" id="email" value="#{sessionBB.email}" ></h:inputText>
-						<h:outputText value="Contraseña:"></h:outputText>
-						<h:inputSecret data-name="pass" class="inputs" id="password" value="#{sessionBB.password}" ></h:inputSecret>
-				</h:panelGrid>	<br/><br/>
-				<h:commandButton class="doneBTN" value="Hecho" action="#{sessionBB.register}"></h:commandButton>
-			</h:form>
-			<div class="inner">
-				<h:form>
-					<h:inputHidden id="cmd" value="_s-xclick"/>
-					<h:inputHidden id="hosted_button_id" value="A575ACHN4DXME"/>
-					<h:commandLink action="#{sessionBB.paypal}">
-					<h:graphicImage type="button" value="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_paynowCC_LG.gif"  border="0" NAME="submit" alt="PayPal. La forma rápida y segura de pagar en Internet."/>
-					</h:commandLink>
-					<h:graphicImage alt="" border="0" value="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1"/>
-				</h:form>
-			</div>		
-		</div>
 
-	</div>
+
+
+
+	<h:form>
+		<div id="container">
+			<div id="header-container">
+				<h:outputLabel style="font-size: 36px; color: white;" id="header-title" value="" />
+			</div>
+			<div id="register-container" style="height: 350px;">
+				
+				<div id="nombre-container2">
+					Ingrese Nombre<br/>
+					<h:inputText data-name="name" class="inputs" id="nombre" value="#{sessionBB.name}" ></h:inputText>
+					<p:watermark for="nombre" value="Nombre" />
+				</div>
+				<div id="email-container2">
+					Ingrese Email<br/>
+					<h:inputText data-name="mail" class="inputs" id="email" value="#{sessionBB.email}" ></h:inputText>
+					<p:watermark for="email" value="Email" />
+				</div>
+				<div id="password-container2">
+					Ingrese Contraseña<br/>
+					<h:inputSecret data-name="pass" class="inputs" id="password" value="#{sessionBB.password}" ></h:inputSecret>
+					<p:watermark for="password" value="Password" />
+				</div>
+				<div class="inner">
+					<h:form>
+						<h:inputHidden id="cmd" value="_s-xclick"/>
+						<h:inputHidden id="hosted_button_id" value="A575ACHN4DXME"/>
+						<h:commandLink action="#{sessionBB.paypal}">
+						<h:graphicImage type="button" value="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_paynowCC_LG.gif"  border="0" NAME="submit" alt="PayPal. La forma rápida y segura de pagar en Internet."/>
+						</h:commandLink>
+						<h:graphicImage alt="" border="0" value="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1"/>
+					</h:form>
+				</div>
+				<h:commandButton class="doneBTN" value="Hecho" action="#{sessionBB.register}"></h:commandButton>
+			
+			</div>
+	
+		</div>
+	</h:form>
 	
 </h:body>
 </html>
