@@ -88,9 +88,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', end
 	float: left;
 }
 
-#password-container2{
-	padding-bottom: 0px !important;
-}
+
+#nombre-container2 {padding-top: 30px !important;}
+#email-container2 {padding-top: 10px !important;}
+#password-container2 {padding-top: 10px !important; padding-bottom: 60px !important;}
 
 #email-container2, #nombre-container2, #password-container2{
 	padding-left: 40px !important;
@@ -112,7 +113,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', end
 			    return re.test(email);
 		  }
 		  $( document ).ready(function() {
-				$( ".doneBTN" ).click(function( event ) {
+				$( ".btnRegister" ).click(function( event ) {
 					var nombre = $('form').find('input').filter(':eq(1)').val();
 					var mail = $('form').find('input').filter(':eq(2)').val()
 					var pass = $('form').find('input').filter(':eq(3)').val()
@@ -144,24 +145,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', end
 	<h:form>
 		<div id="container">
 			<div id="header-container">
-				<h:outputLabel style="font-size: 36px; color: white;" id="header-title" value="" />
+				<h:outputLabel style="font-size: 36px; color: #444444;" id="header-title" value="Registro en SAPo" />
 			</div>
 			<div id="register-container" style="height: 350px;">
 				
 				<div id="nombre-container2">
 					Ingrese Nombre<br/>
 					<h:inputText data-name="name" class="inputs" id="nombre" value="#{sessionBB.name}" ></h:inputText>
-					<p:watermark for="nombre" value="Nombre" />
+					
 				</div>
 				<div id="email-container2">
 					Ingrese Email<br/>
 					<h:inputText data-name="mail" class="inputs" id="email" value="#{sessionBB.email}" ></h:inputText>
-					<p:watermark for="email" value="Email" />
+					
 				</div>
 				<div id="password-container2">
 					Ingrese Contraseña<br/>
 					<h:inputSecret data-name="pass" class="inputs" id="password" value="#{sessionBB.password}" ></h:inputSecret>
-					<p:watermark for="password" value="Password" />
+					
 				</div>
 				<div class="inner">
 					<h:form>
@@ -173,8 +174,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', end
 						<h:graphicImage alt="" border="0" value="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1"/>
 					</h:form>
 				</div>
-				<h:commandButton class="doneBTN" value="Hecho" action="#{sessionBB.register}"></h:commandButton>
-			
+				
+		
+					<h:commandButton style="margin-left: 255px;" class="btnRegister" value="Registrarse" action="#{sessionBB.register}"></h:commandButton>
+		
+				
+				
 			</div>
 	
 		</div>
