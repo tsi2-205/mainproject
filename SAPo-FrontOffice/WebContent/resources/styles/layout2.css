@@ -77,7 +77,18 @@ a { color:green !important; }
 
 
 }
+
+#center {border-left: 2px solid green !important; width: 799px !important;}
+#right {border-right: 2px solid green !important;}
+
+#cssmenu { border-left: 2px solid green !important;  border-right: 2px solid green !important; }
+
+
 #footer {
+	BORDER-bottom: 2PX SOLID GREEN;
+	BORDER-left: 2PX SOLID GREEN;
+	BORDER-right: 2PX SOLID GREEN;
+	width: 81.7% !important;
 	background-image: -ms-linear-gradient(top, #E4E4E4 0%, #7BB800 100%); 
 	background-image: -moz-linear-gradient(top, #E4E4E4 0%, #7BB800 100%);
 	background-image: -o-linear-gradient(top, #E4E4E4 0%, #7BB800 100%);
@@ -226,14 +237,14 @@ body {
 #header {
 	clear: both;
 /* 	float: left; */
-	width: 82%;
+	width: 81.7%;
 	height: 12%;
 	margin: auto;
 /* 	position: relative; */
 	background-color: #d3d3d3;
 	border-top-right-radius: 15px;
 	border-top-left-radius: 15px;
-	margin-top: 5px;
+	margin-top: 50px;
 	padding-left: 4%;
 	padding-right: 4%;
 	padding-top: 1%;

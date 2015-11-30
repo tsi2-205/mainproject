@@ -63,6 +63,9 @@ a { color:green !important; }
   
 }
 
+#center {border-left: 2px solid green !important; width: 799px !important;}
+#right {border-right: 2px solid green !important;}
+
 #linkSalir:hover {
   background: #bd0000 !important;
   background-image: -webkit-linear-gradient(top, #bd0000, #520101) !important;
@@ -77,7 +80,7 @@ a { color:green !important; }
 
 #header {
 	clear: both;
-	width: 82%;
+	width: 81.7%;
 	height: 11%;
 	margin: auto;
 	background-color: #d3d3d3;
@@ -97,6 +100,10 @@ a { color:green !important; }
 }
 
 #footer {
+	width: 81.7% !important;
+	BORDER-bottom: 2PX SOLID GREEN;
+	BORDER-left: 2PX SOLID GREEN;
+	BORDER-right: 2PX SOLID GREEN;
 	background-image: -ms-linear-gradient(top, #E4E4E4 0%, #7BB800 100%); 
 	background-image: -moz-linear-gradient(top, #E4E4E4 0%, #7BB800 100%);
 	background-image: -o-linear-gradient(top, #E4E4E4 0%, #7BB800 100%);
