@@ -250,11 +250,11 @@ body {
 			position: relative !important;
 			box-sizing: border-box !important;
 			transition: all 500ms ease !important;
-			width: 75px !important;
+			width: 130px !important;
 			padding-top: 3px !important;
 			padding-bottom: 3px !important;
 			position: absolute !important;
-			margin-left:900px !important;
+			margin-left:800px !important;
 			margin-top: 0px !important;
 		}
 			

@@ -1,4 +1,10 @@
 @import url(http://fonts.googleapis.com/css?family=Oswald);
+
+#menu-indicator {
+	display: none !important;
+}
+
+
 #cssmenu,
 #cssmenu ul,
 #cssmenu ul li,
@@ -149,6 +155,6 @@
 #cssmenu.small-screen #menu-button.menu-opened:before {
   background: #444444;
 }
-#cssmenu.small-screen #menu-indicator {
+#cssmenu.small-screen {
   display: none;
 }
