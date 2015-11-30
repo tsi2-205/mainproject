@@ -17,7 +17,7 @@
 	margin-left:730px !important;
 	margin-top: 30px !important;
 }
-	
+	textarea {border: 1px solid green;}
 #exitButton:hover {
 	background: #FFFFFF !important;
  	color: #3a9979 !important;

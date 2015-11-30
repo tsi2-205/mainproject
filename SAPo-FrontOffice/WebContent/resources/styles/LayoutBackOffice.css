@@ -13,7 +13,7 @@
 .ui-widget-content .ui-inputfield {
 	width: 100% !important;
 }
-
+textarea {border: 1px solid green;}
 input[type='text'] { border-color:green; padding:3px; font-size:17px; border-radius:13px; border-width:1px; border-style:solid;  } 
 input[type='text']:focus { outline:none; } 
 
