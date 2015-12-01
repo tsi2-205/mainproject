@@ -63,8 +63,7 @@ a { color:green !important; }
   
 }
 
-#center {border-left: 2px solid green !important; width: 799px !important;}
-#right {border-right: 2px solid green !important;}
+
 
 #linkSalir:hover {
   background: #bd0000 !important;
